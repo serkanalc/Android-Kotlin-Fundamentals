@@ -30,6 +30,9 @@ Kurulum tüm platformlar için benzerdir. Herhangi bir farklılık aşağıda be
 
 ## <a name="başlangıç"></a>Geliştirmeye Başlayalım
 
+- [HelloWorld" projesini oluşturun](#1)
+- [Android Studio'yu Keşfedin](#2)
+
 IDE(integrated development environment) kurulumu tamamlandığına göre artık başlayabiliriz.
 
 ### <a name="1"></a>"HelloWorld" projesini oluşturun
