@@ -3,7 +3,7 @@
 Selamlar Android Kotlin Fundamentals serisinin ilk bölümüne hoş geldiniz. Bu bölümde aşağıdaki konular üzerinde duruyor olacağız:
 
 - [Android Studio Kurulumu](#kurulum)
-- [Geliştirmeye Başlayalım](#kurulum)
+- [Geliştirmeye Başlayalım](#başlangıç)
 
 Hadi Başlayalım❗
 
@@ -28,11 +28,11 @@ Kurulum tüm platformlar için benzerdir. Herhangi bir farklılık aşağıda be
 
 
 
-## <a name="kurulum"></a>Geliştirmeye Başlayalım
+## <a name="başlangıç"></a>Geliştirmeye Başlayalım
 
 IDE(integrated development environment) kurulumu tamamlandığına göre artık başlayabiliriz.
 
-### "HelloWorld" projesini oluşturun
+### <a name="1"></a>"HelloWorld" projesini oluşturun
 
 Bu bölümde, Android Studio'nun uygun şekilde yüklendiğini doğrulamak için yeni bir uygulama projesi oluşturursunuz.
 
@@ -45,6 +45,23 @@ Bu bölümde, Android Studio'nun uygun şekilde yüklendiğini doğrulamak için
 
 ![25b3537dfe22b058](https://user-images.githubusercontent.com/70329389/139845733-46597e5a-e2dd-4a54-a225-cb7f1c34ca7f.png)
 
+Her uygulamanın giriş noktası olarak en az bir etkinliği olmalıdır. bunu diğer programlardaki **"main()"** fonksyonu olarak düşünebilirsiniz. Bir etkinlik tipik olarak, User Interface (UI) öğelerinin ekranda nasıl görüneceğini tanımlayan, kendisiyle ilişkilendirilmiş bir düzene sahiptir. Android Studio, başlamanıza yardımcı olacak birkaç **"Activity"** şablon sunar.
+
+4. **"Configure your project"** sayfasına gelmiş olmanız gerekiyor. "Name" kısmına "HelloWord" yazın.
+
+![f95a9c8d496de18](https://user-images.githubusercontent.com/70329389/139894687-0e6fb8b6-c3aa-494c-86a6-8e78444b8431.png)
+
+5. Şirket alanı için varsayılan **"android.example.com'u""** kabul edin veya benzersiz bir şirket alanı oluşturun. Bu değer artı uygulamanın adı, uygulamanızın paket adıdır. Uygulamanızı yayınlamayı **planlamıyorsanız**, varsayılanı kabul edin. Uygulamanızın paket adını daha sonra değiştirebilirsiniz, ancak bu ekstra bir iştir.
+6. Varsayılan **Save location'ın** uygulamanızı depolamak istediğiniz yer olduğunu doğrulayın . Değilse, size uygun olduğunu düşündüğünüz konumla değiştirin.
+7. **Language** alanının Kotlin olduğundan emin olun.
+8. Minimum API seviyesinin **API 19: Android 4.4 (KitKat)** olduğundan emin olun . Bu codelab yazıldığı sırada Android Studio, bu API düzeyiyle uygulamanın cihazların yaklaşık **%95,3**'ünde çalışacağını belirtti.
+(Daha sonraki bir kod laboratuvarında minimum API seviyeleri hakkında daha fazla bilgi edineceksiniz. Hemen şimdi daha fazla bilgi edinmek için, API seviyeleri hakkında bilgi içeren bir pencere açan Seçmeme **Help me choose'a** tıklayın.)
+9.**Use AndroidX artifacts** onay kutusunu seçin.
+10.Diğer tüm onay kutularını boş bırakın ve **Finish** butonuna tıklayın. Projeniz, seçtiğiniz hedef SDK için daha fazla bileşen gerektiriyorsa, Android Studio bunları otomatik olarak yükler ve bu biraz zaman alabilir. İstemleri izleyin ve varsayılan seçenekleri kabul edin.
+
+Android Studio şimdi projenizi oluşturuyor ve bu biraz zaman alabilir. Herhangi bir hata almamalısınız. Herhangi bir uyarı alırsanız, onları dikkate almayın.
+
+### <a name="2"></a>"Android Studio'yu Keşfedin
 
 
 
