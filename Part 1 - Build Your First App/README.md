@@ -112,6 +112,29 @@ res klasörü içinde, **aktivite_main.xml** dosyasını görmek için **layout*
 
 ### Adım 4 : Manifests dosyasını ve AndroidManifest.xml'yi keşfedin
 
+Manifests klasörü, uygulamanızla ilgili temel bilgileri Android sistemine sağlayan dosyaları içerir.
+
+**Manifests** klasörünü genişletin ve açmak için **AndroidManifest.xml'e** çift tıklayın. AndroidManifest.xml dosyası, uygulamanın parçası olan etkinlikler de dahil olmak üzere, uygulamanızı çalıştırmak için Android sisteminin ihtiyaç duyduğu ayrıntıları içerir.
+
+![image](https://user-images.githubusercontent.com/70329389/139912941-132a4a66-a8d7-4223-8602-33d268c16692.png)
+
+MainActivity'ye  `<activity>`  öğesinde başvurulduğunu unutmayın. Uygulamanızdaki herhangi bir Etkinlik bildirimde bildirilmelidir. MainActivity için bir örnek:
+
+```
+  
+  <activity android:name=".MainActivity">
+   <intent-filter>
+       <action android:name="android.intent.action.MAIN"/>
+
+       <category android:name="android.intent.category.LAUNCHER"/>
+   </intent-filter>
+</activity>
+  
+```
+  
+ `<aktivite>`  içindeki  `<intent-filter>`  öğesini not edin. Bu intent filtresindeki  `<action>`  ve  `<category>`  öğeleri, Android'e, kullanıcı başlatıcı simgesini tıkladığında uygulamayı nerede başlatacağını söyler.
+  
+**AndroidManifest.xml** dosyası aynı zamanda uygulamanızın ihtiyaç duyduğu tüm izinleri tanımlayacağınız yerdir. İzinler, uygulamanızın telefon kişilerini okuma, internet üzerinden veri gönderme veya cihazın kamerası gibi donanımlara erişme yeteneğini içerir.
 
 
 
