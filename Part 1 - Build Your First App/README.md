@@ -274,6 +274,14 @@ Cihazınız için uygun USB sürücüsünü yüklemeniz gerekebilir.[Run apps on
 - İstediğiniz herhangi bir Android sürümünü hedefleyen bir cihaz için bir öykünücü oluşturun ve uygulamayı çalıştırın. Uygulamanın başlığının nasıl değiştiğine dikkat edin.
 
 
+## <a name="7"></a> Ödül:
+
+Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/pathways/kotlin-fundamentals-one) ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir bir badge kazanabilirsiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/139955476-aaf0c4f1-43e1-4bc4-860b-368ecf11de55.png)
+
+
+
 
 
 
