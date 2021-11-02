@@ -98,6 +98,21 @@ Oluşturulan Java klasörünü not edin. Bu klasör, uygulamayı oluştururken A
 
 ### Adım 3 : Res klasörünü keşfedin
 
+Proje > Android bölmesinde res klasörünü genişletin.
+
+res klasörü kaynakları tutar. Android'deki kaynaklar, uygulamalarınızda kullanılan statik içeriktir. Kaynaklar, görüntüleri, metin dizelerini, ekran düzenlerini, stilleri ve onaltılık renkler veya standart boyutlar gibi değerleri içerir.
+
+Android uygulamaları, Kotlin kodunu ve kaynaklarını mümkün olduğunca ayırır. Bu, uygulamanın kullanıcı arayüzünde kullanılan tüm dizeleri veya simgeleri bulmayı çok daha kolaylaştırır. Ayrıca, bu kaynak dosyalardan birini değiştirdiğinizde, değişiklik dosyanın uygulamada kullanıldığı her yerde geçerli olur.
+
+res klasörü içinde, **aktivite_main.xml** dosyasını görmek için **layout** klasörünü genişletin.
+
+![image](https://user-images.githubusercontent.com/70329389/139909735-3c1a17fb-b3bc-48a8-8550-d410547331e0.png)
+
+**Activity'niz** genellikle **res/layout** dizininde bir XML dosyası olarak tanımlanan bir UI layout dosyasıyla ilişkilendirilir. Bu düzen dosyası genellikle etkinliğinden sonra adlandırılır. Bu durumda, aktivite adı **MainActivity'dir**, dolayısıyla ilişkili düzen **activity_main'dir**.
+
+### Adım 4 : Manifests dosyasını ve AndroidManifest.xml'yi keşfedin
+
+
 
 
 
