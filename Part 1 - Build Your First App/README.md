@@ -208,6 +208,61 @@ Aşağıdaki şekilde gösterildiği gibi HelloWorld uygulamasını görmelisini
 
 ## <a name="5"></a>Uygulamanızı fiziksel bir cihazda çalıştırın
 
+Bu aşamada, varsa, telefon veya tablet gibi fiziksel bir mobil cihazda uygulamanızı çalıştırırsınız. Uygulamalarınızı her zaman hem sanal hem de fiziksel cihazlarda test edin.
+
+Neye ihtiyacın var:
+
+- Telefon veya tablet gibi bir Android cihaz.
+- Android cihazınızı USB bağlantı noktası üzerinden bilgisayarınıza bağlamak için bir USB veri kablosu.
+- Bir Linux veya Windows sistemi kullanıyorsanız, ek adımlar uygulamanız gerekebilir. [Run apps on a hardware device](https://developer.android.com/studio/run/device) belgelerine bakın. Cihazınız için uygun USB sürücüsünü de yüklemeniz gerekebilir. Windows tabanlı USB sürücüleri için [Install OEM USB drivers](https://developer.android.com/studio/run/oem-usb) sayfasına bakın.
+
+### Adım 1 : USB hata ayıklamasını açın
+
+Android Studio'nun Android cihazınızla iletişim kurmasına izin vermek için cihazın **Developer options** ayarlarında USB hata ayıklamasını etkinleştirmelisiniz.
+
+Android 4.2 (Jellybean) ve sonraki sürümlerde, **Developer options** ayarları varsayılan olarak gizlidir. Geliştirici seçeneklerini göstermek ve USB hata ayıklamasını etkinleştirmek için:
+
+- Cihazınızda **Ayarlar'ı** açın, **Telefon hakkında'yı** arayın, Telefon hakkında'ya dokunun ve **Build number'a** yedi kez dokunun.
+- Önceki sayfaya dönün **(Ayarlar / Sistem)**. **Geliştirici seçenekleri** listede görünür. **Geliştirici seçenekleri'ne** dokunun.
+- **USB hata ayıklamayı** seçin.
+
+### Adım 2 : Uygulamanızı Android cihazda çalıştırın
+
+Artık cihazınızı bağlayabilir ve uygulamayı Android Studio'dan çalıştırabilirsiniz.
+
+Android cihazını bir USB kablosuyla geliştirme makinenize bağlayın. Cihazda, USB hata ayıklamasına izin verilmesini isteyen bir iletişim kutusu görünmelidir.
+
+![image](https://user-images.githubusercontent.com/70329389/139941612-2294b725-ab68-422b-a20f-1bbf4a35ca01.png)
+
+Bu bilgisayarı hatırlamak için **Always allow** seçeneğini seçin . **OK**a dokunun.
+
+Bilgisayarınızda, Android Studio araç çubuğunda **Run** düğmesini Android Studio Çalıştır simgesini tıklayın. Kullanılabilir emülatörlerin ve bağlı cihazların listesini içeren **Select Deployment Target** sekmesi açılır. Fiziksel cihazınızı herhangi bir emülatörle birlikte görmelisiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/139942040-59f89f40-6cb4-4ba6-b108-00d1accd02b4.png)
+
+Cihazınızı seçin ve **OK**a tıklayın. Android Studio, uygulamayı cihazınıza yükler ve çalıştırır.
+
+### Adım 3 : Sorun giderme
+
+Android Studio cihazınızı tanımıyorsa aşağıdakileri deneyin:
+
+- USB kablosunu çıkarın ve tekrar takın.
+- Android Studio'yu yeniden başlatın.
+
+Bilgisayarınız aygıtı yine de bulamazsa veya "yetkisiz" olduğunu bildirirse şu adımları izleyin:
+
+- USB kablosunu çıkarın.
+- Cihazda, Ayarlar uygulamasında Geliştirici seçeneklerini açın. USB hata ayıklama yetkilerini iptal et'e dokunun.
+- Cihazı bilgisayarınıza yeniden bağlayın. İstendiğinde, yetkiler verin.
+
+
+Cihazınız için uygun USB sürücüsünü yüklemeniz gerekebilir.[Run apps on a hardware device.](https://developer.android.com/studio/run/device) konusuna bakın.
+
+
+
+
+
+
 
 
 
