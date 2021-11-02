@@ -1,7 +1,6 @@
 # Android-Kotlin-Fundamentals
 
-![image](https://user-images.githubusercontent.com/70329389/139954714-36183f47-3955-44e4-b5e9-30203413116e.png)
-
+![Android 12 Bootcamp (2)](https://user-images.githubusercontent.com/70329389/139955062-4e63d1a2-abf8-499b-88e2-e9b40ed2228a.png)
 
 Bu repositorie Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotlin Fundamentals](https://developer.android.com/courses/kotlin-fundamentals/course) dokümantasyonunu Türkçeye çevriyor olacağız. İşte Konu başlıkları ve çeviri durumları:
 
