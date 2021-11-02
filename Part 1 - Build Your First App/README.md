@@ -30,7 +30,7 @@ Kurulum tüm platformlar için benzerdir. Herhangi bir farklılık aşağıda be
 
 ## <a name="başlangıç"></a>Geliştirmeye Başlayalım
 
-- [HelloWorld" projesini oluşturun](#1)
+- ["HelloWorld" projesini oluşturun](#1)
 - [Android Studio'yu Keşfedin](#2)
 
 IDE(integrated development environment) kurulumu tamamlandığına göre artık başlayabiliriz.
@@ -66,6 +66,28 @@ Android Studio şimdi projenizi oluşturuyor ve bu biraz zaman alabilir. Herhang
 
 ### <a name="2"></a>"Android Studio'yu Keşfedin
 
+Bu görevde, Android Studio'da "HelloWorld" projesini keşfedecek ve Android Studio ile geliştirmenin temellerini öğreneceksiniz.
 
+### Adım 1 : Proje bölmesini keşfedin
+
+Eğer Proje sekmesi zaten seçili değilse, onu seçin. Proje sekmesi Android Studio penceresinin sol tarafında dikey sekme sütununda yer alır. Proje bölmesi açılır.
+
+![image](https://user-images.githubusercontent.com/70329389/139906364-713de209-3f66-4efd-b7ec-e0438224f5d4.png)
+
+Projeyi standart bir Android proje hiyerarşisi olarak görüntülemek için Proje bölmesinin üst kısmındaki açılır menüden Android'i seçin. ( Android varsayılandır.) Dosyaları dosya sistemi hiyerarşisinde nasıl göründüklerini görüntülemek de dahil olmak üzere proje dosyalarını birçok farklı şekilde görüntüleyebilirsiniz. Ancak, Android görünümünü kullanarak proje üzerinde çalışmak daha kolaydır.
+
+![image](https://user-images.githubusercontent.com/70329389/139906481-cebee99a-6cad-4735-baf4-f1af0aa8e723.png)
+
+### Adım 2 : Uygulama klasörünü keşfedin
+
+Uygulamanız için tüm kod ve kaynaklar **app** klasörde bulunur.
+
+Proje > Android bölmesinden uygulama klasörünü genişletin. Uygulama klasörünün içinde dört alt klasör bulunur: **manifests**, **java**, **generatedJava** ve **res**.
+
+**java** klasörüne tıklayarak açın ve **MainActivity** Kotlin dosyasını görmek için **com.example.android.HelloWorld** klasörünü genişletin.
+
+![image](https://user-images.githubusercontent.com/70329389/139907844-54f6babe-e8f3-487b-9f39-4d364dfdb695.png)
+
+Java klasörü, bir Android uygulaması için tüm ana Kotlin kodunu içerir. Kotlin kodunuzun java klasöründe görünmesinin tarihsel nedenleri vardır. Bu kural, Kotlin'in aynı proje ve uygulamada bile Java programlama dilinde yazılmış kodla sorunsuz bir şekilde birlikte çalışmasına olanak tanır.
 
 
