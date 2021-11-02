@@ -90,4 +90,14 @@ Proje > Android bölmesinden uygulama klasörünü genişletin. Uygulama klasör
 
 Java klasörü, bir Android uygulaması için tüm ana Kotlin kodunu içerir. Kotlin kodunuzun java klasöründe görünmesinin tarihsel nedenleri vardır. Bu kural, Kotlin'in aynı proje ve uygulamada bile Java programlama dilinde yazılmış kodla sorunsuz bir şekilde birlikte çalışmasına olanak tanır.
 
+Uygulamanızın sınıf dosyaları, yukarıdaki şekilde gösterildiği gibi üç alt klasörde bulunur. **com.example.hello.helloworld** (veya belirttiğiniz alan adı) klasörü, bir uygulama paketinin tüm dosyalarını içerir. Özellikle **MainActivity** sınıfı, uygulamanız için ana giriş noktasıdır. Sonraki codelab'de **MainActivity** hakkında daha fazla bilgi edineceksiniz. **Java** klasöründeki diğer iki klasör, unit testleri gibi testlerle ilgili kodlar için kullanılır.
+
+> Dikkat: Dosya sisteminde Kotlin dosyalarınız bir .kt uzantısına ve bir K simgesine sahiptir. Proje görünümünde, Android Studio, uzantı olmadan size sınıf adını (MainActivity) gösterir.
+
+Oluşturulan Java klasörünü not edin. Bu klasör, uygulamayı oluştururken Android Studio'nun oluşturduğu dosyaları içerir. Uygulamayı yeniden oluşturduğunuzda değişiklikleriniz geçersiz kılınabileceğinden, bu klasördeki hiçbir şeyi düzenlemeyin. Ancak hata ayıklama sırasında bu dosyalara bakmanız gerektiğinde bu klasör hakkında bilgi sahibi olmanızda fayda var.
+
+### Adım 3 : Res klasörünü keşfedin
+
+
+
 
