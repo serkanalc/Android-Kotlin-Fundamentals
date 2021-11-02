@@ -8,7 +8,7 @@ Selamlar Android Kotlin Fundamentals serisinin ilk bölümüne hoş geldiniz. Bu
 Hadi Başlayalım❗
 
 
-## <a name="kurulum"></a>Android Studio Kurulumu
+# <a name="kurulum"></a>Android Studio Kurulumu
 
 Android Studio, sizlere gelişmiş bir kod düzenleyici ve uygulama şablonları dahil eksiksiz bir IDE sağlar. Ayrıca, uygulama geliştirmeyi daha hızlı ve daha kolay hale getiren geliştirme, hata ayıklama, test etme ve performans araçları içerir. Uygulamalarınızı çok çeşitli önceden yapılandırılmış emülatörlere veya kendi mobil cihazınızda test etmek için Android Studio'yu kullanabilirsiniz. Ayrıca Google Play Store'da mobil uygulamalar oluşturabilir ve bu uygulamaları yayınlayabilirsiniz.
 
@@ -28,14 +28,16 @@ Kurulum tüm platformlar için benzerdir. Herhangi bir farklılık aşağıda be
 
 
 
-## <a name="başlangıç"></a>Geliştirmeye Başlayalım
+# <a name="başlangıç"></a>Geliştirmeye Başlayalım
 
 - ["HelloWorld" projesini oluşturun](#1)
 - [Android Studio'yu Keşfedin](#2)
+- [Gradle Scripts klasörünü keşfedin](#3)
+- [Uygulamanızı sanal bir cihazda çalıştırın (emülatör)](#4)
 
 IDE(integrated development environment) kurulumu tamamlandığına göre artık başlayabiliriz.
 
-### <a name="1"></a>"HelloWorld" projesini oluşturun
+## <a name="1"></a>"HelloWorld" projesini oluşturun
 
 Bu bölümde, Android Studio'nun uygun şekilde yüklendiğini doğrulamak için yeni bir uygulama projesi oluşturursunuz.
 
@@ -64,7 +66,7 @@ Her uygulamanın giriş noktası olarak en az bir etkinliği olmalıdır. bunu d
 
 Android Studio şimdi projenizi oluşturuyor ve bu biraz zaman alabilir. Herhangi bir hata almamalısınız. Herhangi bir uyarı alırsanız, onları dikkate almayın.
 
-### <a name="2"></a>"Android Studio'yu Keşfedin
+## <a name="2"></a>Android Studio'yu Keşfedin
 
 Bu görevde, Android Studio'da "HelloWorld" projesini keşfedecek ve Android Studio ile geliştirmenin temellerini öğreneceksiniz.
 
@@ -132,9 +134,31 @@ MainActivity'ye  `<activity>`  öğesinde başvurulduğunu unutmayın. Uygulaman
   
 ```
   
- `<aktivite>`  içindeki  `<intent-filter>`  öğesini not edin. Bu intent filtresindeki  `<action>`  ve  `<category>`  öğeleri, Android'e, kullanıcı başlatıcı simgesini tıkladığında uygulamayı nerede başlatacağını söyler.
+ `<activity>`  içindeki  `<intent-filter>`  öğesini not edin. Bu intent filtresindeki  `<action>`  ve  `<category>`  öğeleri, Android'e, kullanıcı başlatıcı simgesini tıkladığında uygulamayı nerede başlatacağını söyler.
   
 **AndroidManifest.xml** dosyası aynı zamanda uygulamanızın ihtiyaç duyduğu tüm izinleri tanımlayacağınız yerdir. İzinler, uygulamanızın telefon kişilerini okuma, internet üzerinden veri gönderme veya cihazın kamerası gibi donanımlara erişme yeteneğini içerir.
+
+
+## <a name="3"></a>Gradle Scripts klasörünü keşfedin
+
+Gradle, uygulamanın proje yapısını, yapılandırmasını ve bağımlılıklarını açıklamak için alana özgü bir dil kullanan bir yapı otomasyon sistemidir. Uygulamanızı derleyip çalıştırdığınızda, Gradle derlemesinin çalışmasıyla ilgili bilgileri görürsünüz. Ayrıca, yüklenmekte olan Android Package Kit (APK) hakkındaki bilgileri de görürsünüz. (APK, Android işletim sisteminin mobil uygulamaları dağıtmak ve yüklemek için kullandığı paket dosya biçimidir.)
+
+**Gradle sistemini keşfedin:**
+
+**Gradle Scripts* klasörünü genişletin. **Proje>Android** bölmesinde, bu klasör derleme sisteminin ihtiyaç duyduğu tüm dosyaları içerir.
+
+![image](https://user-images.githubusercontent.com/70329389/139918331-906c69bf-f3de-4260-aab1-c3668bda23fb.png)
+
+**build.gradle(Project: HelloWorld)** dosyasını arayın.
+
+Bu dosya, projenizi oluşturan tüm modüllerde ortak olan yapılandırma seçeneklerini içerir. Her Android Studio projesi, tek bir üst düzey Gradle derleme dosyası içerir. Bu dosya, projedeki tüm modüller için ortak olan Gradle depolarını ve bağımlılıklarını tanımlar.
+
+**build.gradle(Module:app)** dosyasını arayın.
+
+Proje düzeyindeki **build.gradle** dosyasına ek olarak, her modülün kendine ait bir **build.gradle** dosyası vardır. Modül düzeyinde **build.gradle** dosyası, her modül için yapı ayarlarını yapılandırmanıza olanak tanır. (HelloWorld uygulamasının yalnızca bir modülü vardır, uygulamanın kendisi için olan modül.) Bu **build.gradle** dosyası, uygulama düzeyinde derleme yapılandırmalarını değiştirirken en sık düzenlediğiniz dosyadır. Örneğin, uygulamanızın desteklediği SDK düzeyini değiştirdiğinizde veya **dependencies** bölümünde yeni bağımlılıklar bildirdiğinizde bu **build.gradle** dosyasını düzenlersiniz. Daha sonraki bir codelab'de bu iki şey hakkında daha fazla bilgi edineceksiniz.
+
+
+## <a name="4"></a>Uygulamanızı sanal bir cihazda çalıştırın (emülatör)
 
 
 
