@@ -34,6 +34,7 @@ Kurulum tüm platformlar için benzerdir. Herhangi bir farklılık aşağıda be
 - [Android Studio'yu Keşfedin](#2)
 - [Gradle Scripts klasörünü keşfedin](#3)
 - [Uygulamanızı sanal bir cihazda çalıştırın (emülatör)](#4)
+- [Uygulamanızı fiziksel bir cihazda çalıştırın](#5)
 
 IDE(integrated development environment) kurulumu tamamlandığına göre artık başlayabiliriz.
 
@@ -159,6 +160,55 @@ Proje düzeyindeki **build.gradle** dosyasına ek olarak, her modülün kendine 
 
 
 ## <a name="4"></a>Uygulamanızı sanal bir cihazda çalıştırın (emülatör)
+
+Bu görevde, bir sanal cihaz (emülatör) oluşturmak için [Android Virtual Device (AVD)](https://developer.android.com/studio/run/managing-avds) manager kullanmalısınız. Sanal cihaz, belirli bir Android cihazı türü için yapılandırmayı simüle eder. Ardından, uygulamayı çalıştırmak için o sanal cihazı kullanmalısınız.
+
+Android Emulator bağımsız bir uygulamadır ve kendi sistem gereksinimleri vardır. Sanal cihazlar çok fazla disk alanı kullanabilir. Herhangi bir sorunla karşılaşırsanız, [Android Emulator'da uygulamaları çalıştırma](https://developer.android.com/studio/run/emulator.html#Requirements) konusuna bakın.
+
+### Adım 1 : Bir Android sanal cihazı (AVD) oluşturun
+
+Bilgisayarınızda bir emülatör çalıştırmak için sanal aygıtı tanımlayan bir yapılandırma oluşturmanız gerekir.
+
+Android Studio'da **Tools>AVD Yöneticisi'ni** seçin veya araç çubuğundaki **AVD Manager** Simgesine tıklayın. **Your Virtual Divices** sekmesi açılacaktır. Zaten sanal cihazlar oluşturduysanız, iletişim kutusu bunları gösterir (aşağıdaki şekilde gösterildiği gibi), Aksi takdirde boş bir liste görürsünüz.
+
+![image](https://user-images.githubusercontent.com/70329389/139925494-3df32d32-455c-4018-a61f-3d58353c8f15.png)
+
+İletişim kutusunun sol alt kısmındaki **+Create Virtual Device'a tıklayın.** Önceden yapılandırılmış donanım aygıtlarının bir listesini gösteren **Select Hardware** iletişim kutusu görünür. Tablo, her aygıt için diyagonal ekran boyutu (**Size**), piksel cinsinden ekran çözünürlüğü (**Resolution**) ve piksel yoğunluğu (**Density**) için bir sütun sağlar.
+
+![image](https://user-images.githubusercontent.com/70329389/139925974-0cc1c3d8-4be8-46f3-b50a-bd0c8cad4333.png)
+
+**Nexus 5x** veya **Pixel XL** gibi bir cihaz seçin ve **Next**e tıklayın. **System Image** sekmesi açılacaktır.
+
+**Recommended** sekmesine tıklayın ve sanal cihazda (**Pie** gibi) çalıştırılacak Android sisteminin hangi sürümünü seçin.
+
+![image](https://user-images.githubusercontent.com/70329389/139926584-b9e4a380-e278-43e5-bd26-1cf55972f4d6.png)
+
+> Dikkat Önerilen sekmesinde gösterilenden çok daha fazla Android sistemi sürümü mevcuttur. Bunları görmek için x86 Görüntüler ve Diğer Görüntüler sekmelerine bakın.
+
+> Bu görüntüler çok fazla disk alanı kullanır, bu nedenle yalnızca birkaçı orijinal kurulumunuzun bir parçasıdır. Kullanmak istediğiniz sistem görüntüsünün yanında bir İndirme bağlantısı görünüyorsa, o görüntü yüklenmemiştir. Uzun zaman alabilen indirme işlemini başlatmak için bağlantıya tıklayın. İndirme tamamlandığında, Finish'e tıklayın.
+
+Bir sistem görüntüsü seçtikten sonra **Next**e tıklayın. **Android Virtual Device (AVD)** iletişim kutusu açılır. Yapılandırmanızı kontrol edin ve **Finish**e tıklayın.
+
+### Adım 2 : Uygulamayı sanal cihazda çalıştırın
+
+Bu aşamada nihayet yeni uygulamanızı çalıştıracaksınız.
+
+Android Studio'da **Run>Run app** seçin veya **Run** simgesine tıklayın, araç çubuğundaki Android Studio Run simgesi. **Select Deployment Target** sekmesi açılır ve sizi hiçbir aygıtın bulunmadığı konusunda uyarır. Geliştirme bilgisayarınıza bağlı fiziksel bir cihazınız yoksa veya henüz bir sanal cihaz başlatmadıysanız bu uyarıyı görürsünüz.
+
+**Select Deployment Target** sekmesinde, **Available Virtual Devices** altında, oluşturduğunuz sanal aygıtı seçin. **OK**e tıklayın.
+
+![image](https://user-images.githubusercontent.com/70329389/139927898-bad4f146-934d-4a3f-addf-4fa7d3bb3a12.png)
+
+Emülatör, tıpkı fiziksel bir aygıt gibi başlar ve önyüklenir. Bilgisayarınızın hızına bağlı olarak bu işlem biraz zaman alabilir. Uygulamanız derlenir ve emülatör hazır olduğunda Android Studio, uygulama APK'sını emülatöre yükler ve çalıştırır.
+
+Aşağıdaki şekilde gösterildiği gibi HelloWorld uygulamasını görmelisiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/139928084-35ea0f7e-8dea-4f0a-908d-afe6b5e97f00.png)
+
+
+## <a name="5"></a>Uygulamanızı fiziksel bir cihazda çalıştırın
+
+
 
 
 
