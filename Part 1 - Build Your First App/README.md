@@ -3,7 +3,14 @@
 Selamlar Android Kotlin Fundamentals serisinin ilk bölümüne hoş geldiniz. Bu bölümde aşağıdaki konular üzerinde duruyor olacağız:
 
 - [Android Studio Kurulumu](#kurulum)
-- [Geliştirmeye Başlayalım](#başlangıç)
+- [Geliştirmeye Başlayalım 👇](#başlangıç)
+
+  - ["HelloWorld" projesini oluşturun](#1)
+  - [Android Studio'yu Keşfedin](#2)
+  - [Gradle Scripts klasörünü keşfedin](#3)
+  - [Uygulamanızı sanal bir cihazda çalıştırın (emülatör)](#4)
+  - [Uygulamanızı fiziksel bir cihazda çalıştırın](#5)
+  - [Çalışma Örnekleri](#6)
 
 Hadi Başlayalım❗
 
@@ -35,6 +42,7 @@ Kurulum tüm platformlar için benzerdir. Herhangi bir farklılık aşağıda be
 - [Gradle Scripts klasörünü keşfedin](#3)
 - [Uygulamanızı sanal bir cihazda çalıştırın (emülatör)](#4)
 - [Uygulamanızı fiziksel bir cihazda çalıştırın](#5)
+- [Çalışma Örnekleri](#6)
 
 IDE(integrated development environment) kurulumu tamamlandığına göre artık başlayabiliriz.
 
@@ -257,6 +265,14 @@ Bilgisayarınız aygıtı yine de bulamazsa veya "yetkisiz" olduğunu bildirirse
 
 
 Cihazınız için uygun USB sürücüsünü yüklemeniz gerekebilir.[Run apps on a hardware device.](https://developer.android.com/studio/run/device) konusuna bakın.
+
+## <a name="6"></a> Ev Ödevi
+
+- Boş Şablondan yeni bir Android projesi oluşturun.
+- res/strings.xmlDosyayı açın .
+- Değerini değiştirin app_name"Benim Zar Roller" için dize. Bu ad başlık çubuğunda görünür.
+- İstediğiniz herhangi bir Android sürümünü hedefleyen bir cihaz için bir öykünücü oluşturun ve uygulamayı çalıştırın. Uygulamanın başlığının nasıl değiştiğine dikkat edin.
+
 
 
 
