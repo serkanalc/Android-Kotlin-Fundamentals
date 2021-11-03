@@ -2,6 +2,7 @@
 # <a name="1"></a>Temel bir Android Projesinin Anatomisi
 
 - [Aktivite ve düzen dosyalarını keşfedin](#a)
+- [Bir düğme ekleyin](#b)
 
 Bu aşamada, DiceRoller adlı yeni bir uygulama projesi oluşturacak ve bir düğmeyle temel etkileşimi ekleyeceğiz. Düğmeye her tıklandığında, görüntülenen metnin değeri değişecek. Aşamayı tamamladığınızda göreceğiniz ekran :
 
@@ -109,9 +110,144 @@ Bu aşamada, uygulama düzeni dosyasını inceleyecek ve değiştireceksiniz.
  
 7. `<TextView>` öğesindeki her ikisi de **wrap_content** olarak ayarlanmış **Android:layout_width** ve **Android:layout_height** attribute'larına dikkat edin. Metin görünümünün içeriği metnin kendisidir, bu nedenle görünüm yalnızca metin için gereken alanı kaplayacaktır.
  
+## <a name="b"></a>Aşama 2 : Bir düğme ekleyin
+   
+Zar atma uygulaması, kullanıcının zarları atması ve ne attığını görmesi için bir yol olmadan pek kullanışlı değildir. Başlamak için, layouta zarları atmaya yarayan  bir düğme ekleyin ve kullanıcının attığı zar değerini gösteren bir metin ekleyin.
+   
+### Layout'a Bir Düğme Ekleyin
+   
+1. `<Button`'a girerek metin görünümünün altındaki düzene bir Button öğesi ekleyin ve ardından Return tuşuna basın. **/>** ile biten ve **layout_width** ve **layout_height** attribute'larını içeren bir **Button** bloğu görünür.
+   
+```
+          
+  <Button
+   android:layout_width=""
+   android:layout_height="" />        
+          
+```
 
+2. Hem layout_width hem de layout_height özniteliklerini "wrap_content" olarak ayarlayın. Bu değerlerle button, içerdiği metin etiketiyle aynı genişlik ve yüksekliktedir.
+   
+3. Buttona bir **Android:text** niteliği ekleyin ve ona "Roll" değerini verin. Düğme öğesi şimdi şöyle görünür:
 
+```
+          
+  <Button
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:text="Roll" />        
+          
+``` 
+   
+Düğme görünümleri için **Text** attribute'ü düğmenin etiketidir. layout editör, attribute, bir ipucu veya uyarıyı belirten sarı renkle vurgulanır. Bu durumda, sarı vurgulamanın nedeni, "Roll" dizesinin düğme etiketinde sabit kodlanmış olmasıdır, ancak string bir kaynak olmalıdır. Bir sonraki bölümde string kaynakları hakkında bilgi edineceksiniz.
 
+### String Kaynaklarını Çıkarın
+   
+layout veya kod dosyalarınızdaki stringleri sabit kodlamak yerine, tüm uygulama stringlerini ayrı bir dosyaya koymak en iyi uygulamadır. Bu dosyaya **strings.xml** denir ve uygulamanın kaynakları arasında **res/values/** dizininde bulunur.
+   
+Stringlerin ayrı bir dosyada olması, özellikle bu Stringlerin birden fazla kullanıyorsanız, onları yönetmeyi kolaylaştırır. Ayrıca, her dil için bir string kaynak dosyası oluşturmanız gerektiğinden, uygulamanızı çevirmek ve yerelleştirmek için string kaynakları zorunludur.
+   
+Android Studio, stringlerinizi ipuçları ve uyarılarla bir kaynak dosyasına koymayı hatırlamanıza yardımcı olur.
+   
+1. `<Button>` etiketinin **android:text** attribute'undaki "Roll" dizesine bir kez tıklayın.
+2. Alt+Enter (macOS'ta Option+Enter) tuşlarına basın ve açılır menüden String kaynağını çıkar'ı seçin.
+3. Kaynak adı için **roll_label** girin.
+4. Tamam'a tıklayın. **res/values/string.xml** dosyasında bir string kaynağı oluşturulur ve Button öğesindeki string, o kaynağa bir başvuruyla değiştirilir: **android:text="@string/roll_label"**
+   
+5. **Project>Android** bölmesinde, **res>değerleri** genişletin ve ardından **strings.xml** dosyasında string kaynaklarınızı görmek için **strings.xml** öğesine çift tıklayın:
 
+```
+          
+  <resources>
+   <string name="app_name">DiceRoller</string>
+   <string name="roll_label">Roll</string>
+  </resources>      
+          
+``` 
 
+> İpucu: Az önce eklediğiniz stringe ek olarak, strings.xml dosyası uygulama adını da içerir. Uygulama projenizi Boş Şablonu kullanarak başlatırsanız, uygulamanın adı ekranın üst kısmındaki uygulama çubuğunda görünür. app_name kaynağını düzenleyerek uygulama adını değiştirebilirsiniz.
+   
+###  Stil ve Konum Görünümleri
+   
+   Layout'unuz artık bir **TextView** ve bir **Button** görünümü içeriyor. Bu görevde, view grouptaki görünümleri daha çekici görünecek şekilde düzenleyeceğiz.
+   
+Layout'un bir önizlemesini görmek için "Design" sekmesine tıklayın. Şu anda her iki görünüm de yan yana ve ekranın üst kısmına doğru itilmiş durumda.
+   
+   ![image](https://user-images.githubusercontent.com/70329389/140083394-af705f7e-7927-4791-aca2-e5ce725ff3a9.png)
+   
+ XML düzenleyicisine dönmek için **Text** sekmesine tıklayın. **LinearLayout** etiketine **android:orientation** niteliğini ekleyin ve ona "vertical" bir değer verin. `<LinearLayout>` öğesi şimdi şöyle görünmelidir:
+   
+   ```
+          
+  <LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"
+   android:orientation="vertical"
+   tools:context=".MainActivity">      
+          
+   ``` 
+LinearLayout view groupu, içerdiği görünümleri birbiri ardına bir satırda, yatay olarak bir satırda veya bir yığında dikey olarak konumlandırır. Yatay varsayılandır. TextView'in Button'un üstünde bulunmasını istediğiniz için yönlendirmeyi dikey olarak ayarlarsınız. Tasarım şimdi, metnin altındaki düğme ile şuna benziyor:
+     
+     ![image](https://user-images.githubusercontent.com/70329389/140084535-71946b20-08cb-4210-a2c7-a12bb6f937d0.png)
+     
+Hem TextView hem de Button'a **android:layout_gravity** attribute'u ekleyin ve ona **"center_horizontal"** değerini verin. Bu, her iki görünümü de yatay eksenin merkezi boyunca hizalar. TextView ve Button öğeleri şimdi şöyle görünmelidir:
+     
+     
+   ```         
+  <TextView   
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_gravity="center_horizontal"
+   android:text="Hello World!" />
+
+<Button
+   android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:text="@string/roll_label" />             
+   ``` 
+     
+**Android:layout_gravity** attribute'unu lineer layout'a ekleyin ve ona **"center_vertical"** değerini verin. **LinearLayout** öğeniz şimdi şöyle görünmelidir:
+     
+   ```
+   <LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_gravity="center_vertical"
+      tools:context=".MainActivity">  
+     
+   ```
+   
+>Not: Hem düğmeye hem de metin görünümlerine center_vertical yerçekimini eklerseniz (center_horizontal yerine), görünümler layoutun ortasında hem yatay hem de dikey olarak ortalanır. Yani viewler birbirinin üzerindedir.
+Tüm alt öğeleri bir kerede ortalamak için, yukarıda gösterildiği gibi üst öğede (LinearLayout öğesi) center_vertical öğesini kullanın.
+      
+      
+Metin görünümünde metnin boyutunu artırmak için, "30sp" değeriyle `<TextView>` öğesine **android:textSize** özniteliğini ekleyin. **sp** kısaltması, aygıtın görüntü kalitesinden bağımsız olarak metni boyutlandırmak için bir ölçü olan *scalable pixels* anlamına gelir. TextView öğesi şimdi şöyle görünmelidir:
+      
+  ```
+      
+   <TextView   
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:textSize="30sp"
+      android:text="Hello World!" />   
+  
+  ```
+
+  Uygulamanızı derleyin ve çalıştırın.
+      
+  ![image](https://user-images.githubusercontent.com/70329389/140088605-c57ff0ca-d05d-49a2-a458-c33a9ab62bff.png)
+      
+  Artık hem metin hem de düğme güzel bir şekilde yerleştirilmiş ve metin görünümünde daha büyük metin var. Düğmenin henüz bir işlevi yok, bu nedenle tıkladığınızda hiçbir şey olmuyor. Bundan sonrası üzerinde çalışıyor olacağız.
+      
+      
+### Koddaki Düğmeye Bir İşlev Verin
+      
+      
+   
 
