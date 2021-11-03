@@ -1,12 +1,7 @@
-# Build an Interactive App
-
- - [Temel bir Android Projesinin Anatomisi](#1)
-    -  [Aktivite ve düzen dosyalarını keşfedin](#a)
-
-Bu Bölümde, Bir Android uygulama projesinin temel anatomisini, uygulamanıza nasıl resim ekleyeceğinizi, uygulamanın geriye dönük uyumluluğunu (Android'in eski sürümleriyle) nasıl etkinleştireceğinizi ve çevrimiçi belgelerde nasıl gezineceğinizi öğreneceksiniz. Yol boyunca, bir düğmeye dokunulduğunda rastgele bir zar atmanıza izin veren bir uygulama olan **DiceRoller** uygulamasını tamamlayacaksınız.
-
 
 # <a name="1"></a>Temel bir Android Projesinin Anatomisi
+
+- [Aktivite ve düzen dosyalarını keşfedin](#a)
 
 Bu aşamada, DiceRoller adlı yeni bir uygulama projesi oluşturacak ve bir düğmeyle temel etkileşimi ekleyeceğiz. Düğmeye her tıklandığında, görüntülenen metnin değeri değişecek. Aşamayı tamamladığınızda göreceğiniz ekran :
 
@@ -104,7 +99,17 @@ Bu aşamada, uygulama düzeni dosyasını inceleyecek ve değiştireceksiniz.
 
 2. Layouta eklediğiniz tüm view ve view group, en üstteki XML öğesi bu hiyerarşinin kökü olacak şekilde bir görünüm hiyerarşisinde düzenlenir. ana görünüm, diğer viewları ve view grupları içerebilir ve içerilen view grupları, diğer view ve view grupları içerebilir. Uygulamanız XML layout dosyanızdaki görünüm hiyerarşisini çalıştırdığında, düzen  inflated edildiğinde nesnelerin hiyerarşisi haline gelir. Bu durumda ana view grup, alt viewlarını birbiri ardına ( vertically veya horizontally) linear olarak düzenleyen linearl bir layoutdur.
   
-3.
+3. Yeni bir Android projesi için aldığınız varsayılan ana bileşeni, design editör ile iyi bir uyum içinde çalışan bir **ConstraintLayout'tur**. Bu uygulama için, constraint layoutdan daha basit olan bir **LinearLayout** view group kullanırsınız. Sonraki derste view groupları  ve constraint layout hakkında çok daha fazlasını öğreneceksiniz.
+ 
+4. **LinearLayout** activity içinde **android:layout_width** attribute'una dikkat edin. Bu **LinearLayout'un** genişliği, **match parent'ıyla** aynı genişlikte olmasını sağlayan parent ile eşleşecek şekilde ayarlanmıştır. Bu ana görünüm olduğundan, layout ekranın tam genişliğine genişler.
+ 
+5. wrap_content olarak ayarlanmış **Android:layout_height** attribute'una dikkat edin. Bu attribute, LinearLayout'un yüksekliğini, şimdilik yalnızca TextView olan, içerdiği tüm layoutların birleşik yüksekliğiyle eşleşmesini sağlar.
+ 
+6. `<TextView>` öğesini inceleyin. Metni görüntüleyen bu TextView, DiceRoller uygulamanızdaki tek görsel öğedir. **Android:text** attribute'u, görüntülenecek gerçek dizeyi, bu durumda "Hello World!" dizesini tutar.
+ 
+7. `<TextView>` öğesindeki her ikisi de **wrap_content** olarak ayarlanmış **Android:layout_width** ve **Android:layout_height** attribute'larına dikkat edin. Metin görünümünün içeriği metnin kendisidir, bu nedenle görünüm yalnızca metin için gereken alanı kaplayacaktır.
+ 
+
 
 
 
