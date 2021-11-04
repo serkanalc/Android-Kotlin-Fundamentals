@@ -1,9 +1,9 @@
 
 # <a name="1"></a>Temel bir Android Projesinin Anatomisi
 
-- [Aktivite ve düzen dosyalarını keşfedin](#a)
-- [Bir düğme ekleyin](#b)
-- [Metni değiştirin](#c)
+- [Aktivite & Düzen Dosyalarını Keşfedin](#a)
+- [Bir Düğme Ekleyin](#b)
+- [Metni Değiştirin](#c)
 
 Bu aşamada, DiceRoller adlı yeni bir uygulama projesi oluşturacak ve bir düğmeyle temel etkileşimi ekleyeceğiz. Düğmeye her tıklandığında, görüntülenen metnin değeri değişecek. Aşamayı tamamladığınızda göreceğiniz ekran :
 
