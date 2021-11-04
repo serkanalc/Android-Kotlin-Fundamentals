@@ -248,6 +248,98 @@ Metin görünümünde metnin boyutunu artırmak için, "30sp" değeriyle `<TextV
       
 ### Koddaki Düğmeye Bir İşlev Verin
       
+**MainActivity**'deki Kotlin kodu, bir düğmeye dokunduğunuzda ne olduğu gibi uygulamanızın etkileşimli kısımlarını tanımlamaktan sorumludur. Düğmeye tıklandığında   çalışan bir işlev yazmak için MainActivity'deki inflate edilmiş düzeninizde Button nesnesine bir referans almanız gerekir. Düğmeye bir referans almak için:
+      
+- **Button**'a XML dosyasında bir ID atayın.
+- Belirli bir ID'ye sahip **view**e başvuru almak için kodunuzdaki **findViewById()** yöntemini kullanın.
+      
+Button görünümüne bir başvurunuz olduğunda, uygulama çalışırken dinamik olarak değiştirmek için bu görünümdeki yöntemleri çağırabilirsiniz. Örneğin, düğmeye dokunulduğunda kodu yürüten bir tıklama işleyicisi ekleyebilirsiniz.
+      
+- Henüz açık değilse, **Activity_main.xml** layout dosyasını açın ve **text** sekmesine tıklayın.
+- Buttona **android:id** niteliğini ekleyin ve ona bir ad verin (bu durumda **"@+id/roll_button"**). `<Button>` öğeniz şimdi şöyle görünür:
+      
+  ```
+      
+   <Button
+      android:id="@+id/roll_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="@string/roll_label" />  
+  
+  ```
+      
+XML layout dosyasında bir view için bir ID oluşturduğunuzda, Android Studio, oluşturulan **R** sınıfında bu kimliğin adıyla bir integer sabiti oluşturur. Bu nedenle, bir görünüme **roll_button** adını verirseniz, Android Studio, **R** sınıfında **roll_button** adlı bir tamsayı sabiti oluşturur ve oluşturur. Kimlik adının **"@+id"** öneki, derleyiciye bu ID sabitini R sınıfına eklemesini söyler. XML dosyanızdaki tüm görünüm kimlikleri bu ön eke sahip olmalıdır.
+      
+**MainActivity** Kotlin dosyasını açın. **onCreate()** içinde, **setContentView()** öğesinden sonra şu satırı ekleyin:
+      
+      
+  ```
+      
+   val rollButton: Button = findViewById(R.id.roll_button)
+  
+  ```    
+      
+      
+XML sınıfında tanımladığınız view için bir **View** referansı almak için **findViewById()** yöntemini kullanın. Bu durumda, **R** sınıfından **Button** referansını ve **roll_button** ID'sini alırsınız ve bu referansı **rollButton** değişkenine atarsınız.
+      
+> Not: Satırı kopyalayıp yapıştırmak yerine yazarsanız, yazmaya başladığınızda Android Studio'nun kimlik adı için otomatik tamamlama ipucu sağladığını fark edeceksiniz.
+      
+      
+Android Studio'nun, çözülmemiş bir referans olduğunu ve bu sınıfı kullanabilmeniz için önce içe aktarmanız gerektiğini belirtmek için **Button** sınıfını kırmızıyla vurgulayıp altını çizdiğine dikkat edin. Tam nitelikli sınıf adını gösteren bir araç ipucu da görünebilir:
+      
+![image](https://user-images.githubusercontent.com/70329389/140391281-b59e3f9f-a35d-44d8-92f7-f1d5d4fde3ca.png)
+
+Tam nitelikli class adını kabul etmek için **Alt+Enter** (**Mac'te Option+Enter**) tuşlarına basın.
+            
+> İpucu: Anlam açıksa, Android Studio'yu sınıflar için otomatik olarak içe aktarma ifadeleri ekleyecek şekilde yapılandırabilirsiniz. **Editor > General >Auto Import>** Otomatik İçe Aktarma ayarları paneli, içe aktarmaların nasıl işlendiğini belirtir.
+      
+### Bir tost görüntülemek için bir tıklama işleyici ekleyin
+      
+*Tıklama işleyicisi*, kullanıcı düğme gibi tıklanabilir bir UI öğesine her tıkladığında veya dokunduğunda çağrılan bir yöntemdir. Bir tıklama işleyicisi oluşturmak için ihtiyacınız olan:
+      
+- Bazı işlemleri gerçekleştiren bir yönteme.
+      
+- Buttonu işleyici yöntemine bağlayan **setOnClickListener()** yöntemine.
+      
+Bu aşamada, bir Tost görüntülemek için bir Click-handler yöntemi oluşturursunuz. (tost, ekranda kısa bir süre için açılan bir mesajdır.) Click-handler yöntemini Button'a bağlarsınız.
+
+- **MainActivity** sınıfınızda **onCreate()**'den sonra **rollDice()** adlı özel bir işlev oluşturun.
+      
+   ```
+      
+   private fun rollDice() {
+  
+   }
+  
+  ```  
+      
+- rollDice() çağrıldığında bir Toast görüntülemek için bu satırı rollDice() yöntemine ekleyin:
+      
+  ```
+      
+   Toast.makeText(this, "button clicked", 
+      Toast.LENGTH_SHORT).show()
+  
+  ```
+      
+      
+ Bir tost oluşturmak için **Toast.makeText()** yöntemini çağırın. Bu yöntem üç şey gerektirir:
+      
+- Bir [Context](https://developer.android.com/reference/kotlin/android/content/Context) nesnesi. Context nesnesi, Android işletim sisteminin mevcut durumu ile iletişim kurmanıza ve bu durum hakkında bilgi almanıza olanak tanır. Tost nesnesinin işletim sistemine tostu görüntülemesini söyleyebilmesi için burada bir Context'e ihtiyacınız var. **AppCompatActivity**, Context'in bir alt sınıfı olduğundan, bağlam için sadece this anahtar sözcüğünü kullanabilirsiniz.
+      
+
+      
+      
+      
+ 
+      
+      
+
+      
+      
+ 
+      
       
    
 
