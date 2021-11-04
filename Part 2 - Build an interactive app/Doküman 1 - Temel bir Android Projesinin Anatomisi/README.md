@@ -3,6 +3,7 @@
 
 - [Aktivite ve düzen dosyalarını keşfedin](#a)
 - [Bir düğme ekleyin](#b)
+- [Metni değiştirin](#c)
 
 Bu aşamada, DiceRoller adlı yeni bir uygulama projesi oluşturacak ve bir düğmeyle temel etkileşimi ekleyeceğiz. Düğmeye her tıklandığında, görüntülenen metnin değeri değişecek. Aşamayı tamamladığınızda göreceğiniz ekran :
 
@@ -327,19 +328,126 @@ Bu aşamada, bir Tost görüntülemek için bir Click-handler yöntemi oluşturu
  Bir tost oluşturmak için **Toast.makeText()** yöntemini çağırın. Bu yöntem üç şey gerektirir:
       
 - Bir [Context](https://developer.android.com/reference/kotlin/android/content/Context) nesnesi. Context nesnesi, Android işletim sisteminin mevcut durumu ile iletişim kurmanıza ve bu durum hakkında bilgi almanıza olanak tanır. Tost nesnesinin işletim sistemine tostu görüntülemesini söyleyebilmesi için burada bir Context'e ihtiyacınız var. **AppCompatActivity**, Context'in bir alt sınıfı olduğundan, bağlam için sadece this anahtar sözcüğünü kullanabilirsiniz.
+
+- Basıldıktan sonra gösterilecek mesaj "düğmeye tıklandı".
+      
+- Mesajı gösterme süresi. Sondaki show() yöntemi, tostu görüntüler.
+      
+- **onCreate()** içinde, **findViewById()** çağrısından sonra **rollDice()** öğesini rollButton nesnesine bir tıklama işleyicisi olarak atamak için bu satırı ekleyin:
+      
+  
+   ```
+      
+   rollButton.setOnClickListener { rollDice() }
+  
+  ```
+
+MainActivity sınıfınızın tam tanımı şimdi şöyle görünür:
+      
+      
+  
+   ```
+      
+   class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val rollButton: Button = findViewById(R.id.roll_button)
+        rollButton.setOnClickListener { rollDice() }
+    }
+
+    private fun rollDice() {
+        Toast.makeText(this, "button clicked",
+            Toast.LENGTH_SHORT).show()
+    }
+}
+  
+  ```
+      
+      
+      
+      
+- Uygulamanızı derleyin ve çalıştırın. Düğmeye her dokunduğunuzda bir tost görünmelidir.
+      
+      
+      
+![image](https://user-images.githubusercontent.com/70329389/140397478-37a2f37f-9144-4a34-98e9-51a670f46537.png)
+      
+      
+    
+## <a name="c"></a>Aşama 3 : Metni değiştirin
+      
+      
+Bu aşamada, **TextView**'daki metni değiştirmek için **rollDice()** yöntemini değiştireceğiz. İlk adım için, "Hello World!" Yazısını değiştiriyoruz. "Dice Rolled!" dizesine. İkinci adım için, bir ile altı arasında rastgele bir sayı görüntülersiniz.
+      
+      
+### Bir String Görüntüleyin
+      
+**Activity_main.xml** dosyasını açın ve **TextView**'a bir ID ekleyin.
       
 
+   ```
+      
+   android:id="@+id/result_text"
+  
+  ```     
       
       
+ **MainActivity**'yi açın. **rollDice()** yönteminde, Tost'u görüntülemek için satırı yorumlayın.
       
- 
+ ID'ye göre TextView'a bir başvuru almak için **findViewById()** yöntemini kullanın. Başvuruyu bir **resultText** değişkenine atayın.
+      
+      
+   ```
+      
+   val resultText: TextView = findViewById(R.id.result_text)
+  
+  ```
+      
+Görüntülenen metni değiştirmek için **resultText.text** özelliğine yeni bir string atayın. Bu stringi bir kaynağa çıkarmak için ipucunu yok sayabilirsiniz; bu sadece geçici bir dizedir.
+
+   ```
+      
+   resultText.text = "Dice Rolled!"
+  
+  ```
+      
+  Uygulamayı derleyin ve çalıştırın. **Roll** düğmesine dokunmanın artık **TextView**'ı güncellediğini unutmayın.
+      
+      
+  ![image](https://user-images.githubusercontent.com/70329389/140398704-fc8d9fdb-cf41-431d-b70f-fb55d0615552.png)
+
+  ### Rastgele bir sayı görüntüleyin
+      
+Son olarak, bu aşamada, zarın atılmasını simüle etmek için Button tıklamasına rastgelelik eklersiniz. Buttona her tıklandığında veya dokunulduğunda kodunuz 1'den 6'ya kadar rastgele bir sayı seçer ve TextView'ı günceller. Rastgele bir sayı oluşturma görevi Android'e özgü değildir ve bunu yapmak için aralıktaki **Random** fonksyonunu kullanırsınız.
+
+**rollDice()** yönteminin en üstünde, 1 ile 6 arasında rastgele bir sayı elde etmek için **(1..6).random()** yöntemini kullanın:
+      
+        
+   ```
+      
+   val randomInt = (1..6).random()
+  
+  ```
+      
+  text özelliğini bir string olarak rastgele integer değerine ayarlayın:
+      
+  ```
+      
+   resultText.text = randomInt.toString()
+  
+  ```       
+      
+Uygulamayı derleyin ve çalıştırın. Roll buttonuna her dokunduğunuzda, metin görünümündeki sayı değişir.
+      
+      
+![image](https://user-images.githubusercontent.com/70329389/140399366-31838339-1ae6-4c83-bac0-9d2e1f6a8e55.png)
+      
       
       
 
-      
-      
- 
-      
-      
+
    
 
