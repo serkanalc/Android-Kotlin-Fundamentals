@@ -6,4 +6,7 @@ Bu Bölümde, Bir Android uygulama projesinin temel anatomisini, uygulamanıza n
 
  - Temel bir Android Projesinin Anatomisi
     - Aktivite ve düzen dosyalarını keşfedin
+    - Bir Düğme Ekleyin
+    - Metni Değiştirin
+
 
