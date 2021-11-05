@@ -168,6 +168,19 @@ Android destekli bir cihaza bir uygulama yüklendikten sonra, uygulamanın başl
 
 ![image](https://user-images.githubusercontent.com/70329389/140576724-c3db424f-1159-4f2e-ae46-ceb1c6cc1638.png)
 
+**Başlatıcı simgesini değiştirme**
+
+Başlatıcı simgesini değiştirme sürecinden geçmek, sizi  Android Studio's image asset özellikleriyle tanıştırır.
+
+Android Studio'da, Android Sunflower uygulamasının başlatıcı simgesini nasıl değiştireceğiniz aşağıda açıklanmıştır:
+
+**Project > Android** bölmesinde, **res** klasörüne sağ tıklayın (veya Control+tıklayın). **New > Image Asset**'nı seçin. **Configure Image Asset** sekmesi görünür.
+
+![image](https://user-images.githubusercontent.com/70329389/140577089-15daf723-5b4c-44e0-96d7-3d274d06bba0.png)
+
+
+
+
 
 
 
