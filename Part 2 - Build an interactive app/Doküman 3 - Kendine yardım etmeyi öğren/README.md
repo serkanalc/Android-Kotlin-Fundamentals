@@ -79,13 +79,32 @@ Temel Etkinlik şablonu tarafından oluşturulan uygulamanın görünümünü de
 1. Uygulama çubuğunun görüntülediği uygulamanın adını değiştirin. Bunu yapmak için **res > values > strings.xml** dosyasındaki **app_name** dize kaynağını aşağıdaki şekilde değiştirin:
 
 ```
-
 <string name="app_name">New Application</string>
-
-
 ```
 
+2. **Android:background** niteliğini **"?attr/colorPrimaryDark"** olarak değiştirerek **res > layout > Activity_main.xml** içindeki uygulama çubuğunun (Araç Çubuğu) rengini değiştirin. Bu değer, uygulama çubuğu rengini durum çubuğuyla eşleşen daha koyu bir birincil renge ayarlar:
 
+```
+android:background="?attr/colorPrimaryDark"
+```
 
+3. Uygulamayı çalıştırın. Uygulamanın yeni adı durum çubuğunda görünür ve uygulama çubuğunun arka plan rengi daha koyudur ve durum çubuğunun rengiyle eşleşir. FAB'yi tıkladığınızda, ekran görüntüsünde 1 olarak gösterilen bir snackbar görünür
+
+![image](https://user-images.githubusercontent.com/70329389/140573764-88ddb0f2-7139-448d-8c6f-2ba46fbff2fc.png)
+
+4. Snackbar metnini değiştirin. Bunu yapmak için **MainActivity'yi** açın ve **onCreate()** içinde düğme için bir **onClick()**  listener ayarlayan stub kodunu arayın. "Replace with your own action"i başka bir şeyle değiştir. Örneğin:
+
+```
+fab.setOnClickListener { view ->
+   Snackbar.make(view, "This FAB needs an action!", Snackbar.LENGTH_LONG)
+       .setAction("Action", null).show()
+}
+```
+
+5. FAB, uygulamanın vurgu rengini kullanır, bu nedenle FAB'ın rengini değiştirmenin bir yolu vurgu rengini değiştirmektir. Vurgu rengini değiştirmek için res > values > colors.xml dosyasını açın ve aşağıda gösterildiği gibi **colorAccent** niteliğini değiştirin. (Renk seçiminde yardım için Materyal Tasarımı renk sistemine bakın.)
+
+```
+<color name="colorAccent">#1DE9B6</color>
+```
    
 
