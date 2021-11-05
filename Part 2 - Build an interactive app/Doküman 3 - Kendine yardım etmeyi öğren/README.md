@@ -185,6 +185,8 @@ Android Studio'da, Android Sunflower uygulamasının başlatıcı simgesini nas�
 
 4. Yukarıdaki ekran görüntüsünde 2 olarak gösterilen Clip Art alanındaki robot simgesini tıklayın. Malzeme Tasarımı simge setini gösteren **Select Icon** iletişim kutusu görünür. 5. Select Icon iletişim kutusuna göz atın veya ada göre bir simge arayın. İyi bir ruh hali önermek için **mood** simgesi gibi bir simge seçin. **OK**'ı tıklayın.
 
+![image](https://user-images.githubusercontent.com/70329389/140577594-ba5ea73f-b410-40b0-87a8-b283bf9a064d.png)
+
 
 
 
