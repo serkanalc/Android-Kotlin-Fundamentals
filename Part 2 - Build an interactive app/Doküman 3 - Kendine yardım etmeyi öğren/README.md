@@ -174,10 +174,16 @@ Başlatıcı simgesini değiştirme sürecinden geçmek, sizi  Android Studio's 
 
 Android Studio'da, Android Sunflower uygulamasının başlatıcı simgesini nasıl değiştireceğiniz aşağıda açıklanmıştır:
 
-**Project > Android** bölmesinde, **res** klasörüne sağ tıklayın (veya Control+tıklayın). **New > Image Asset**'nı seçin. **Configure Image Asset** sekmesi görünür.
+1. **Project > Android** bölmesinde, **res** klasörüne sağ tıklayın (veya Control+tıklayın). **New > Image Asset**'nı seçin. **Configure Image Asset** sekmesi görünür.
 
 ![image](https://user-images.githubusercontent.com/70329389/140577089-15daf723-5b4c-44e0-96d7-3d274d06bba0.png)
 
+2. Icon Type alanında, henüz seçili değilse  **Launcher Icons (Adaptive & Legacy)** öğesini seçin.  **Foreground Layer** sekmesine tıklayın.
+3. **Asset Type** için, aşağıdaki ekran görüntüsünde 1 olarak gösterilen **Clip Art**'i seçin.
+
+![image](https://user-images.githubusercontent.com/70329389/140577398-e0099d6d-9282-49b3-80aa-1568b9cad83a.png)
+
+4. Yukarıdaki ekran görüntüsünde 2 olarak gösterilen Clip Art alanındaki robot simgesini tıklayın. Malzeme Tasarımı simge setini gösteren **Select Icon** iletişim kutusu görünür. 5. Select Icon iletişim kutusuna göz atın veya ada göre bir simge arayın. İyi bir ruh hali önermek için **mood** simgesi gibi bir simge seçin. **OK**'ı tıklayın.
 
 
 
