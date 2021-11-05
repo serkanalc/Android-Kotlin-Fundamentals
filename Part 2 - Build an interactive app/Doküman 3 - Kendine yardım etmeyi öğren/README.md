@@ -5,6 +5,9 @@ Bu codelab'de, Kotlin Android geliştiricileri için mevcut olan şablonlar, ör
 Önce bir Android Studio şablonundan basit bir uygulama oluşturur ve uygulamayı değiştirirsiniz. Ardından Android Sunflower örnek uygulamasını indirip keşfedersiniz. Örnek uygulamanın başlatıcı simgesini (ayçiçeği) Android Studio'da bulunan bir küçük resim görüntüsü varlığıyla (gülen yüz) değiştirirsiniz.
 
 - [Proje şablonlarını kullanın](#a)
+- [Örnek koddan öğrenin](#b)
+
+
 
 ## <a name="a"></a>Proje Şablonlarını Kullanın
 
@@ -123,4 +126,35 @@ fab.setOnClickListener { view ->
 4. **Activity**'e şablonlarından birini seçerek uygulamaya bir **Activity** ekleyin. Örneğin, Navigation Drawer olan bir Activity eklemek için **Navigation Drawer** Activity'sini seçin.
 5. Activity'i layout editörde görüntülemek için Activity'nin layout dosyasına çift tıklayın (örneğin **aktivite_main2.xml**). Activity'nin layout önizlemesi ve layout kodu arasında geçiş yapmak için **Design** sekmesini ve **Text** sekmesini kullanın.
    
+
+## <a name="b"></a>Örnek Koddan Öğrenin
+
+GitHub'daki [Google Samples](https://github.com/googlesamples) depoları, üzerinde çalışabileceğiniz, kopyalayabileceğiniz ve projelerinize dahil edebileceğiniz Kotlin Android kod örnekleri sağlar.
+
+### Aşama 1 : Bir Kotlin Android kod örneğini indirin ve çalıştırın
+
+1. Bir tarayıcıda [github.com/android](https://github.com/android) adresine gidin.
+2. Dil için **Kotlin**'i seçin.
+3. Yakın zamanda değiştirilmiş bir Kotlin Android örnek uygulaması seçin ve uygulamanın proje kodunu indirin. Bu örnek için, Android Jetpack'in bazı bileşenlerini gösteren [android-sunflower](https://github.com/android/sunflower) uygulaması için zip dosyasını indirin.
+4. Android Studio'da android-sunflower-master projesini açın.
+5. Android Studio'nun önerdiği güncellemeleri kabul edin, ardından uygulamayı bir editörde veya Android destekli bir cihazda çalıştırın.
+
+![image](https://user-images.githubusercontent.com/70329389/140575945-8674bd3e-b392-4e40-95ca-cc18319758e8.png)
+
+> Not: GitHub'daki Google Örnekler deposunda bulunan örnekler, daha fazla geliştirme için bir başlangıç noktası olarak düşünülmüştür. Bu örneklerde kendi fikirlerinizi tasarlamanızı ve oluşturmanızı öneririz.
+
+### Aşama 2 : Bir Kotlin Android kod örneğini keşfedin
+
+Artık Android Studio'da Android Sunflower örnek uygulamasını açtığınıza göre, uygulama hakkında bilgi edinin ve proje dosyalarını keşfedin.
+
+1. Örnek bir uygulamanın neyi gösterdiği hakkında bilgi için uygulamanın GitHub'daki README dosyasını ziyaret edin. Bu örnek için [Android Sunflower README](https://github.com/android/sunflower#readme)'ye bakın.
+2. Android Studio'da, uygulamadaki Kotlin etkinlik dosyalarından birini açın, örneğin **GardenActivity.kt.**
+
+![image](https://user-images.githubusercontent.com/70329389/140576224-430539e5-e722-428d-84f0-ee7baaa73a54.png)
+
+GardenActivity.kt'de aşina olmadığınız bir sınıf, tür veya prosedür bulun ve Android Geliştirici belgelerinde arayın. Örneğin, **setContentView()** yöntemi hakkında daha fazla bilgi edinmek için geliştirici.android.com'da **setContentView()** öğesini bulmak için arama yapın.
+
+### Aşama 3 : Başlatıcı simgesini değiştirin
+
+
 
