@@ -156,5 +156,19 @@ GardenActivity.kt'de aşina olmadığınız bir sınıf, tür veya prosedür bul
 
 ### Aşama 3 : Başlatıcı simgesini değiştirin
 
+Bu adımda, Android Sunflower örnek uygulamasının başlatıcı simgesini değiştireceksiniz. Bir clip-art resmi ekler ve onu mevcut Android Sunflower başlatıcı simgesini değiştirmek için kullanırsınız.
+
+**Başlatıcı simgeleri**
+
+Android Studio ile oluşturduğunuz her uygulama, uygulamayı temsil eden varsayılan bir başlatıcı simgesiyle başlar. Başlatıcı simgelerine bazen *app icons* veya *product icons* denir.
+
+Google Play'de bir uygulama yayınlarsanız uygulamanın başlatıcı simgesi, uygulamanın girişinde ve Google Play mağazasındaki arama sonuçlarında görünür.
+
+Android destekli bir cihaza bir uygulama yüklendikten sonra, uygulamanın başlatıcı simgesi cihazın ana ekranında ve cihazın başka bir yerinde görünür. Örneğin, Android Sunflower uygulamasının başlatıcı simgesi, aşağıdaki ekran görüntüsünde 1 olarak gösterilen, cihazın Arama Uygulamaları penceresinde görünür. Aşağıda 2 olarak gösterilen varsayılan başlatıcı simgesi, başlangıçta Android Studio'da oluşturduğunuz tüm uygulama projeleri için kullanılır.
+
+![image](https://user-images.githubusercontent.com/70329389/140576724-c3db424f-1159-4f2e-ae46-ceb1c6cc1638.png)
+
+
+
 
 
