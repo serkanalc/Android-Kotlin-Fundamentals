@@ -101,10 +101,18 @@ fab.setOnClickListener { view ->
 }
 ```
 
-5. FAB, uygulamanın vurgu rengini kullanır, bu nedenle FAB'ın rengini değiştirmenin bir yolu vurgu rengini değiştirmektir. Vurgu rengini değiştirmek için res > values > colors.xml dosyasını açın ve aşağıda gösterildiği gibi **colorAccent** niteliğini değiştirin. (Renk seçiminde yardım için Materyal Tasarımı renk sistemine bakın.)
+5. FAB, uygulamanın vurgu rengini kullanır, bu nedenle FAB'ın rengini değiştirmenin bir yolu vurgu rengini değiştirmektir. Vurgu rengini değiştirmek için **res > values > colors.xml** dosyasını açın ve aşağıda gösterildiği gibi **colorAccent** niteliğini değiştirin. (Renk seçiminde yardım için Materyal Tasarımı renk sistemine bakın.)
 
 ```
 <color name="colorAccent">#1DE9B6</color>
 ```
+
+6. Uygulamayı çalıştırın. FAB yeni rengi kullanıyor ve snackbar metni değişti.
+
+![image](https://user-images.githubusercontent.com/70329389/140574211-74e73f7e-fbb6-4836-b276-a6b87df6eb3a.png)
+
+> İpucu: Kaynaklara erişmeye yönelik XML syntax hakkında ayrıntılar için [Accessing your app resources](https://developer.android.com/guide/topics/resources/providing-resources#Accessing)'e bakın
+
+
    
 
