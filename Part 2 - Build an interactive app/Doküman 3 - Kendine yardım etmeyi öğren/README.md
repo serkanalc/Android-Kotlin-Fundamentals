@@ -72,7 +72,18 @@ Kotlin kaynak koduna ve XML dosyalarına aşina olmak, Temel Etkinlik şablonunu
 
 **Code reference:** Activity_main.xml içinde **FloatingActionButton** öğesini arayın. FAB, küçük resim simgesi kullanan bir UI öğesi olarak tanımlanır. MainActivity.kt, FAB için bir onClick() dinleyicisi ayarlayan onCreate() içinde bir stub in içerir.
 
+### Şablonun Ürettiği Uygulamayı Özelleştirin
 
+Temel Etkinlik şablonu tarafından oluşturulan uygulamanın görünümünü değiştirin. Örneğin, uygulama çubuğunun rengini durum çubuğuna uyacak şekilde değiştirebilirsiniz. (Bazı cihazlarda durum çubuğu, uygulama çubuğunun kullandığı ana rengin daha koyu bir tonudur.)
+
+1. Uygulama çubuğunun görüntülediği uygulamanın adını değiştirin. Bunu yapmak için **res > values > strings.xml** dosyasındaki **app_name** dize kaynağını aşağıdaki şekilde değiştirin:
+
+```
+
+<string name="app_name">New Application</string>
+
+
+```
 
 
 
