@@ -6,6 +6,7 @@ Bu codelab'de, Kotlin Android geliştiricileri için mevcut olan şablonlar, ör
 
 - [Proje şablonlarını kullanın](#a)
 - [Örnek koddan öğrenin](#b)
+- [Dokümanları ve diğer kaynakları keşfedin](#c)
 
 
 
@@ -183,10 +184,25 @@ Android Studio'da, Android Sunflower uygulamasının başlatıcı simgesini nas�
 
 ![image](https://user-images.githubusercontent.com/70329389/140577398-e0099d6d-9282-49b3-80aa-1568b9cad83a.png)
 
-4. Yukarıdaki ekran görüntüsünde 2 olarak gösterilen Clip Art alanındaki robot simgesini tıklayın. Malzeme Tasarımı simge setini gösteren **Select Icon** iletişim kutusu görünür. 5. Select Icon iletişim kutusuna göz atın veya ada göre bir simge arayın. İyi bir ruh hali önermek için **mood** simgesi gibi bir simge seçin. **OK**'ı tıklayın.
+4. Yukarıdaki ekran görüntüsünde 2 olarak gösterilen Clip Art alanındaki robot simgesini tıklayın. Malzeme Tasarımı simge setini gösteren **Select Icon** iletişim kutusu görünür. 
+5. Select Icon iletişim kutusuna göz atın veya ada göre bir simge arayın. İyi bir ruh hali önermek için **mood** simgesi gibi bir simge seçin. **OK**'ı tıklayın.
 
 ![image](https://user-images.githubusercontent.com/70329389/140577594-ba5ea73f-b410-40b0-87a8-b283bf9a064d.png)
 
+6. **Configure Image Asset** iletişim kutusunda, **Background Layer** Katmanı sekmesine tıklayın. **Asset** Type için **Color**'i seçin. Renk çipini tıklayın ve simge için arka plan katmanı olarak kullanmak üzere bir renk seçin.
+7. **Legacy** sekmesine tıklayın ve varsayılan ayarları gözden geçirin. Eski, yuvarlak ve Google Play Store simgeleri oluşturmak istediğinizi onaylayın. **Next** tıkla.
+8. Simge dosyalarının nereye eklendiğini ve üzerine yazıldığını gösteren **Confirm Icon Path** sekmesi görüntülenir. **Finish**'i tıklayın.
+9. Uygulamayı bir AVD emülatörü veya Android destekli bir cihazda çalıştırın.
+
+Android Studio, farklı ekran yoğunlukları için başlatıcı görüntülerini **mipmap** dizinlerine otomatik olarak ekler. Android Sunflower uygulaması artık başlatma simgesi olarak yeni clip-art simgesini kullanıyor.
+
+![image](https://user-images.githubusercontent.com/70329389/140578310-50b2c49a-1fa5-4858-b9b8-69e52ca7738c.png)
+
+> İpucu: Etkili başlatıcı simgeleri tasarlama hakkında bilgi edinmek için [Material Design Product icons](https://material.io/design/iconography/) kılavuzuna bakın.
+
+Uygulamayı tekrar çalıştırın. Uygulama Ara ekranında yeni başlatıcı simgesinin göründüğünden emin olun.
+
+## <a name="c"></a>Dokümanları ve diğer kaynakları keşfedin
 
 
 
