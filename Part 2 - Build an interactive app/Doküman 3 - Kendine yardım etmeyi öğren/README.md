@@ -72,7 +72,7 @@ Kotlin kaynak koduna ve XML dosyalarına aşina olmak, Temel Etkinlik şablonunu
 
 **Code reference:** Activity_main.xml içinde **FloatingActionButton** öğesini arayın. FAB, küçük resim simgesi kullanan bir UI öğesi olarak tanımlanır. MainActivity.kt, FAB için bir onClick() dinleyicisi ayarlayan onCreate() içinde bir stub in içerir.
 
-### Şablonun Ürettiği Uygulamayı Özelleştirin
+### Aşama 2 : Şablonun Ürettiği Uygulamayı Özelleştirin
 
 Temel Etkinlik şablonu tarafından oluşturulan uygulamanın görünümünü değiştirin. Örneğin, uygulama çubuğunun rengini durum çubuğuna uyacak şekilde değiştirebilirsiniz. (Bazı cihazlarda durum çubuğu, uygulama çubuğunun kullandığı ana rengin daha koyu bir tonudur.)
 
@@ -111,8 +111,16 @@ fab.setOnClickListener { view ->
 
 ![image](https://user-images.githubusercontent.com/70329389/140574211-74e73f7e-fbb6-4836-b276-a6b87df6eb3a.png)
 
-> İpucu: Kaynaklara erişmeye yönelik XML syntax hakkında ayrıntılar için [Accessing your app resources](https://developer.android.com/guide/topics/resources/providing-resources#Accessing)'e bakın
+> İpucu: Kaynaklara erişmeye yönelik XML syntax hakkında ayrıntılar için [Accessing your app resources](https://developer.android.com/guide/topics/resources/providing-resources#Accessing)'a bakın
 
+### Aşama 3 : Şablonları Kullanarak Etkinliklerin Nasıl Ekleneceğini Keşfedin
 
+Şimdiye kadar bu kurstaki kod laboratuvarları için, yeni projeler başlatmak için Boş Etkinlik ve Temel Etkinlik şablonlarını kullandınız. Projeniz oluşturulduktan sonra etkinlikler oluştururken etkinlik şablonlarını da kullanabilirsiniz.
+
+1. Bir uygulama projesi oluşturun veya mevcut bir projeyi seçin.
+2. **Proje > Android** bölmesinde, **Java** klasörüne sağ tıklayın.
+3. **New > Activity > Gallery**'yi seçin.
+4. **Activity**'e şablonlarından birini seçerek uygulamaya bir **Activity** ekleyin. Örneğin, Navigation Drawer olan bir Activity eklemek için **Navigation Drawer** Activity'sini seçin.
+5. Activity'i layout editörde görüntülemek için Activity'nin layout dosyasına çift tıklayın (örneğin **aktivite_main2.xml**). Activity'nin layout önizlemesi ve layout kodu arasında geçiş yapmak için **Design** sekmesini ve **Text** sekmesini kullanın.
    
 
