@@ -232,7 +232,7 @@ Stack Overflow, birbirine yardım eden programcılardan oluşan bir topluluktur.
 - **[android] and [layout]**
 - **[android] "hello world"**
 
-> İpucu: Stack Overflow'da arama yapabileceğiniz birçok yol hakkında daha fazla bilgi edinmek için Stack Overflow yardım merkezine bakın.
+> Not: Stack Overflow'da arama yapabileceğiniz birçok yol hakkında daha fazla bilgi edinmek için Stack Overflow yardım merkezine bakın.
 
 
 
