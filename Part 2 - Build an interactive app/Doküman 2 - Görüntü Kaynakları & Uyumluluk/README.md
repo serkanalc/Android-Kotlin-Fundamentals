@@ -4,6 +4,7 @@
 - [Görünümleri Verimli Bir Şekilde Bulun](#b)
 - [Varsayılan Bir Resim Kullanın](#c)
 - [API Düzeylerini & Uyumluluğu Anlayın](#d)
+- [Ödev](#e)
 
 Bu codelab'de, önceki codelab'de başlattığınız DiceRoller uygulamasını geliştirirsiniz ve zar atıldığında değişen zar görüntüleri eklersiniz. Son DiceRoller uygulaması şöyle görünür:
 
