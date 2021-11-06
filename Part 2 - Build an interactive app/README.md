@@ -26,7 +26,7 @@ Bu Bölümde, Bir Android uygulama projesinin temel anatomisini, uygulamanıza n
 
 ## Ödül:
 
-Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/pathways/kotlin-fundamentals-two#0) ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir bir badge kazanabilirsiniz.
+Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/pathways/kotlin-fundamentals-two#0) ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir bir badge kazanabilirsiniz!
 
 ![image](https://user-images.githubusercontent.com/70329389/140485415-628d6b86-82c3-4f42-ac1e-ce7d45734709.png)
 
