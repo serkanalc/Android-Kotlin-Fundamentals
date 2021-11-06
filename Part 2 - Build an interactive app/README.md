@@ -10,6 +10,11 @@ Bu Bölümde, Bir Android uygulama projesinin temel anatomisini, uygulamanıza n
     - Metni Değiştirin
  
  - Görüntü Kaynakları & Uyumluluk
+    - Görüntü Kaynakları Ekleyin & Güncelleyin
+    - Görünümleri Verimli Bir Şekilde Bulun
+    - Varsayılan Bir Resim Kullanın
+    - API Düzeylerini & Uyumluluğu Anlayın
+    - Ödev  
 
  - [Kendine Yardım Etmeyi Öğren](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%202%20-%20Build%20an%20interactive%20app/Dok%C3%BCman%203%20-%20Kendine%20yard%C4%B1m%20etmeyi%20%C3%B6%C4%9Fren)
     - Proje şablonlarını kullanın
