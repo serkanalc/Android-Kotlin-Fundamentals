@@ -1,4 +1,4 @@
-# Android-Kotlin-Fundamentals
+# Android-Kotlin-Fundamentals | Türkçe Dokümantasyon Çevirisi
 
 ![Android 12 Bootcamp (2)](https://user-images.githubusercontent.com/70329389/139955062-4e63d1a2-abf8-499b-88e2-e9b40ed2228a.png)
 
