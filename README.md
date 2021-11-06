@@ -5,7 +5,7 @@
 Bu repositorie Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotlin Fundamentals](https://developer.android.com/courses/kotlin-fundamentals/course) dokümantasyonunu Türkçeye çevriyor olacağız. İşte Konu başlıkları ve çeviri durumları.
 
 - [x] [Build Your First App](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%201%20-%20Build%20Your%20First%20App)
-- [ ] Build an Interactive App
+- [x] [Build an Interactive App](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%202%20-%20Build%20an%20interactive%20app)
 - [ ] Layouts
 - [ ] Navigation
 - [ ] Activity & Fragment Lifecycles
