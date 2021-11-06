@@ -165,6 +165,227 @@ val diceImage : ImageView = findViewById(R.id.dice_image)
 
 ## <a name="c"></a>Varsayılan Bir Resim Kullanın
 
+Şu anda zar için ilk görüntü olarak **dice_1** kullanıyorsunuz. Bunun yerine, zar ilk kez atılana kadar hiçbir görüntü göstermemek istediğinizi varsayalım. Bunu başarmanın birkaç yolu vardır.
+
+1. **Text** sekmesinde **aktivite_main.xml**'i açın.
+2. `<ImageView>` öğesinde, **android:src** niteliğini "**@drawable/empty_dice"** olarak ayarlayın:
+
+```
+android:src="@drawable/empty_dice" 
+```
+
+**empty_dice** resmi, indirdiğiniz ve drawable klasöre eklediğiniz resimlerden biriydi. Diğer zar resimleriyle aynı boyutta, sadece boş. Bu resim, uygulama ilk başladığında gösterilecek olan resimdir.
+
+3. **Design** sekmesine tıklayın. Zar resmi artık boş, ancak önizlemede de görünmüyor.
+
+![image](https://user-images.githubusercontent.com/70329389/140613372-7aae666a-9505-40dc-8422-80d0b07f5973.png)
+
+Bir tasarımın içeriğinin çalışma zamanında dinamik olarak tanımlanması oldukça yaygındır; örneğin, internetten veri alan herhangi bir uygulama muhtemelen boş bir ekranla başlamalıdır. Ancak, bir uygulamayı layoutta bir tür yer tutucu veriye sahip olacak şekilde tasarlarken, ne düzenlediğinizi bilmeniz için yararlıdır. 
+4. **Activity_main.xml**'de **android:src** satırını kopyalayın ve ikinci bir kopya yapıştırın. "Android" kelimesini ""tools" olarak değiştirin, böylece iki özelliğiniz şöyle görünür:
+
+```
+android:src="@drawable/empty_dice" 
+tools:src="@drawable/empty_dice" />
+```
+
+Burada, bu özelliğin XML namespace'ini varsayılan Android namespace tools namespace değiştirdiniz. Araçlar namespace, yalnızca Android Studio'da önizleme veya tasarım düzenleyicide kullanılan yer tutucu içeriği tanımlamak istediğinizde kullanılır. Uygulamayı derlerken, **tools** namespace kullanan nitelikler kaldırılır.
+
+Ad alanları, aynı ada sahip özniteliklere atıfta bulunurken belirsizliğin çözülmesine yardımcı olmak için kullanılır. Örneğin, `<ImageView>` etiketindeki bu özniteliklerin her ikisi de aynı ada (**src**) sahiptir, ancak namespace'e farklıdır.
+
+5. Layout dosyasının kökündeki `<LinearLayout>` öğesini inceleyin ve burada tanımlanan iki namespace'e dikkat edin.
+
+```
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
+   ...
+```
+
+6. **ImageView** etiketindeki **tools:src** niteliğini **empty_dice** yerine **dice_1** olarak değiştirin:
+
+```
+android:src="@drawable/empty_dice" 
+tools:src="@drawable/dice_1" />
+```
+
+**dice_1** görüntüsünün, önizlemede yer tutucu görüntü olarak artık yerinde olduğuna dikkat edin.
+
+7. Uygulamayı derleyin ve çalıştırın. Gerçek uygulamada zar görüntüsünün, siz **Roll'a** tıklayana veya dokunana kadar boş olduğuna dikkat edin.
+
 
 ## <a name="d"></a>API Düzeylerini & Uyumluluğu Anlayın
+
+Android için geliştirmenin en güzel yanlarından biri, Nexus One'dan Pixel'e, tabletler, Pixelbook'lar, saatler, TV'ler ve arabalar gibi faktörler oluşturmak için kodunuzun çalışabileceği çok sayıda cihazdır.
+
+Android için yazarken, bu farklı cihazların her biri için tamamen ayrı uygulamalar yazmazsınız; saatler ve TV'ler gibi kökten farklı form faktörlerinde çalışan uygulamalar bile kod paylaşabilir. Ancak tüm bunları desteklemek için bilmeniz gereken kısıtlamalar ve uyumluluk stratejileri var.
+
+Bu görevde, uygulamanızı belirli Android API düzeyleri (sürümleri) için nasıl hedefleyeceğinizi ve eski cihazları desteklemek için Android Jetpack kitaplıklarını nasıl kullanacağınızı öğreneceksiniz.
+
+### Aşama 1 : API Düzeylerini Keşfedin
+
+Önceki dokümanda projenizi oluşturduğunuzda, uygulamanızın desteklemesi gereken belirli Android API düzeyini belirtmiştiniz. Android işletim sistemi, alfabetik sıraya göre lezzetli ikramlardan sonra adlandırılan farklı sürüm numaralarına sahiptir. Her işletim sistemi sürümü, yeni özellikler ve işlevlerle birlikte gelir. Örneğin, Android Oreo, [Picture-in-picture(Resim içinde resim)](https://developer.android.com/guide/topics/ui/picture-in-picture) uygulamaları desteğiyle birlikte gelirken, Android Pie [Slices](https://developer.android.com/guide/slices)'ı tanıttı. API seviyeleri, Android sürümlerine karşılık gelir. Örneğin, API 19, Android 4.4'e (KitKat) karşılık gelir.
+
+Donanımın neyi destekleyebileceği, kullanıcıların cihazlarını güncellemeyi seçip seçmemeleri ve üreticilerin farklı işletim sistemi seviyelerini destekleyip desteklemediği gibi bir dizi faktör nedeniyle, kullanıcılar kaçınılmaz olarak farklı işletim sistemi sürümlerini çalıştıran cihazlarla sonuçlanır.
+
+Uygulama projenizi oluşturduğunuzda, uygulamanızın desteklediği minimum API düzeyini belirtirsiniz. Yani, uygulamanızın desteklediği en eski Android sürümünü belirtirsiniz. Uygulamanızın ayrıca derlendiği bir düzeyi ve hedeflediği bir düzeyi vardır. Bu seviyelerin her biri, Gradle derleme dosyalarınızdaki bir yapılandırma parametresidir.
+
+1. **Gradle Scripts** Dosyaları klasörünü genişletin ve **build.gradle (Module: app)** dosyasını açın.
+
+Bu dosya, uygulama modülüne özgü yapı parametrelerini ve bağımlılıkları tanımlar. **build.gradle (Project: DiceRoller)** dosyası, bir bütün olarak proje için derleme parametrelerini tanımlar. Çoğu durumda, uygulama modülünüz projenizdeki tek modüldür, bu nedenle bu bölüm rastgele görünebilir. Ancak uygulamanız daha karmaşık hale gelir ve birkaç bölüme ayırırsanız veya uygulamanız Android watch gibi platformları destekliyorsa aynı projede farklı modüllerle karşılaşabilirsiniz. 
+
+2. **Android** bölümünü **build.gradle** dosyasının üst kısmına doğru inceleyin. (Aşağıdaki örnek bölümün tamamı değildir, ancak bu kod laboratuvarı için en çok ilgilendiğiniz şeyi içerir.)
+
+```
+android {
+   compileSdkVersion 28
+   defaultConfig {
+       applicationId "com.example.android.diceroller"
+       minSdkVersion 19
+       targetSdkVersion 28
+       versionCode 1
+       versionName "1.0"
+   }
+```
+
+3. **compileSdkVersion** parametresini inceleyin.
+
+```
+compileSdkVersion 28
+```
+
+Bu parametre, Gradle'ın uygulamanızı derlemek için kullanması gereken Android API düzeyini belirtir. Bu, uygulamanızın destekleyebileceği en yeni Android sürümüdür. Yani uygulamanız, bu API düzeyinde ve daha düşük düzeyde yer alan API özelliklerini kullanabilir. Bu durumda uygulamanız, Android 9'a (Pie) karşılık gelen API 28'i destekler.
+
+4. **defaultConfig** bölümünün içindeki **targetSdkVersion** parametresini inceleyin:
+
+```
+targetSdkVersion 28
+```
+
+Bu değer, uygulamanızı test ettiğiniz en son API'dir. Çoğu durumda bu, **compileSdkVersion** ile aynı değerdir.
+
+5. **minSdkVersion** parametresini inceleyin.
+
+```
+minSdkVersion 19
+```
+
+Bu parametre, uygulamanızın üzerinde çalışacağı en eski Android sürümünü belirlediği için üç parametreden en önemlisidir. Bu API seviyesinden daha eski Android işletim sistemini çalıştıran cihazlar, uygulamanızı hiçbir şekilde çalıştıramaz.
+
+Uygulamanız için minimum API düzeyini seçmek zor olabilir. API düzeyini çok düşük ayarlarsanız Android işletim sisteminin daha yeni özelliklerini kaçırırsınız. Çok yükseğe ayarladığınızda uygulamanız yalnızca daha yeni cihazlarda çalışabilir.
+
+Projenizi kurduğunuzda ve uygulamanız için minimum API seviyesini tanımladığınız yere geldiğinizde, **API Version Distribution** sekmesini görmek için **Help me choose**'a tıklayın. İletişim kutusu, kaç cihazın farklı işletim sistemi seviyelerini kullandığı ve işletim sistemi seviyelerine eklenen veya değiştirilen özellikler hakkında bilgi verir. Farklı API düzeylerini desteklemenin etkileri hakkında daha fazla bilgi içeren Android dokümantasyon sürüm notlarına ve kontrol paneline de göz atabilirsiniz.
+
+### Aşama 2 : Uyumluluğu Keşfedin
+
+Farklı Android API seviyeleri için yazmak, uygulama geliştiricilerinin karşılaştığı yaygın bir zorluktur, bu nedenle Android framework ekibi size yardımcı olmak için çok çalıştı.
+
+2011'de ekip, geriye dönük uyumlu sınıflar ve yardımcı işlevler sunan Google tarafından geliştirilen bir kitaplık olan ilk destek kitaplığını yayınladı. 2018'de Google, destek kitaplığının önceki sınıflarının ve işlevlerinin çoğunu içeren ve aynı zamanda destek kitaplığını genişleten bir kitaplık koleksiyonu olan Android Jetpack'i duyurdu.
+
+1. MainActivity'yi açın.
+2. MainActivity sınıfınızın Activity'nin kendisinden değil, AppCompatActivity'den extend edildiğine dikkat edin.
+
+```
+class MainActivity : AppCompatActivity() { 
+...
+```
+
+**AppCompatActivity**, etkinliğinizin farklı platform işletim sistemi düzeylerinde aynı görünmesini sağlayan bir uyumluluk sınıfıdır.
+
+3. Sınıfınızın içe aktarmayı(import etmeyi) extend etmek için **import** ile başlayan satırın yanındaki **+** sembolüne tıklayın. AppCompatActivity sınıfının **androidx.appcompat.app** paketinden import edildiğini unutmayın. Android Jetpack kitaplıkları için namespace **androidx**'tir.
+4. **build.gradle**'ı (**Module: app**) açın ve dependencies bölümüne gidin.
+
+```
+dependencies {
+   implementation fileTree(dir: 'libs', include: ['*.jar'])
+   implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+   implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+   implementation 'androidx.core:core-ktx:1.0.1'
+   implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+   testImplementation 'junit:junit:4.12'
+   androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+   androidTestImplementation 
+        'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+}
+```
+
+**androidx**'in bir parçası olan ve **AppCompatActivity** sınıfını içeren **appcompat** kitaplığına olan dependency'e dikkat edin.
+
+> İpucu: Genel olarak, uygulamanız Jetpack kitaplıklarından bir uyumluluk sınıfı kullanabiliyorsa, bu sınıflar mümkün olan en fazla sayıda özellik ve cihaz için destek sağladığından bu sınıflardan birini kullanmalıdır.
+
+### Aşama 3 : Vektör Drawable'ları İçin Uyumluluk Ekleyin
+
+namespaces, Gradle ve uyumluluk hakkındaki yeni bilgilerinizi, uygulamanızda eski platformlarda uygulamanızın boyutunu optimize edecek son bir ayarlama yapmak için kullanacaksınız.
+
+1. **res** klasörünü genişletin ve ardından **drawable** alanını genişletin. Zar resimlerinden birine çift tıklayın.
+
+Daha önce öğrendiğiniz gibi, tüm zar görüntüleri aslında zarların renklerini ve şekillerini tanımlayan XML dosyalarıdır. Bu tür dosyalara vektör çizimleri denir. PNG gibi bitmap görüntü biçimlerine karşı vektör çizimleriyle ilgili güzel şey, vektör çizimlerinin kaliteden ödün vermeden ölçeklenebilmesidir. Ayrıca, drawable bir vektör genellikle aynı görüntüden bitmap formatında çok daha küçük bir dosyadır.
+
+Vektör çizimleri hakkında dikkat edilmesi gereken önemli bir nokta, API 21'den itibaren desteklenmeleridir. Ancak uygulamanızın minimum SDK'sı API 19'a ayarlanmıştır. Uygulamanızı bir API 19 cihazında veya emilatöründe denediyseniz, uygulamanın iyi bir şekilde derlendiğini ve çalıştığını görürsünüz. Peki bu nasıl çalışıyor?
+
+Uygulamanızı oluşturduğunuzda, Gradle oluşturma işlemi, vektör dosyalarının her birinden bir PNG dosyası oluşturur ve bu PNG dosyaları, 21'in altındaki herhangi bir Android cihazında kullanılır. Bu ekstra PNG dosyaları, uygulamanızın boyutunu artırır. Gereksiz yere büyük uygulamalar harika değildir; kullanıcılar için indirme işlemlerini yavaşlatır ve cihazlarının sınırlı alanından daha fazlasını kaplar. Büyük uygulamaların kaldırılma ve kullanıcıların bu uygulamaları indirememeleri veya indirmelerini iptal etme şansları da daha yüksektir.
+
+İyi haber şu ki, vektör çizimleri için API düzeyi 7'ye kadar bir  Android X compatibility kitaplığı var. 
+
+2. **build.gradle**'ı açın (**Module: app**). Bu satırı **defaultConfig** bölümüne ekleyin:
+
+```
+vectorDrawables.useSupportLibrary = true
+```
+
+3. **Sync Now** düğmesini tıklayın. Bir **build.gradle** dosyası her değiştirildiğinde, derleme dosyalarını projeyle eşitlemeniz gerekir.
+4. **Activity_main.xml** layout dosyasını açın. Bu namespace, araçlar namespace altındaki kök `<LinearLayout>` etiketine ekleyin:
+
+```
+xmlns:app="http://schemas.android.com/apk/res-auto"
+```
+
+Uygulama namespace, temel Android framework'ünden değil, özel kodunuzdan veya kitaplıklardan gelen attributelar içindir.
+
+5. `<ImageView>` öğesindeki **android:src** niteliğini **app:srcCompat** olarak değiştirin.
+
+```
+app:srcCompat="@drawable/empty_dice"
+```
+
+**app:srcCompat** attribute'u, Android'in eski sürümlerinde, API düzeyi 7'ye kadar vektör çizimlerini desteklemek için Android X kitaplığını kullanır.
+
+6. Uygulamanızı oluşturun ve çalıştırın. Ekranda farklı bir şey görmezsiniz, ancak artık uygulamanızın nerede çalışırsa çalışsın zar görüntüleri için oluşturulmuş PNG dosyalarını kullanmasına gerek yoktur, bu da daha küçük bir uygulama dosyası anlamına gelir.
+
+## <a name="e"></a>Ödev
+
+Soru 1 : Hangi `<ImageView>` özelliği, yalnızca Android Studio'da kullanılması gereken bir kaynak resmi belirtir?
+
+- [ ] android:srcCompat
+- [ ] app:src
+- [ ] tools:src
+- [ ] tools:sourceImage
+
+Soru 2 : Kotlin kodunda bir ImageView için görüntü kaynağını hangi yöntem değiştirir?
+
+- [ ] setImageResource()
+- [ ] setImageURI()
+- [ ] setImage()
+- [ ] setImageRes()
+
+Soru 3 : Bir değişken bildirimindeki lateinit anahtar sözcüğü Kotlin kodunda neyi gösterir?
+
+- [ ] Değişken hiçbir zaman başlatılmaz.
+- [ ] Değişken yalnızca uygulama çalışma zamanında başlatılır.
+- [ ] Değişken otomatik olarak null olarak başlatılır.
+- [ ] Değişken daha sonra başlatılacaktır. Söz veriyorum!
+
+Soru 4 : Hangi Gradle konfigürasyonunda, uygulamanızın test edildiği en son API düzeyini gösterir?
+
+- [ ] minSdkVersion
+- [ ] compileSdkVersion
+- [ ] targetSdkVersion
+- [ ] testSdkVersion
+
+Soru 5 : Kodunuzda androidx ile başlayan bir import satırı görüyorsunuz. Ne anlama geliyor?
+
+- [ ] Sınıf, Android Jetpack kitaplıklarının bir parçasıdır.
+- [ ] Sınıf, uygulama çalıştığında dinamik olarak yüklenecek olan harici bir kitaplıkta bulunur.
+- [ ] Sınıf, sınıfınız için "ekstra" ve isteğe bağlıdır.
+- [ ] Sınıf, Android'in XML desteğinin bir parçasıdır.
+
 
