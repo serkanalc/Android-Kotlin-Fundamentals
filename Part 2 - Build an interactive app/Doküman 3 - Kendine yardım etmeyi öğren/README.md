@@ -204,6 +204,38 @@ Uygulamayı tekrar çalıştırın. Uygulama Ara ekranında yeni başlatıcı si
 
 ## <a name="c"></a>Dokümanları ve diğer kaynakları keşfedin
 
+### Aşama 1 : Resmi Android Belgelerini Keşfedin
+
+En kullanışlı Android belge sitelerinden birkaçını keşfedin ve mevcut olanlara aşina olun:
+
+1. [Developer.android.com](https://developer.android.com/)'a gidin. Bu resmi Android geliştirici belgeleri, Google tarafından güncel tutulur.
+2. [Developer.android.com/design/](https://developer.android.com/design/) adresine gidin. Bu site, yüksek kaliteli Android uygulamalarının görünümünü ve işlevselliğini tasarlamak için yönergeler sunar.
+3. Material Design ile ilgili bir site olan [Material.io](https://material.io/)'ya gidin. Materyal Tasarımı, yalnızca Android uygulamalarının değil, tüm uygulamaların mobil cihazlarda nasıl görünmesi ve çalışması gerektiğini özetleyen kavramsal bir tasarım felsefesidir. Materyal Tasarımı hakkında daha fazla bilgi edinmek için bağlantılarda gezinin. Örneğin, renk kullanımı hakkında bilgi edinmek için **Design** sekmesine tıklayın ve ardından **Color**'i seçin.
+4. API bilgilerini, başvuru belgelerini, öğretici metinleri, araç kılavuzlarını ve kod örneklerini bulmak için [developer.android.com/docs/](https://developer.android.com/docs) adresine gidin.
+5. Google Play'de bir uygulama yayınlama hakkında bilgi bulmak için [developer.android.com/distribute/](https://developer.android.com/distribute) adresine gidin. Google Play, Android SDK ile geliştirilen uygulamalar için Google'ın dijital dağıtım sistemidir. Kullanıcı tabanınızı büyütmek ve [para kazanmaya başlamak](https://developer.android.com/distribute/best-practices/earn/) için [Google Play Console](https://developer.android.com/distribute/console/index.html)'u kullanın.
+
+### Aşama 2 : Android Ekibinden & Google Arama'dan İçerik Keşfedin
+
+1. Harika bir öğretici ve ipucu kaynağı olan [Android Developers YouTube](https://www.youtube.com/user/androiddevelopers) kanalını keşfedin.
+2. Android ekibinin haberler ve ipuçları yayınladığı [resmi Android blogunu](https://blog.google/products/android/) ziyaret edin.
+3.Google Search'e bir soru girin ve Google Search çeşitli kaynaklardan alakalı sonuçları toplar. Örneğin, "Hindistan'daki en popüler Android işletim sistemi sürümü nedir?" sorusunu sormak için Google Search'ü kullanın. Google Search'e hata mesajları bile girebilirsiniz.
+
+### Aşama 3 : Stack Overflow'da Arama Yapımı
+
+Stack Overflow, birbirine yardım eden programcılardan oluşan bir topluluktur. Bir sorunla karşılaşırsanız, birisinin zaten bir yanıt göndermiş olma ihtimali yüksektir.
+
+1. [Stack Overflow](https://stackoverflow.com/)'a gidin
+2. Arama kutusuna "How do I set up and use ADB over Wi-Fi?" gibi bir soru girin. Stack Overflow'ta kaydolmadan arama yapabilirsiniz, ancak yeni bir soru göndermek veya bir soruyu yanıtlamak istiyorsanız kayıt olmanız gerekir.
+3. Arama kutusuna **[android]** yazın. **[ ]** köşeli ayraçlar, Android ile ilgili olarak etiketlenmiş gönderileri aramak istediğinizi belirtir.
+4. Aramanızı daha spesifik hale getirmek için etiketleri ve arama terimlerini birleştirebilirsiniz. Bu aramaları deneyin:
+
+- **[android] and [layout]**
+- **[android] "hello world"**
+
+> İpucu: Stack Overflow'da arama yapabileceğiniz birçok yol hakkında daha fazla bilgi edinmek için Stack Overflow yardım merkezine bakın.
+
+
+
 
 
 
