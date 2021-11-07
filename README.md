@@ -15,4 +15,14 @@ Bu repositorie Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotlin F
 - [ ] Repository & WorkManager
 - [ ] Design For Everyone
 
+
+<h1 align="center">  
+   Yazar ve Çevirmenler 
+   </h1>  
+
+
+| <img src="https://avatars.githubusercontent.com/u/70329389?v=4" alt="alt text" width="214"> | <img src="https://avatars.githubusercontent.com/u/80598532?v=4" alt="alt text" width="214"> | <img src="https://avatars.githubusercontent.com/u/46448616?v=4" alt="alt text" width="214"> | <img src="https://avatars.githubusercontent.com/u/93822612?v=4" alt="alt text" width="215"> | 
+|---|---|---|---|
+|[Serkan Alc](https://github.com/serkanalc)|[Ceren Tunay](https://github.com/gulcerentunay)|[Begüm Yolcu](https://github.com/bgmylc)|[Mehmet Ali Cantez](https://github.com/mcantez)|
+
   
