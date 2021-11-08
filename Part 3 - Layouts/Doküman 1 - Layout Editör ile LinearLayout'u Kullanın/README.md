@@ -1,4 +1,4 @@
-# Kendine yardım etmeyi öğren
+# Layout Editör ile LinearLayout'u Kullanın
 
 - [AboutMe Projesini Oluşturun](#1)
 - [LinearLayout'u Kullanmak İçin Root Layout'unu Değiştirin](#2)
