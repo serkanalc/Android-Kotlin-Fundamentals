@@ -1,8 +1,8 @@
 # Kendine yardım etmeyi öğren
 
 - [AboutMe Projesini Oluşturun](#1)
-<!-- - [LinearLayout'u Kullanmak İçin Root Layout'unu Değiştirin](#2)
-- [Layout Editörünü Kullanarak bir TextView Ekleyin](#3)
+- [LinearLayout'u Kullanmak İçin Root Layout'unu Değiştirin](#2)
+<!-- - [Layout Editörünü Kullanarak bir TextView Ekleyin](#3)
 - [TextView'inize Style Verin](#4)
 - [Bir ImageView Ekleyin](#5)
 - [Bir ScrollView Ekleyin](#3) -->
@@ -57,8 +57,63 @@ Boş Etkinlik şablonu(Empty Activity), **Mainactivity.kt** adında tek bir boş
 
 
 
-<!-- ## <a name="2"></a>LinearLayout'u Kullanmak İçin Root Layout'unu Değiştirin
-## <a name="3"></a>Layout Editörünü Kullanarak bir TextView Ekleyin
+## <a name="2"></a>LinearLayout'u Kullanmak İçin Root Layout'unu Değiştirin
+
+Bu bölümded, oluşturulan root ViewGroup'u bir **LinearLayout** olarak değiştirirsiniz. Ayrıca UI öğelerini vertical olarak da düzenlersiniz.
+
+**View Groups**
+
+Bir **View Group**, diğer view ve view group'ları olan *child*(alt) görünümleri içerebilen bir view'dur. Bir layout oluşturan görünümler, root olarak bir view group olan bir Views hiyerarşisi olarak düzenlenir.
+
+**LinearLayout** view grubunda, UI öğeleri yatay(vertically) veya dikey(horizontally) olarak düzenlenir.
+
+![image](https://user-images.githubusercontent.com/70329389/140708374-1399076b-a04a-4fe7-91ec-8d087bfa30b2.png)
+
+Root düzenini, bir LinearLayout view group kullanacak şekilde değiştirin:
+
+1. **Project > Android** bölmesini seçin. **app/res/layout** klasöründe **activity_main.xml** dosyasını açın.
+2. **Text** sekmesini seçin ve root view group'unu **ConstraintLayout**'tan **LinearLayout**'a değiştirin.
+3. **TextView**'ı kaldırın. **LinearLayout** öğesinde **android:orientatio**n niteliğini ekleyin ve onu **vertical** olarak ayarlayın.
+
+**Öncesi:**
+
+```
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   tools:context=".MainActivity">
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Hello World!"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintLeft_toLeftOf="parent"
+       app:layout_constraintRight_toRightOf="parent"
+       app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+**Sonrası:**
+
+```
+<LinearLayout
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       tools:context=".MainActivity">
+
+</LinearLayout>
+```
+
+
+<!-- ## <a name="3"></a>Layout Editörünü Kullanarak bir TextView Ekleyin
 ## <a name="4"></a>TextView'inize Style Verin
 ## <a name="5"></a>Bir ImageView Ekleyin
 ## <a name="6"></a>Bir ScrollView Ekleyin -->
