@@ -218,6 +218,79 @@ setContentView(R.layout.activity_main)
 ![image](https://user-images.githubusercontent.com/70329389/140760010-75d51813-9d1d-4715-9b85-4fc077bbeadb.png)
 
 
-<!-- ## <a name="4"></a>TextView'inize Style Verin
-## <a name="5"></a>Bir ImageView Ekleyin
+## <a name="4"></a>TextView'inize Style Verin
+
+Uygulamanızın ekranına baktığınızda, adınız ekranın üst kısmına doğru itilir, böylece artık dolgu ve kenar boşluğu ekleyebilirsiniz.
+
+### Padding ve Margin Farkı
+
+Padding, bir görünümün veya öğenin sınırları içindeki boşluktur. Aşağıdaki şekilde gösterildiği gibi, görünümün kenarları ile görünümün içeriği arasındaki boşluktur.
+
+![image](https://user-images.githubusercontent.com/70329389/140827558-e95e4fcb-5ca7-4417-b3ee-10edea0a5504.png)
+
+Bir görünümün boyutu, Padding'ini içerir. Aşağıdakiler yaygın olarak kullanılan Padding nitelikleridir:
+
+- **android:padding** görünümün dört kenarının tümü için dolguyu belirtir.
+- **android:paddingTop** üst kenar için dolguyu belirtir.
+- **android:paddingBottom**, alt kenar için dolguyu belirtir.
+- **android:paddingStart**, görünümün "başlangıç" kenarı için dolguyu belirtir.
+- **Android:paddingEnd**, görünümün "bitiş" kenarı için dolguyu belirtir.
+- **Android:paddingLeft**, sol kenar için dolguyu belirtir.
+- **android:paddingRight**, sağ kenar için dolguyu belirtir.
+
+Margin, görünümün sınırlarının dışına eklenen boşluktur. Yukarıdaki şekilde gösterildiği gibi, görünümün kenarından ebeveynine kadar olan boşluktur. Aşağıdakiler yaygın olarak kullanılan Margin nitelikleridir:
+
+- **android:layout_margin**, görünümün dört tarafının tümü için bir kenar boşluğu belirtir.
+- **android:layout_marginTop**, bu görünümün üst tarafında fazladan boşluk belirtir
+- **android:layout_marginBottom**, bu görünümün alt tarafının dışındaki boşluğu belirtir.
+- **android:layout_marginStart**, bu görünümün "başlangıç" tarafının dışındaki boşluğu belirtir.
+- **android:layout_marginEnd**, bu görünümün son tarafındaki boşluğu belirtir.
+- **android:layout_marginLeft**, bu görünümün sol tarafındaki boşluğu belirtir.
+- **android:layout_marginRight**, bu görünümün sağ tarafındaki boşluğu belirtir.
+
+### Right/left ve start/end Arasındaki Fark
+
+"Sağ" ve "sol", uygulamanız soldan sağa (LTR) veya sağdan sola (RTL) akış kullanıyor olsun, her zaman ekranın sağ ve sol taraflarını ifade eder. "start" ve "end" her zaman akışın başlangıcını ve bitişini ifade eder:
+
+- Bir LTR akışı için başlangıç = sol ve bitiş = sağ.
+- Bir RTL akışı için başlangıç=sağ ve bitiş=sol.
+
+Uygulamanız API düzeyi 17 (Android 4.2) veya üzerini hedefliyorsa:
+
+- "Sol" ve "sağ" yerine "başlat" ve "bitiş" kullanın.
+- Örneğin, **Android:layout_marginLeft**, RTL dillerini desteklemek için **Android:layout_marginStart** olmalıdır.
+
+Uygulamanızın Android 4.2'den daha düşük sürümlerle çalışmasını istiyorsanız; diğer bir deyişle, uygulamanın targetSdkVersion veya minSdkVersion değeri 16 veya daha düşükse:
+
+- "Sol" ve "sağ"a ek olarak "başlangıç" ve bitiş" ekleyin.
+- Örneğin, hem Android:paddingLeft hem de Android:paddingStart kullanın.
+
+### Aşama 1 : Padding Ekleyin
+
+Name ile name text görünümünün üst kenarı arasına boşluk bırakmak için üst padding ekleyin.
+
+1. Design sekmesinde **aktivite_main.xml** dosyasını açın.
+2. Component Tree veya design editorde, Attributes bölmesini açmak için text viewe tıklayın.
+3. Attributes bölmesinin üst kısmında, mevcut tüm nitelikleri görmek için çift ok simgesini tıklayın.
+4. Padding'i arayın, genişletin ve üst özelliğin yanındaki üç noktayı ... tıklayın. **Resources** sekmesi görünür.
+5. Resources iletişim kutusunda **Add new resource > New dimen Value**'yi seçin.
+6. New Dimension Value Resource sekmesinde, 8dp değerinde small_padding adlı yeni bir **dimen** kaynağı oluşturun.
+
+**dp** kısaltması yoğunluktan bağımsız anlamına gelir. Bir UI öğesinin farklı yoğunluktaki ekranlarda aynı boyutta görünmesini istiyorsanız, ölçü biriminiz olarak dp'yi kullanın. Ancak metin boyutunu belirlerken her zaman **sp** (scalable pixels) kullanın.
+
+7. OK'a tıklayın
+
+### Aşama 2 : Margin Ekleyin
+
+Ad metni görünümünü üst öğenin kenarından uzağa taşımak için bir top margin ekleyin.
+
+- Attributes bölmesinde, **Layout_Margin**'i bulmak için "margin" arayın.
+- Layout_Margin'i genişletin ve üst özelliğin yanındaki üç noktayı ... tıklayın.
+- **layout_margin** adında yeni bir dimen kaynağı oluşturun ve **16dp** yapın. Tamam'ı tıklayın.
+
+### Font Ekleyin
+
+
+
+<!-- ## <a name="5"></a>Bir ImageView Ekleyin
 ## <a name="6"></a>Bir ScrollView Ekleyin -->
