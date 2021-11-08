@@ -70,8 +70,10 @@ Her uygulamanın giriş noktası olarak en az bir etkinliği olmalıdır. bunu d
 7. **Language** alanının Kotlin olduğundan emin olun.
 8. Minimum API seviyesinin **API 19: Android 4.4 (KitKat)** olduğundan emin olun . Bu codelab yazıldığı sırada Android Studio, bu API düzeyiyle uygulamanın cihazların yaklaşık **%95,3**'ünde çalışacağını belirtti.
 (Daha sonraki bir kod laboratuvarında minimum API seviyeleri hakkında daha fazla bilgi edineceksiniz. Hemen şimdi daha fazla bilgi edinmek için, API seviyeleri hakkında bilgi içeren bir pencere açan Seçmeme **Help me choose'a** tıklayın.)
-9.**Use AndroidX artifacts** onay kutusunu seçin.
-10.Diğer tüm onay kutularını boş bırakın ve **Finish** butonuna tıklayın. Projeniz, seçtiğiniz hedef SDK için daha fazla bileşen gerektiriyorsa, Android Studio bunları otomatik olarak yükler ve bu biraz zaman alabilir. İstemleri izleyin ve varsayılan seçenekleri kabul edin.
+
+9. **Use AndroidX artifacts** onay kutusunu seçin.
+
+10. Diğer tüm onay kutularını boş bırakın ve **Finish** butonuna tıklayın. Projeniz, seçtiğiniz hedef SDK için daha fazla bileşen gerektiriyorsa, Android Studio bunları otomatik olarak yükler ve bu biraz zaman alabilir. İstemleri izleyin ve varsayılan seçenekleri kabul edin.
 
 Android Studio şimdi projenizi oluşturuyor ve bu biraz zaman alabilir. Herhangi bir hata almamalısınız. Herhangi bir uyarı alırsanız, onları dikkate almayın.
 
