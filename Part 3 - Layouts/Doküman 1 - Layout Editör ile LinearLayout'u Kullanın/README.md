@@ -371,7 +371,7 @@ Yıldız resmi, adınızın altındaki layout'a eklenir. vertical(Dikey) bir Lin
 8. Design sekmesinde,  Component Tree'de, star_image yanındaki uyarı simgesine tıklayın. Uyarı, ekran okuyucuların görüntüleri kullanıcıya açıklamak için kullandığı eksik bir contentDescription içindir.
 9. Attributes bölmesinde, **contentDescription** niteliğinin yanındaki üç noktayı tıklayın **Resources** iletişim kutusu açılır.
 10. **Resources** iletişim kutusunda **Add new resource > New string Value**'ni seçin. **Resource name** alanını **yellow_star** olarak ayarlayın ve **Resource value** alanını **Yellow star** olarak ayarlayın. Tamam'ı tıklayın.
-11. Yıldız görüntüsünü addan ayırmak için **yellow_star**'a **16 dp**'lik bir top margin (@dimen/layout_margin olan) eklemek için Nitelikler bölmesini kullanın.
+11. Yıldız görüntüsünü addan ayırmak için **yellow_star**'a **16 dp**'lik bir top margin (@dimen/layout_margin olan) eklemek için **Attributes** bölmesini kullanın.
 12. Uygulamanızı çalıştırın. Adınız ve yıldız resmi, uygulamanızın kullanıcı arayüzünde görüntülenir.
 
 ![image](https://user-images.githubusercontent.com/70329389/140898319-75eca6f8-6cee-4a20-9b0b-b8dc210a153c.png)
