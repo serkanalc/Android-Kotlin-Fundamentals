@@ -11,6 +11,7 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
   - Başlangıç uygulamasını indirin & inceleyin
   - SleepNight entity'sini oluşturun
   - DAO'yu oluşturun
+  - Bir Room database oluşturun & test edin
 
 - Room ile Coroutineleri Kullanın <!-- link ekle --> 
   - Başlangıç kodunu inceleyin
