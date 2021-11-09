@@ -447,6 +447,23 @@ Bu aşamada, kullanıcının kısa bir biyografi görüntüleyen bir metin gör�
 \nYou should ask someone else about fishing, though.\n\n</string>
 ```
 
+2. **bio_text** metin görünümünde, text attributes değerini biyografinizi içeren bio string kaynağına ayarlayın.
+3. **bio_text** metninin okunmasını kolaylaştırmak için satırlar arasına boşluk ekleyin. **lineSpacingMultiplier** niteliğini kullanın ve ona 1,2 değerini verin.
+
+![image](https://user-images.githubusercontent.com/70329389/140944890-4cc47490-815c-47cc-9257-22267f29d9de.png)
+
+4. Tasarım düzenleyicide, biyografi metninin ekranın yan kenarlarına kadar nasıl çalıştığına dikkat edin. Bu sorunu çözmek için, root LinearLayout'a left, start, right, ve end padding attributeleri ekleyebilirsiniz. Alt dolgu eklemeniz gerekmez, çünkü en alta kadar uzanan metin, kullanıcıya metnin kaydırılabilir olduğunu bildirir.
+5. Kök LinearLayout'a 16dp padding ve bitiş dolgusu ekleyin.
+6. **Text** sekmesine geçin, dimension resource'unu extract edin ve layout_padding olarak adlandırın.
+
+![image](https://user-images.githubusercontent.com/70329389/140955299-e2a37910-41d8-4a20-b47e-3e16bc5437e2.png)
+
+> Not: API seviyesi 17'den başlayarak, uygulamanızı Arapça gibi RTL dillerine uyarlamak için dolgu ve kenar boşluğu için "left" ve "right" yerine "start" ve "end" kullanın.
+
+7. Uygulamanızı çalıştırın ve metni kaydırın.
+
+![143a3e38f02c6411](https://user-images.githubusercontent.com/70329389/140955621-8a00ee6f-676c-467c-a416-b0f2dee92dd0.gif)
+
 
 
 
