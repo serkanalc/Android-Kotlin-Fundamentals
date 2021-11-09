@@ -377,4 +377,79 @@ Yıldız resmi, adınızın altındaki layout'a eklenir. vertical(Dikey) bir Lin
 ![image](https://user-images.githubusercontent.com/70329389/140898319-75eca6f8-6cee-4a20-9b0b-b8dc210a153c.png)
 
 
-<!-- ## <a name="6"></a>Bir ScrollView Ekleyin -->
+## <a name="6"></a>Bir ScrollView Ekleyin
+
+ScrollView, içine yerleştirilmiş görünüm hiyerarşisinin kaydırılmasına izin veren bir görünüm grubudur. Bir kaydırma görünümü, alt öğe olarak yalnızca bir başka görünüm veya görünüm grubu içerebilir. Alt görünüm genellikle bir LinearLayout'tur. LinearLayout içinde başka görünümler ekleyebilirsiniz.
+
+Aşağıdaki görüntü, birkaç başka görünüm içeren bir LinearLayout içeren bir ScrollView örneğini göstermektedir.
+
+![image](https://user-images.githubusercontent.com/70329389/140932263-29070883-f6cf-4fad-b9ea-1ad578a1c2d0.png)
+
+Bu aşamada, kullanıcının kısa bir biyografi görüntüleyen bir metin görünümünü kaydırmasına izin veren bir **ScrollView** ekleyeceksiniz. Yalnızca bir görünümü kaydırılabilir yapıyorsanız, görünümü doğrudan bu görevde yaptığınız şey olan **ScrollView**'a koyabilirsiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/140932439-20ccae25-de85-4812-a467-9422e7e566d6.png)
+
+### Aşama 1 : TextView içeren Bir ScrollView Ekleyin
+
+1. **activity_main.xml** dosyasını açın ve Design sekmesine geçin.
+2. Design editöre veya **Component Tree**'ye sürükleyerek bir scroll view layouta sürükleyin. Kaydırma görünümünü yıldız görüntüsünün altına yerleştirin.
+3. Oluşturulan kodu incelemek için **Code** sekmesine geçin.
+
+```
+// Auto generated code
+<ScrollView
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical" />
+</ScrollView>
+```
+
+**ScrollView**'ün width ve height'ı, ana öğeyle eşleşir. **name_text** metin görünümü ve **star_image** görüntü görünümü, içeriklerini görüntülemek için yeterli dikey alanı kullandığında, Android sistemi, ekrandaki kullanılabilir alanın geri kalanını doldurmak için **ScrollView**'ü düzenler.
+
+4. ScrollView'a bir **id** ekleyin ve buna **bio_scroll** adını verin. ScrollView'a bir kimlik eklemek, Android sistemine görünüm için bir tutamaç verir, böylece kullanıcı cihazı döndürdüğünde sistem kaydırma konumunu korur.
+5. ScrollView içinde **LinearLayout** kodunu kaldırın, çünkü uygulamanız kaydırılabilir yalnızca bir görünüme sahip olacaktır: bir TextView.
+6. Paletten Component Tree'ye bir TextView sürükleyin. TextView'i **bio_scroll**'un alt öğesi olarak **bio_scroll**'un altına koyun.
+
+![image](https://user-images.githubusercontent.com/70329389/140934356-c4c0c535-278b-4b32-b6b4-f9b598ecbf93.png)
+
+7. Yeni metin görünümünün id'sini **bio_text** olarak ayarlayın.
+8. Ardından, yeni metin görünümü için bir stil eklersiniz. Attributes bölmesinde, **Resources** sekmesini açmak için style özniteliğinin yanındaki üç noktayı ... tıklayın.
+9. **Resources** iletişim kutusunda NameStyle'ı arayın. Listeden **NameStyle**'ı seçin ve Tamam'a tıklayın. Metin görünümü artık önceki bir görevde oluşturduğunuz **NameStyle** stilini kullanır.
+
+![image](https://user-images.githubusercontent.com/70329389/140934873-27d30769-697b-4bf3-9c3d-78a24b0b7c3a.png)
+
+### Aşama 2 : Biyografinizi Yeni TextView'a Ekleyin 
+
+1. **strings.xml** dosyasını açın, **bio** adlı bir string kaynağı oluşturun ve kendiniz veya istediğiniz herhangi bir şey hakkında uzun bir metin girin.
+
+### Dikkat:
+
+- Satır sonunu belirtmek için \n kullanın.
+- Bir kesme işareti kullanırsanız, ondan ters eğik çizgi ile kaçmanız gerekir. Örneğin: "Ters eğik çizgiyi unutmamalısınız."
+- Kalın metin için <b>...</b> kullanın ve italik metin için <i>...</i> kullanın. Örneğin: "Bu metin <b>kalın</b> ve bu metin <i>italik</i>."
+
+İşte örnek bir biyografi:
+
+```
+<string name="bio">Hi, my name is Aleks.
+\n\nI love fish.
+\n\nThe kind that is alive and swims around in an aquarium or river, or a lake, and definitely the ocean.
+\nFun fact is that I have several aquariums and also a river.
+\n\nI like eating fish, too. Raw fish. Grilled fish. Smoked fish. Poached fish - not so much.
+\nAnd sometimes I even go fishing.
+\nAnd even less sometimes, I actually catch something.
+\n\nOnce, when I was camping in Canada, and very hungry, I even caught a large salmon with my hands.
+\n\nI\'ll be happy to teach you how to make your own aquarium.
+\nYou should ask someone else about fishing, though.\n\n</string>
+```
+
+
+
+
+
+
+
