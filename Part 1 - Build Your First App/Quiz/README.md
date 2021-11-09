@@ -1,6 +1,6 @@
 # Kotlin Fundamentals: Build Your First App Quiz
 
-Bu Quiz Build an Interactive App aşaması quizinin tam çevirisidir. Aşağıdaki soruları çözdüyseniz [bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-two/kotlin-fundamentals-two?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-two%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-two%2Fkotlin-fundamentals-two)  cevapları gönderip başarı seviyenizi görebilir ve paylaşılabilir bir badge kazanabilirsiniz! Bu sınavı geçmek için en az 4 soruyu doğru cevaplamalısınız.
+Bu Quiz Build an Interactive App aşaması quizinin tam çevirisidir. Aşağıdaki soruları çözdüyseniz [bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-one/kotlin-fundamentals-one?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-one%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-one%2Fkotlin-fundamentals-one)  cevapları gönderip başarı seviyenizi görebilir ve paylaşılabilir bir badge kazanabilirsiniz! Bu sınavı geçmek için en az 4 soruyu doğru cevaplamalısınız.
 
 1. `_____________` `_____________` Android uygulamaları oluşturmak için kullanılan entegre bir geliştirme ortamı veya IDE'dir.(Boşlukları Doldurunuz)
 
