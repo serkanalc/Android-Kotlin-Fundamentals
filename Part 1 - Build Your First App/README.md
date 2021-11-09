@@ -272,8 +272,8 @@ Cihazınız için uygun USB sürücüsünü yüklemeniz gerekebilir.[Run apps on
 
 - Boş Şablondan yeni bir Android projesi oluşturun.
 - res/strings.xmlDosyayı açın .
-- Değerini değiştirin app_name"Benim Zar Roller" için dize. Bu ad başlık çubuğunda görünür.
-- İstediğiniz herhangi bir Android sürümünü hedefleyen bir cihaz için bir öykünücü oluşturun ve uygulamayı çalıştırın. Uygulamanın başlığının nasıl değiştiğine dikkat edin.
+- **app_name** dizesinin değerini "My Dice Roller" olarak değiştirin. Bu ad başlık çubuğunda görünür.
+- İstediğiniz herhangi bir Android sürümünü hedefleyen bir cihaz için bir emülatör oluşturun ve uygulamayı çalıştırın. Uygulamanın başlığının nasıl değiştiğine dikkat edin.
 
 
 ## <a name="7"></a> Ödül:
