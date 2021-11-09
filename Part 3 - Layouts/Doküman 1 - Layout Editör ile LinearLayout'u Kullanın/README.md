@@ -332,7 +332,49 @@ Stil, bir view'ın görünümünü ve biçimini belirten nitelikler topluluğudu
 
 ![image](https://user-images.githubusercontent.com/70329389/140885535-0fa58b91-6a72-40f5-a895-5f7963bf17bf.png)
 
-
-
 ## <a name="5"></a>Bir ImageView Ekleyin
+
+Gerçek dünyadaki Android uygulamalarının çoğu, görüntüleri göstermek, metni göstermek ve kullanıcıdan metin veya tıklama olayları biçiminde girdi kabul etmek için bir görünüm kombinasyonundan oluşur. Bu görevde, bir resmi görüntülemek için bir görünüm eklersiniz.
+
+**ImageView**, görüntü kaynaklarını görüntülemek için bir view'dür. Örneğin, bir **ImageView** PNG, JPG, GIF veya WebP dosyaları gibi **Bitmap** kaynaklarını görüntüleyebilir veya vektör çizimi gibi bir **Drawable** resource görüntüleyebilir.
+
+Örnek simgeler, avatarlar ve arka planlar gibi Android ile birlikte gelen görüntü kaynakları vardır. Bu kaynaklardan birini uygulamanıza ekleyeceksiniz.
+
+1. Layout dosyasını açın ve **Design** sekmesine geçin, **Palet** bölmesinden bir **ImageView**'i **Component Tree**'de aşağıdaki **name_text**'e sürükleyin. **Resource** iletişim kutusu açılır.
+2. Henüz seçili değilse Drawable'ı seçin.
+3. Android'i Expand edin, kaydırın ve **btn_star_big_on**'u seçin.
+4. Tamam'a tıklayın.
+
+![image](https://user-images.githubusercontent.com/70329389/140890808-a595f298-56b5-47bc-ab0e-e16aef31984f.png)
+
+Yıldız resmi, adınızın altındaki layout'a eklenir. vertical(Dikey) bir LinearLayout'unuz olduğundan eklediğiniz görünümler dikey olarak hizalanır.
+
+![image](https://user-images.githubusercontent.com/70329389/140890994-0e82c029-f32b-47ae-8c99-065354df7953.png)
+
+5. **Code** sekmesine geçin ve oluşturulan ImageView koduna bakın. Genişlik, **match_parent** olarak ayarlanmıştır, bu nedenle görünüm, üst öğesi kadar geniş olacaktır. Yükseklik, **wrap_content** olarak ayarlanmıştır, bu nedenle görünüm, içeriği kadar uzun olacaktır. ImageView, drawable **btn_star_big_on**'a başvurur.
+
+```
+<ImageView
+   android:id="@+id/imageView"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"
+   app:srcCompat="@android:drawable/btn_star_big_on" />
+```
+
+6. ImageView'in kimliğini yeniden adlandırmak için, "@+id/imageView" üzerine sağ tıklayın ve Refactor > Rename öğesini seçin.
+7. Rename sekmesinde ID kısmını **star_image** olarak ayarlayın.  **Refactor**'yi tıklayın.
+
+![image](https://user-images.githubusercontent.com/70329389/140891917-15b0a4dd-8210-4563-a430-d1ac90bffa38.png)
+
+> İpucu: Refactor > Rename, uygulama projenizde bir özniteliğin veya değişken adının tüm oluşumlarını yeniden adlandırır.
+
+8. Design sekmesinde,  Component Tree'de, star_image yanındaki uyarı simgesine tıklayın. Uyarı, ekran okuyucuların görüntüleri kullanıcıya açıklamak için kullandığı eksik bir contentDescription içindir.
+9. Attributes bölmesinde, **contentDescription** niteliğinin yanındaki üç noktayı tıklayın **Resources** iletişim kutusu açılır.
+10. **Resources** iletişim kutusunda **Add new resource > New string Value**'ni seçin. **Resource name** alanını **yellow_star** olarak ayarlayın ve **Resource value** alanını **Yellow star** olarak ayarlayın. Tamam'ı tıklayın.
+11. Yıldız görüntüsünü addan ayırmak için **yellow_star**'a **16 dp**'lik bir top margin (@dimen/layout_margin olan) eklemek için Nitelikler bölmesini kullanın.
+12. Uygulamanızı çalıştırın. Adınız ve yıldız resmi, uygulamanızın kullanıcı arayüzünde görüntülenir.
+
+![image](https://user-images.githubusercontent.com/70329389/140898319-75eca6f8-6cee-4a20-9b0b-b8dc210a153c.png)
+
+
 <!-- ## <a name="6"></a>Bir ScrollView Ekleyin -->
