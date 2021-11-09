@@ -70,6 +70,89 @@ için bu testi kullanacaksınız.
 
 ## <a name="b"></a>Aşama 2 : SleepNight entity'sini oluşturun
 
+Android'de veriler, data classlarda temsil edilir. Bu verilere erişilebilir ve fonksiyon çağrıları kullanılarak değiştirilebilir. Ancak, veritabanı dünyasında, verilere erişmek ve bunları değiştirmek için entitylere ve sorgulara ihtiyacınız vardır.
+- Bir *entity*, veritabanında saklanacak özellikleriyle birlikte bir nesneyi veya kavramı temsil eder. Uygulama kodumuzda, bir tablo tanımlayan bir entity sınıfına ihtiyacımız var ve bu sınıfın her instance'ı o tablodaki bir satırı temsil ediyor. Entity sınıfı, Room'a veritabanındaki bilgileri nasıl sunacağını ve bunlarla nasıl etkileşim kurmayı planladığını söyleyen mappinglere (eşlemelere) sahiptir. Uygulamanızda entity, bir uyku hakkında bilgi tutacak.
+- Bir *sorgu*, bir veritabanı tablosundan veya tablo kombinasyonundan veri talebi ya da veriler üzerinde bir eylem gerçekleştirme isteğidir. Sık kullanılan sorgular, entityleri oluşturmak, okumak, güncellemek ve silmek içindir. Örneğin, kayıttaki tüm uyku gecelerini başlangıç zamanına göre sıralayarak okumak için bir sorgu yürütebilirsiniz.
+
+Uygulamanızın kullanıcı deneyimi (diğer yaygın kullanım örneklerine benzer şekilde), bazı verilerin yerel olarak kalıcı hale getirilmesinden büyük ölçüde yararlanabilir. İlgili veri parçalarını önbelleğe almak (caching), bir kullanıcının çevrimdışı olsa bile uygulamanızın keyfini çıkarmasına izin verebilir. Uygulamanız bir sunucuya dayanıyorsa, önbelleğe alma, kullanıcıların çevrimdışıyken yerel olarak kalıcı içeriği değiştirmelerine olanak tanır. Uygulama yeniden bağlantı kurduğunda, önbelleğe alınan bu değişiklikler arka planda sorunsuz bir şekilde sunucuyla senkronize edilebilir.
+
+`Room`, Kotlin data classlardan SQLite tablolarında depolanabilen varlıklara ve fonksiyon bildirimlerinden SQL sorgularına kadar tüm zor işleri yapar.
+
+Her entity annotate edilmiş bir data class olarak ve bu entity ile olan etkileşimleri *data access object (veri erişim nesnesi [DAO])* adı verilen annotate edilmiş bir interface olarak tanımlamanız gerekir. `Room`, veritabanında tablolar oluşturmak ve veritabanı üzerinde işlem yapan sorgular oluşturmak için bu annotate sınıfları kullanır.
+
+![image](https://developer.android.com/codelabs/kotlin-android-training-room-database/img/c4a598be115aa77a.png)
+
+### Adım 1: SleepNight entity'sini oluşturun
+
+Bu aşamada, bir veritabanı entity'sini temsil eden annotate edilmiş bir data class olarak bir gecelik uyku tanımlamalısınız.
+
+Bir gecelik uyku için başlangıç saatini, bitiş saatini ve kalite derecelendirmesini kaydetmeniz gerekir.
+
+Ve o geceyi benzersiz bir şekilde tanımlamak için bir ID'ye ihtiyaç vardır.
+
+1. `database` paketindeki `SleepNight.kt` dosyasını bulun ve açın.
+2. ID, başlangıç zamanı (milisaniye olarak), bitiş zamanı (milisaniye olarak) ve sayısal uyku kalitesi derecelendirmesi için parametrelerle `SleepNight` data classı oluşturun.
+  - `sleepQuality` parametresine bir başlangıç değeri vermelisiniz, bu sebeple `-1` değerini atayın; bu kalite verisinin toplanmadığı anlamına gelecek.
+  - Başlangıç saatine geçerli bir başlangıç değeri vermelisiniz. Milisaniye değerinde şimdiki zaman bunun için iyi bir seçenektir.
+  - Bitiş saatine de bir başlangıç değer vermeniz gerekiyor. Henüz bir bitiş saatinin kaydedilmediğini belirtmek için başlangıç saatine ayarlayın.
+
+```
+
+data class SleepNight(
+       var nightId: Long = 0L,
+       val startTimeMilli: Long = System.currentTimeMillis(),
+       var endTimeMilli: Long = startTimeMilli,
+       var sleepQuality: Int = -1
+)
+
+```
+3. Sınıf ifadesinden önce, sınıfı `@Entity` ile annotate edin. Bu annotation'ın farklı olası argümanları vardır. Varsayılan olarak (`@Entity` için  argüman yok), tablo adı sınıfla aynı olacaktır. Hadi, `daily_sleep_quality_table` şeklinde bir tablo adı kullanalım. `tableName` için bu argüman isteğe bağlıdır, ancak şiddetle tavsiye edilir. `@Entity` için dokümanlarda araştırabileceğiniz başka argümanlar da vardır. 
+
+Android Studio tarafından istenirse, `Entity` ve diğer tüm annotationları `androidx` kütüphanesinden içe aktarın (import).
+
+```
+
+@Entity(tableName = "daily_sleep_quality_table")
+data class SleepNight(...)
+
+```
+
+4. `nightId` özelliğini *primary key* olarak tanımlamak için, `nightId`'yi `@PrimaryKey` ile annotate edin. `autoGenerate` parametresini `true` yapın, böylece `Room` her entity için bir ID oluşturabilsin. Bu her gece için eşsiz bir ID olmasını garantileyecektir.
+
+```
+
+@PrimaryKey(autoGenerate = true)
+var nightId: Long = 0L,...
+
+```
+
+5. Kalan özellikleri `@ColumnInfo` ile annotate edin. Özelliklerin isimlerini aşağıda gösterildiği gibi özelleştirebilirsiniz.
+
+```
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "daily_sleep_quality_table")
+data class SleepNight(
+       @PrimaryKey(autoGenerate = true)
+       var nightId: Long = 0L,
+
+       @ColumnInfo(name = "start_time_milli")
+       val startTimeMilli: Long = System.currentTimeMillis(),
+
+       @ColumnInfo(name = "end_time_milli")
+       var endTimeMilli: Long = startTimeMilli,
+
+       @ColumnInfo(name = "quality_rating")
+       var sleepQuality: Int = -1
+)
+
+```
+
+6. Hata olmadığından emin olmak için kodunuzu build edin ve çalıştırın.
+
 ## <a name="c"></a>Aşama 3 : DAO'yu oluşturun
 
 ## <a name="d"></a>Aşama 4 : Bir Room database oluşturun & test edin
