@@ -269,12 +269,12 @@ Uygulamanızın Android 4.2'den daha düşük sürümlerle çalışmasını isti
 
 Name ile name text görünümünün üst kenarı arasına boşluk bırakmak için üst padding ekleyin.
 
-1. Design sekmesinde **aktivite_main.xml** dosyasını açın.
+1. **aktivite_main.xml** dosyasını açın ve Design sekmesine geçin.
 2. Component Tree veya design editorde, Attributes bölmesini açmak için text viewe tıklayın.
-3. Attributes bölmesinin üst kısmında, mevcut tüm nitelikleri görmek için çift ok simgesini tıklayın.
-4. Padding'i arayın, genişletin ve üst özelliğin yanındaki üç noktayı ... tıklayın. **Resources** sekmesi görünür.
+3. Attributes bölmesinin üst kısmında, mevcut tüm attribute'leri görmek için çift ok simgesini tıklayın( attribute arama bölmesinden de arayabilirsiniz) .
+4. Padding'i arayın, genişletin ve top attribute yanındaki üç noktayı ... tıklayın. **Resources** sekmesi görünür.
 5. Resources iletişim kutusunda **Add new resource > New dimen Value**'yi seçin.
-6. New Dimension Value Resource sekmesinde, 8dp değerinde small_padding adlı yeni bir **dimen** kaynağı oluşturun.
+6. New Dimension Value Resource sekmesinde, value bölmesine 8dp  name bölmesine small_padding gelecek şekilde yeni bir **dimen** kaynağı oluşturun.
 
 **dp** kısaltması yoğunluktan bağımsız anlamına gelir. Bir UI öğesinin farklı yoğunluktaki ekranlarda aynı boyutta görünmesini istiyorsanız, ölçü biriminiz olarak dp'yi kullanın. Ancak metin boyutunu belirlerken her zaman **sp** (scalable pixels) kullanın.
 
