@@ -3,9 +3,9 @@
 - [AboutMe Projesini Oluşturun](#1)
 - [LinearLayout'u Kullanmak İçin Root Layout'unu Değiştirin](#2)
 - [Layout Editörünü Kullanarak bir TextView Ekleyin](#3)
-<!-- - [TextView'inize Style Verin](#4)
+- [TextView'inize Style Verin](#4)
 - [Bir ImageView Ekleyin](#5)
-- [Bir ScrollView Ekleyin](#3) -->
+<!-- - [Bir ScrollView Ekleyin](#3) -->
 
 AboutMe uygulamasında kendinizle ilgili ilginç gerçekleri sergileyebilir veya uygulamayı bir arkadaş, aile üyesi veya evcil hayvan için özelleştirebilirsiniz. Uygulama bir ad, bir BİTTİ düğmesi, bir yıldız resmi ve kaydırılabilir bir metin görüntüler.
 
@@ -290,7 +290,49 @@ Ad metni görünümünü üst öğenin kenarından uzağa taşımak için bir to
 
 ### Font Ekleyin
 
+**name** text görünümünün daha iyi görünmesi için Android Roboto yazı tipini kullanın. Bu yazı tipi, destek kitaplığının bir parçasıdır ve yazı tipini kaynak olarak eklersiniz.
+
+1. **Attributes** bölmesinde "fontFamily" ifadesini arayın
+2. **fontFamily** alanında, açılır oka tılayın, listenin en altına gidin ve **More Fonts**'u seçin.
+3. **Resources** iletişim kutusunda **rob**'u arayın ve **Roboto**'yu seçin. **Preview** listesinde Regular'ı seçin.
+4. **Add font to project** seçilebilir düğmesini seçin.
+5. **OK**'ı tıklayın.
+
+![image](https://user-images.githubusercontent.com/70329389/140880020-9e8cb513-e103-40b5-b7f0-44ea1cd66f57.png)
+
+**res** klasöründe artık **roboto.ttf** yazı tipi dosyasını içeren bir yazı tipi klasörü vardır. **@font/roboto niteliği**, **TextView**'unuza eklenir.
+
+### Stili Extract Edin
+
+Stil, bir view'ın görünümünü ve biçimini belirten nitelikler topluluğudur. Bir stil, yazı tipi rengini, yazı tipi boyutunu, arka plan rengini, padding'i, margin'i ve diğer ortak attribute'ları içerebilir.
+
+**name** metni görünümünün biçimlendirmesini bir stile extract edebilir ve stili uygulamanızda istediğiniz sayıda görünüm için yeniden kullanabilirsiniz. Bir stili yeniden kullanmak, birden çok görünümünüz olduğunda uygulamanıza tutarlı bir görünüm verir. Stilleri kullanmak, bu ortak özellikleri tek bir yerde tutmanıza da olanak tanır.
+
+1. **Component Tree**'de **TextView**'e sağ tıklayın ve **Refactor > Extract Style**'ı seçin.
+2. **Extract Android Style** sekmesinde **layout_width** onay kutusunu, **layout_height** onay kutusunu ve **textAlignment** onay kutusunu temizleyin. Bu nitelikler genellikle her görünüm için farklıdır, bu nedenle onların stilin bir parçası olmasını istemezsiniz.
+3. Stil adı alanına **NameStyle** yazın.
+4. **Tamam**'ı tıklayın.
+
+![image](https://user-images.githubusercontent.com/70329389/140885131-e028e26a-41ed-4e79-b933-7a7a200ef695.png)
+
+5. Stil aynı zamanda bir resource'tur, bu nedenle stil bir **style.xml** dosyasındaki **res/values/** klasörüne kaydedilir. **Styles.xml** dosyasını açın ve buna benzer görünecek olan NameStyle stili için oluşturulan kodu inceleyin:
+
+```
+<style name="NameStyle">
+   <item name="android:layout_marginTop">@dimen/layout_margin</item>
+   <item name="android:fontFamily">@font/roboto</item>
+   <item name="android:paddingTop">@dimen/small_padding</item>
+   <item name="android:textColor">@android:color/black</item>
+   <item name="android:textSize">@dimen/text_size</item>
+</style>
+```
+
+6. **Activity_main.xml** dosyasını açın ve **Text** sekmesine geçin. Oluşturulan stilin metin görünümünde **style="@style/NameStyle"** olarak kullanıldığına dikkat edin.
+7. Uygulamayı çalıştırın ve yazı tipindeki değişiklikleri ve **TextView**'inizin etrafındaki dolguyu fark edin.
+
+![image](https://user-images.githubusercontent.com/70329389/140885535-0fa58b91-6a72-40f5-a895-5f7963bf17bf.png)
 
 
-<!-- ## <a name="5"></a>Bir ImageView Ekleyin
-## <a name="6"></a>Bir ScrollView Ekleyin -->
+
+## <a name="5"></a>Bir ImageView Ekleyin
+<!-- ## <a name="6"></a>Bir ScrollView Ekleyin -->
