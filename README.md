@@ -14,6 +14,7 @@ Bu repositorie Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotlin F
 - [ ] Connect to the Internet
 - [ ] Repository & WorkManager
 - [ ] Design For Everyone
+- [ ] Quiz'ler
 
 
 <h1 align="center">  
