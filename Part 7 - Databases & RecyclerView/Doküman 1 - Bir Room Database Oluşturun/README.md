@@ -3,6 +3,7 @@
 - [Başlangıç uygulamasını indirin & inceleyin](#a)
 - [SleepNight entity'sini oluşturun](#b)
 - [DAO'yu oluşturun](#c)
+- [Bir Room database oluşturun & test edin](#d)
 
 Bu aşamada, bir uygulamanın uyku kalitesini takip eden veritabanı bölümünü oluşturacaksınız. Uygulama, zaman içinde uyku 
 verilerini depolamak için bir veritabanı kullanır.
@@ -71,5 +72,6 @@ için bu testi kullanacaksınız.
 
 ## <a name="c"></a>Aşama 3 : DAO'yu oluşturun
 
+## <a name="d"></a>Aşama 4 : Bir Room database oluşturun & test edin
 
 
