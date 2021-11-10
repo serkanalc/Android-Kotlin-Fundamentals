@@ -1,4 +1,7 @@
-# Android-Kotlin-Fundamentals | Türkçe Dokümantasyon Çevirisi
+<h1 align="center">  
+   Android-Kotlin-Fundamentals | Türkçe Dokümantasyon Çevirisi
+   </h1>  
+
 
 ![Android 12 Bootcamp (2)](https://user-images.githubusercontent.com/70329389/139955062-4e63d1a2-abf8-499b-88e2-e9b40ed2228a.png)
 
@@ -16,7 +19,35 @@ Bu repositorie Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotlin F
 - [ ] Design For Everyone
 - [ ] Quiz'ler
 
+<h1 align="center">  
+   Kazanımlar ve Ödüller
+   </h1>  
 
+Bu Repoda sizleri sadece Türkçe çeviri beklemiyor, Tamamiyle bu kaynağı müfredat alan Türkçeleştirip video haline getirdiğimiz **Google Developers** destekli bir bootcamp sizleri bekliyor. Bu Bootcampe katılıp aşağıdaki ödüller ve kazanımlardan faydalanabilirsiniz.
+
+- İş ve Staj İmkanı
+- Kotlin Community Desteği
+- Size Özel Ücretsiz Mentörlük ve Soru Cevap Sessionları
+- Paylaşılabilir Onaylı Sertifika
+- 10 Adet Paylaşılabilir Başarı Badge'leri
+- Hediye Paketleri
+
+<h1 align="center">  
+   Hediye Paketleri ve Onaylı Sertifika Nasıl Kazanırım?
+   </h1>  
+
+Bootcampe başvurup eğitim sürecinde gerçekleşen online eventlere katılıp aşağıdaki gereksinimleri yerine getirirseniz :
+
+- **Hediye Paketi(T-shirt & Termos)** : Süreç boyunca Bootcampe kaydolmuş, derslere %70 oranında katılmış ve müfredatımızı temel aldığımız 10 quizided başarıyla çözen **herkese** **Android Baskılı Termos ve T-shirt** Gönderiyor olacağız
+- **Sertifika(Onaylı)** : Süreç boyunca Bootcampe kaydolmuş, derslere %70 oranında katılmış ve bitirme projesini başarıyla tamamlamış herkes Sertifika almaya hak kazanacak
+
+<h1 align="center">  
+   Duyurular!
+   </h1>  
+   
+   - Bootcamp başvurularımız hala açıktır, [bu linkten](https://forms.gle/Zuz77veu4JKLgFCV7) hemen kaydolabilirsiniz
+   - Ana Müfredatı(eng) incelemek isteyenler [bu linkten](https://developer.android.com/courses/kotlin-fundamentals/course) ulaşabilirler
+   
 <h1 align="center">  
    Yazar ve Çevirmenler 
    </h1>  
