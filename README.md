@@ -38,7 +38,7 @@ Bu Repoda sizleri sadece Türkçe çeviri beklemiyor, Tamamiyle bu kaynağı mü
 
 Bootcampe başvurup eğitim sürecinde gerçekleşen online eventlere katılıp aşağıdaki gereksinimleri yerine getirirseniz :
 
-- **Hediye Paketi(T-shirt & Termos)** : Süreç boyunca Bootcampe kaydolmuş, derslere %70 oranında katılmış ve müfredatımızı temel aldığımız 10 quizided başarıyla çözen **herkese** **Android Baskılı Termos ve T-shirt** Gönderiyor olacağız
+- **Hediye Paketi(T-shirt & Termos)** : Süreç boyunca Bootcampe kaydolmuş, derslere %70 oranında katılmış ve müfredatımızı temel aldığımız 10 quizi de başarıyla çözen **herkese** **Android Baskılı Termos ve T-shirt** Gönderiyor olacağız
 - **Sertifika(Onaylı)** : Süreç boyunca Bootcampe kaydolmuş, derslere %70 oranında katılmış ve bitirme projesini başarıyla tamamlamış herkes Sertifika almaya hak kazanacak
 
 <h1 align="center">  
