@@ -155,6 +155,91 @@ data class SleepNight(
 
 ## <a name="c"></a>Aşama 3 : DAO'yu oluşturun
 
+Bu aşamada, bir *data access object (veri erişim nesnesi [DAO])* tanımlarsınız. Android'de DAO, veritabanını eklemek, silmek ve güncellemek için kolay yöntemler sağlar.
+
+Bir `Room` veritabanı kullandığınızda, kodunuzdaki Kotlin fonksiyonlarını tanımlayıp çağırarak veritabanını sorgularsınız. Bu Kotlin fonksiyonları, SQL sorgularıyla eşlenir (*map*lenir). Bu eşlemeleri, annotationları kullanarak bir DAO'da tanımlarsınız ve `Room` gerekli kodu oluşturur.
+
+DAO'yu veritabanınıza ulaşmak için tanımlanan özel bir interface olarak düşünebilirsiniz.
+
+`Room`, sık kullanılan `@Insert`, `@Delete` ve `@Update` gibi veritabanı operasyonları için kolaylaştırıcı annotationları size sağlar. Diğer her şey için `@Query` annotationı vardır. SQLite tarafından desteklenen herhangi bir sorguyu bu şekilde yazabilirsiniz.
+
+Ek bir avantaj olarak, Android Studio'da sorgularınızı oluştururken, derleyici yazdığınız SQL sorgularınızı syntax hatalarına karşı kontrol eder.
+
+Uyku geceleri için olan sleep-tracker veritabanı için aşağıdaki işlemleri yapabilmeniz gereklidir:
+
+- Yeni gece ekleme (**Insert**)
+- Varolan geceyi bitiş saatini ve kalite derecelendirmesini değiştirmek için güncelleme (**Update**)
+- Anahtarına göre belirli bir geceyi çekme (**Get**)
+- Görüntüleyebilmek için tüm geceleri çekme (**Get**)
+- En son geceyi çekme (**Get**)
+- Veritabanındaki tüm verileri silme (**Delete**)
+
+### Adım 1: SleepDatabase DAO'yu Oluşturun
+
+1. `database` paketindeki `SleepDatabaseDao.kt`'yi açın
+2. `interface` `SleepDatabaseDao`'nun `@Dao` ile annotate edildiğine dikkat edin. Tüm DAOların `@Dao` anahtar kelimesi ile annotate edilmesi gereklidir.
+
+```
+@Dao
+interface SleepDatabaseDao {}
+
+```
+
+3. Interface gövdesinin içine bir @Insert annotationı ekleyin. @Insert'in altına argüman olarak class SleepNight Entity'sinin instance'ını alan bir insert() fonksiyonu ekleyin.
+
+İşte bu kadar. `Room`, `SleepNight`'ı veritabanına eklemek (insert) için gerekli kodu üretecektir. Kotlin kodunuzdan `insert()`'i çağırdığınızda, `Room`, entity'yi veritabanına eklemek için bir SQL sorgusu yürütür. (Not: Fonksiyona istediğiniz herhangi bir adı verebilirsiniz.)
+
+```
+@Insert
+fun insert(night: SleepNight)
+
+```
+
+4. Bir `SleepNight` için `@Update` annotationı ile bir `update()` fonksiyonu ekleyin. Güncellenen entity, fonksiyona parametre olarak verilen ile aynı anahtara (primary key) sahip olacaktır. Entity'nin anahtar hariç diğer özelliklerinin bir kısmını veya tamamını güncelleyebilirsiniz.
+
+```
+
+@Update
+fun update(night: SleepNight)
+
+```
+
+Kalan işlevler için herhangi bir kolaylaştırıcı annotation yoktur, bu nedenle `@Query` annotationını kullanmanız ve SQLite sorguları sağlamanız gerekir.
+
+5. @Query annotationı ile bir Long key (anahtar) argümanını alan ve null yapılabilir bir SleepNight döndüren get() fonksiyonu ekleyin. Eksik bir parametre için bir hata göreceksiniz.
+
+```
+
+@Query
+fun get(key: Long): SleepNight?
+
+```
+
+6. Sorgu, @Query annotationına bir string parametresi olarak sağlanır. Belirli bir SleepNight girdisinden tüm sütunları almak için bir SQLite sorgusu olan bir String parametresini @Query'ye ekleyin.
+  - `daily_sleep_quality_table`'dan tüm kolonları seçin (`SELECT`)
+  - `nightId` `:key` argümanı ile eşleşsin. (`WHERE`)
+
+`:key`'ye dikkat edin. Fonksiyon içindeki argümanlara referans vermek için iki nokta notasyonunu kullanmalısınız.
+
+```
+
+("SELECT * from daily_sleep_quality_table WHERE nightId = :key")
+
+
+```
+
+7. daily_sleep_quality_table'dan her şeyi silebilmek (DELETE) için clear() fonksiyonu ve SQLite sorgusu içeren bir @Query daha ekleyin. Bu sorgu tablonun kendisini silmez.
+
+@Delete annotation'ı bir öğeyi siler ve uyku gecelerinin bir listesini sağlayarak @Delete ile onları silebilirsiniz. Dezavantajı, tabloda ne olduğunu getirmeniz veya bilmeniz gerektiğidir. @Delete annotationı, belirli girdileri silmek için harikadır, ancak bir tablodaki tüm girdileri silmek için verimli değildir.
+
+```
+@Query("DELETE FROM daily_sleep_quality_table")
+fun clear()
+
+```
+
+8.
+
 ## <a name="d"></a>Aşama 4 : Bir Room database oluşturun & test edin
 
 
