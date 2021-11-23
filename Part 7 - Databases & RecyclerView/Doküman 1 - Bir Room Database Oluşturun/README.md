@@ -180,6 +180,7 @@ Uyku geceleri için olan sleep-tracker veritabanı için aşağıdaki işlemleri
 2. `interface` `SleepDatabaseDao`'nun `@Dao` ile annotate edildiğine dikkat edin. Tüm DAOların `@Dao` anahtar kelimesi ile annotate edilmesi gereklidir.
 
 ```
+
 @Dao
 interface SleepDatabaseDao {}
 
@@ -190,6 +191,7 @@ interface SleepDatabaseDao {}
 İşte bu kadar. `Room`, `SleepNight`'ı veritabanına eklemek (insert) için gerekli kodu üretecektir. Kotlin kodunuzdan `insert()`'i çağırdığınızda, `Room`, entity'yi veritabanına eklemek için bir SQL sorgusu yürütür. (Not: Fonksiyona istediğiniz herhangi bir adı verebilirsiniz.)
 
 ```
+
 @Insert
 fun insert(night: SleepNight)
 
@@ -225,7 +227,6 @@ fun get(key: Long): SleepNight?
 
 ("SELECT * from daily_sleep_quality_table WHERE nightId = :key")
 
-
 ```
 
 7. daily_sleep_quality_table'dan her şeyi silebilmek (DELETE) için clear() fonksiyonu ve SQLite sorgusu içeren bir @Query daha ekleyin. Bu sorgu tablonun kendisini silmez.
@@ -233,13 +234,56 @@ fun get(key: Long): SleepNight?
 @Delete annotation'ı bir öğeyi siler ve uyku gecelerinin bir listesini sağlayarak @Delete ile onları silebilirsiniz. Dezavantajı, tabloda ne olduğunu getirmeniz veya bilmeniz gerektiğidir. @Delete annotationı, belirli girdileri silmek için harikadır, ancak bir tablodaki tüm girdileri silmek için verimli değildir.
 
 ```
+
 @Query("DELETE FROM daily_sleep_quality_table")
 fun clear()
 
 ```
 
-8.
+8. `getTonight()` fonksiyonuna bir `@Query` ekleyin. `getTonight()` tarafından döndürülen `SleepNight`'ı null yapılabilir yapın, böylece fonksiyon tablonun boş olduğu durumlarda çalışmaya devam edebilir. (Tablo başlangıçta ve veriler temizlendikten sonra  boş olacak.)
+
+Veritabanından "tonight"ı (bu gece) almak için, `nightId`'ye göre azalan sırada (descending) sıralanan bir sonuç listesinin ilk öğesini döndüren bir SQLite sorgusu yazın. Yalnızca bir öğe döndürmek için `LIMIT 1` kullanın.
+
+```
+
+@Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC LIMIT 1")
+fun getTonight(): SleepNight?
+
+```
+
+9. `getAllNights()` fonksiyonuna bir `@Query` ekleyin:
+- SQLite sorgusunun `daily_sleep_quality_table`'daki tüm sütunları azalan sırada döndürmesini sağlayın.
+- `getAllNights()`'ın `SleepNight` entitylerini bir `LiveData` listesi olarak döndürmesini sağlayın. `Room` bu `LiveData`'yı sizin için güncel tutacaktır, bu verileri yalnızca bir kez explicit olarak almanız gerektiği anlamına gelir.
+- `LiveData`'yı `androidx.lifecycle.LiveData`'dan import etmeniz gerebilir.
+
+```
+
+@Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC")
+fun getAllNights(): LiveData<List<SleepNight>>
+
+```
+
+10. Görünür bir değişiklik görmeseniz de, hata olmadığından emin olmak için uygulamanızı çalıştırın.
+
 
 ## <a name="d"></a>Aşama 4 : Bir Room database oluşturun & test edin
 
+Bu aşamada, bir önceki aşamada oluşturduğunuz `Entity` ve DAO'yu kullanan bir `Room` veritabanı oluşturacaksınız.
+
+`@Database` ile annotate edilmiş, abstract bir database holder class oluşturmalısınız. Bu classın, veritabanı yoksa veritabanının bir instance'ını oluşturan veya mevcut bir veritabanına referans döndüren bir metodu vardır.
+
+Bir Room veritabanını oluşturma kısmı biraz karmaşıktır, bu nedenle koda başlamadan önce genel süreç nasıl bir bakalım:
+
+- `RoomDatabase'i extend eden` bir `public abstract` class oluşturun. Bu class bir database holder olarak hareket edecektir. Class abstract olmalıdır, çünkü `Room` sizin için implementation'ı yaratacaktır.
+- Classı `@Database` ile annotate edin. Argümanlarda, veritabanı için entityleri bildirin ve versiyon numarasını girin.
+- Bir `companion` object içinde, `SleepDatabaseDao`'yu döndüren bir abstract metot ya da property (özellik) tanımlayın. `Room` sizin için metodun body'sini oluşturacaktır.
+- Tüm uygulamanız için bir tane `Room` veritabanı instance'ına ihtiyacınız vardır, bu yüzden `RoomDatabase`'i bir singleton yapın.
+- Eğer veritabanı mevcut değilse, veritabanını oluşturmak için `Room`'un database builder'ını kullanın. Aksi takdirde, mevcut veritabanını döndürün.
+
+>İpucu: Bu kod, herhangi bir `Room` veritabanı için hemen hemen aynı olacaktır, bu nedenle bu kodu şablon olarak kullanabilirsiniz.
+
+### Adım 1: Veritabanını oluşturun
+
+
+### Adım 2: SleepDatabase'i test edin
 
