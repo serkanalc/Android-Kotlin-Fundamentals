@@ -4,10 +4,9 @@
 - [EditText'inize Stil Verin](#2)
 - [Bir Düğme Ekleyin ve Ona Stil Verin](#3)
 - [Nickname Görüntülemek İçin Bir TextView Ekleyin](#4)
-<!--
 - [DONE Düğmesine Bir Click Listener Ekleyin](#5)
 - [TextView Nickname'ine bir Click Listener Ekleyin](#3)
--->
+
 
 Bu dokümanda, Kullanıcı etkileşimi eklemek için AboutMe uygulamasını genişletirsiniz. Nickname görüntülemek için nickname alanı, bir **DONE** düğmesi ve bir metin görünümü eklersiniz. Kullanıcı bir nickname girip **DONE** düğmesine dokunduğunda, metin görünümü girilen nickname'i gösterecek şekilde güncellenir. Kullanıcı, metin görünümüne dokunarak takma adı tekrar güncelleyebilir.
 
@@ -216,4 +215,57 @@ Tasarım düzenleyicideki düğme rengindeki değişikliğe dikkat edin.
 
 
 ## <a name="4"></a>Nickname Görüntülemek İçin Bir TextView Ekleyin
+
+Kullanıcı bir takma ad girip TAMAMLANDI düğmesine dokunduktan sonra, takma ad bir TextView görünümünde görüntülenir. Bu görevde, renkli bir arka plana sahip bir metin görünümü eklersiniz. Metin görünümü, kullanıcının takma adını star_image'in üzerinde görüntüler.
+
+### Adım 1: Takma Ad İçin Bir TextView Ekleyin
+
+1. Palet bölmesinden bir text view'i **Component Tree** sürükleyin. text view'ünü **done_button**'ın altına ve **star_image**'ın üstüne yerleştirin.
+
+![image](https://user-images.githubusercontent.com/70329389/143261950-5625191b-4c59-4290-8c05-ff33bc0547e2.png)
+
+2. Yeni TextView görünümü için aşağıdaki nitelikleri ayarlamak için **Attributes** bölmesini kullanın:
+
+| Attribute | Value |
+|---|---|
+| id | nickname_text |
+| style | NameStyle |
+| textAlignment | *(center)* |
+
+Adım 2: TextView'in görünürlüğünü değiştirin
+
+Views özelliğini kullanarak uygulamanızda viewlerini gösterebilir veya gizleyebilirsiniz. Bu attribüte'lar üç değerden birini alır:
+
+- **visible**: Görünüm görünür.
+- **Invisible**: Görünümü gizler, ancak görünüm yine de layoutta yer kaplar.
+- **Gone**: Görünümü gizler ve görünüm, layoutta hiç yer kaplamaz.
+
+1. **Attributes** bölmesinde, uygulamanızın ilk başta bu metin görünümünü göstermesini istemediğiniz için **nick_text** metin görünümünün visibility'sini **Gone** olarak ayarlayın.
+
+![image](https://user-images.githubusercontent.com/70329389/143264281-d6712320-74a2-4afc-a66c-81c2a5633e5e.png)
+
+Attributes bölmesinde özniteliği değiştirdiğinizde, **nick_metin** görünümünün tasarım düzenleyicisinden kaybolduğuna dikkat edin. Görünüm, layout preview gizlidir.
+
+2. **Nick_text** görünümünün text öznitelik değerini boş bir stringle değiştirin.
+
+Bu **TextView** için oluşturulan XML kodunuz şuna benzer görünmelidir:
+
+```
+<TextView
+   android:id="@+id/nickname_text"
+   style="@style/NameStyle"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"
+   android:textAlignment="center"
+   android:visibility="gone"
+   android:text="" />
+```
+
+layout preview aşağıdaki gibi görünmelidir:
+
+![image](https://user-images.githubusercontent.com/70329389/143265177-0569015d-3b72-492b-9f96-64cf548d8bd0.png)
+
+
+## <a name="4"></a>DONE Düğmesine Bir Click Listener Ekleyin
+
 
