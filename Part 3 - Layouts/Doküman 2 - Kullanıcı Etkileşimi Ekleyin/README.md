@@ -119,9 +119,99 @@ Takma ad alanı için giriş türünü ayarlayın:
 
 ## <a name="3"></a>Bir Düğme Ekleyin ve Ona Stil Verin
 
+**Button**, kullanıcının bir eylemi gerçekleştirmek için dokunabileceği bir UI öğesidir. Bir Button, Text'ten, bir icon veya hem text hem de bir icondan oluşabilir.
+
+![image](https://user-images.githubusercontent.com/70329389/143239981-d48e556d-b14f-4e2b-b007-a4a9033bcb29.png)
+
+Bu bölümded, kullanıcının bir takma ad girdikten sonra dokunduğu bir Done düğmesi eklersiniz. Düğme, **EditText** görünümünü takma adı görüntüleyen bir **TextView** görünümüyle değiştirir. Takma adı güncellemek için kullanıcı TextView görünümüne dokunabilir.
+
+### Aşama 1 : "TAMAMLANDI" ButtonU Ekleyin
+
+1. Palet bölmesinden Component Tree'e bir düğme sürükleyin. Düğmeyi nick_edit edit text'in altına yerleştirin.
+
+![image](https://user-images.githubusercontent.com/70329389/143240339-5b84af2e-81c0-4caf-acad-d588b30b952d.png)
+
+2. **TAMAMLANDI** adlı yeni bir dize kaynağı oluşturun. Dizeye **TAMAMLANDI** değerini verin,
+
+```
+<string name="done">Tamamlandı</string>
+```
+3. Yeni eklenen Düğme görünümünde aşağıdaki nitelikleri ayarlamak için **Attributes** bölmesini kullanın:
+
+| Attribute | Value |
+|---|---|
+| id | done_button |
+| text | @string/done |
+| layout_gravity | center_horizontal |
+| layout_width | wrap_content |
+
+**layout_gravity** niteliği, görünümü üst düzen olan **LinearLayout**'ta ortalar.
+
+4. Style'ı, Android'in sağladığı önceden tanımlanmış stillerden biri olan **Widget.AppCompat.Button.Colored** olarak değiştirin. Stili açılır menüden veya Kaynaklar penceresinden seçebilirsiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/143241495-ccb4da5a-2d0e-4056-ad02-e2b5189e2971.png)
+
+Bu stil, düğme rengini vurgu rengi olan **colorAccent** olarak değiştirir. Vurgu rengi **res/values/colors.xml** dosyasında tanımlanır.
+
+![image](https://user-images.githubusercontent.com/70329389/143241828-f0f5fd6e-3162-4d6e-92f8-9ab0be192d43.png)
+
+**Colours.xml** dosyası, uygulamanız için varsayılan renkleri içerir. Uygulamanızın gereksinimlerine göre projenizde yeni renk kaynakları ekleyebilir veya mevcut renk kaynaklarını değiştirebilirsiniz.
+
+Örnek color.xml dosyası:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <color name="colorPrimary">#008577</color>
+   <color name="colorPrimaryDark">#00574B</color>
+   <color name="colorAccent">#D81B60</color>
+</resources>
+```
+
+### Aşama 2 : Tamamlandı Buttonunun Style'ını Belirleyin
+
+1. Attribbutes bölmesinde, **Layout_Margin > Top** öğesini seçerek bir üst kenar boşluğu ekleyin. Üst kenar boşluğunu dimens.xml dosyasında tanımlanan layout_margin olarak ayarlayın.
+
+![image](https://user-images.githubusercontent.com/70329389/143242391-89abea15-f2ed-47b3-80f8-0cbe0140cffc.png)
+
+2. Açılır menüden **fontFamil**y özniteliğini **roboto** olarak ayarlayın.
+
+![image](https://user-images.githubusercontent.com/70329389/143242597-2055370e-273b-4bca-b335-7dced92d024d.png)
+
+3. Text sekmesine geçin ve yeni eklenen düğme için oluşturulan XML kodunu doğrulayın.
+
+```
+<Button
+   android:id="@+id/done_button"
+   style="@style/Widget.AppCompat.Button.Colored"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_gravity="center_horizontal"
+   android:layout_marginTop="@dimen/layout_margin"
+   android:fontFamily="@font/roboto"
+   android:text="@string/done" />
+```
+
+### Aşama 3 : Renk Kaynağını Değiştir
+
+Bu aşamada, etkinliğinizin uygulama çubuğuna uyması için düğmenin vurgu rengini değiştirirsiniz.
+
+1. **res/values/colors.xml** dosyasını açın ve **colorAccent** değerini #76bf5e olarak değiştirin.
+
+```
+<color name="colorAccent">#76bf5e</color>
+```
+
+HEX koduna karşılık gelen rengi dosya düzenleyicinin sol kenar boşluğunda görebilirsiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/143257551-39b52d39-0a26-4747-9c9a-c32fa55eeab7.png)
 
 
+Tasarım düzenleyicideki düğme rengindeki değişikliğe dikkat edin.
 
+2. Uygulamanızı çalıştırın. Düzenleme metninin altında stil sahibi bir BİTTİ düğmesi görmelisiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/143257444-f2a7ad17-04a0-4bf2-9c70-4363652970df.png)
 
 
 
