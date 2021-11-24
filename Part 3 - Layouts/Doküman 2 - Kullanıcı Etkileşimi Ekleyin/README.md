@@ -4,7 +4,7 @@
 - [EditText'inize Stil Verin](#2)
 - [Bir Düğme Ekleyin ve Ona Stil Verin](#3)
 - [Nickname Görüntülemek İçin Bir TextView Ekleyin](#4)
-- [DONE Düğmesine Bir Click Listener Ekleyin](#5)
+- [TAMAMLANDI Düğmesine Bir Click Listener Ekleyin](#5)
 - [TextView Nickname'ine bir Click Listener Ekleyin](#3)
 
 
@@ -266,6 +266,6 @@ layout preview aşağıdaki gibi görünmelidir:
 ![image](https://user-images.githubusercontent.com/70329389/143265177-0569015d-3b72-492b-9f96-64cf548d8bd0.png)
 
 
-## <a name="4"></a>DONE Düğmesine Bir Click Listener Ekleyin
+## <a name="4"></a>TAMAMLANDI Düğmesine Bir Click Listener Ekleyin
 
 
