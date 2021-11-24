@@ -5,7 +5,7 @@
 - [Layout Editörünü Kullanarak bir TextView Ekleyin](#3)
 - [TextView'inize Style Verin](#4)
 - [Bir ImageView Ekleyin](#5)
-<!-- - [Bir ScrollView Ekleyin](#3) -->
+- [Bir ScrollView Ekleyin](#3)
 
 AboutMe uygulamasında kendinizle ilgili ilginç gerçekleri sergileyebilir veya uygulamayı bir arkadaş, aile üyesi veya evcil hayvan için özelleştirebilirsiniz. Uygulama bir ad, bir BİTTİ düğmesi, bir yıldız resmi ve kaydırılabilir bir metin görüntüler.
 
