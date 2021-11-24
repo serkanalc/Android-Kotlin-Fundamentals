@@ -284,6 +284,205 @@ Bir Room veritabanını oluşturma kısmı biraz karmaşıktır, bu nedenle koda
 
 ### Adım 1: Veritabanını oluşturun
 
+1. `database` paketindeki `SleepDatabase.kt`'yi açın.
+2. Dosyanın içinde, `SleepDatabase` isminde ve `RoomDatabase`'i extend eden bir `abstract` class oluşturun.
+
+Class'ı `@Database` ile annotate edin.
+
+```
+
+@Database()
+abstract class SleepDatabase : RoomDatabase() {}
+
+```
+
+3. Eksik entityler ve versiyon parametreleri için bir hata göreceksiniz. `@Database` annotation'ı, `Room`'un veritabanını oluşturabilmesi için birkaç argüman gerektirir.
+- `entities` listesine tek öğe olarak `SleepNight`'ı koyun. 
+- Versiyonu (`version`) `1` olarak verin. Şemayı (schema) her değiştirdiğinizde, versiyon numarasını artırmanız gerekir.
+- `exportSchema`'yı `false` olarak verin, böylece şema versiyon geçmişi yedeklerini saklamamış olursunuz.
+
+```
+
+@Database(entities = [SleepNight::class], version = 1, exportSchema = false)
+
+```
+
+4. Veritabanının DAO hakkında bilgi sahibi olması gereklidir. Class body'sinin içinde, `SleepDatabaseDao`'yu döndüren bir abstract value (değer) tanımlayın. Birden çok DAO'nuz olabilir.
+
+```
+
+abstract val sleepDatabaseDao: SleepDatabaseDao
+
+```
+
+5. Bu abstract value'nun altına bir `companion` object tanımlayın. Companion object, istemcilerin (client) class'ın instance'ını almadan veritabanı oluşturma veya alma yöntemlerine erişmesine olanak tanır. Bu class'ın tek amacı bir veritabanı sağlamak olduğundan, onu instantiate etmek için hiçbir neden yoktur.
+
+```
+
+companion object {}
+
+```
+
+6. `Companion` object içinde, veritabanı için `INSTANCE` isminde bir private null yapılabilir variable (değişken) tanımlayın ve ilk değer olarak `null` verin. `INSTANCE` değişkeni, bir veritabanı oluşturulduğunda ona referans verecektir. Bu, hesaplama açısından pahalı olan veritabanı bağlantılarını tekrar tekrar açmaktan kaçınmanıza yardımcı olur.
+
+`INSTANCE`'ı `@Volatile` ile annotate edin. Volatile bir değişkenin değeri asla önbelleğe alınmaz (caching) ve tüm yazma ve okumalar ana belleğe ve ana bellekten yapılır. Bu, `INSTANCE`, değerinin her zaman güncel olduğundan ve tüm execution threadleri için aynı olduğundan emin olmanıza yardımcı olur. Bu, bir iş thread tarafından `INSTANCE`'da yapılan değişikliklerin diğer tüm threadler tarafından hemen görülebileceği ve, örneğin, iki threadin her birinin bir önbellekteki aynı entity'yi güncellediği gibi sorun yaratacak bir durumla karşılaşmadığınız anlamına gelir.
+
+```
+
+@Volatile
+private var INSTANCE: SleepDatabase? = null
+
+```
+
+7. `Companion` object'in içine ve `INSTANCE`'ın altına database builder'ın ihtiyacı olan `Context` parametresine sahip bir `getInstance()` metodu tanımlayın. Dönüt tipi olarak `SleepDatabase` verin. `getInstance()` daha bir şey döndürmüyor olduğu için bir hata göreceksiniz.
+
+```
+
+fun getInstance(context: Context): SleepDatabase {}
+
+```
+
+8. `getInstance()` içine bir `synchronized{}` bloğu ekleyin. Context'e erişebilmek için `this` parametresini verin.
+
+Birden çok thread potansiyel olarak aynı anda bir veritabanı instance'ı isteyebilir, bu da bir yerine iki veritabanına neden olur. Bu sorunun bu örnek uygulamada olması muhtemel değildir, ancak daha karmaşık bir uygulama için mümkündür. Veritabanını almak için kullanacağımız kodu `synchronized` ile sarmak, bir seferde yalnızca bir execution thread'inin bu kod bloğuna girebileceği anlamına gelir. Bu da veritabanının yalnızca bir kez başlatılmasını sağlar.
+
+```
+
+synchronized(this) {}
+
+```
+
+9. synchronized bloğunun içinde, `INSTANCE`'ın mevcut değerini local bir değişken `instance`'ına kopyalayın. Bu, Kotlin'in yalnızca local değişkenler için kullanılabilen [smart cast](https://kotlinlang.org/docs/typecasts.html) özelliğinden yararlanmak içindir.
+
+```
+
+var instance = INSTANCE
+
+```
+
+10. `synchronized` bloğunun sonunda instance'ı döndürün (`return instance`). Dönüş türü uyuşmazlığı (return type mismatch) hatasını yoksayın; işiniz bittiğinde asla null döndürmeyeceksiniz.
+
+```
+
+return instance 
+
+```
+
+11. `return` ifadesinin üzerine, `instance`'ın null olup olmadığını kontrol eden bir `if` ifadesi ekleyin. Null olması demek, henüz bir veritabanının olmadığını gösterecektir.
+
+```
+
+if (instance == null) {}
+
+```
+
+12. Eğer `instance` `null` ise, veritabanını almak için database builder'ı kullanın. `If` ifadesinin body'sinde `Room.databaseBuilder`'ı çağırın ve verdiğiniz context'i, veritabanı class'ını ve veritabanı için bir ismi (`sleep_history_database`) sağlayın.
+
+```
+
+instance = Room.databaseBuilder(
+                           context.applicationContext,
+                           SleepDatabase::class.java,
+                           "sleep_history_database")
+                           
+```
+
+Android Studio bir tür uyuşmazlığı (type mismatch) hatası verecektir. Bu hatadan kurtulmak için, bir migration stratejisi ve `build()`'i eklemeniz gerekecek.
+
+13. Gerekli migration stratejisini builder'a ekleyin. `.fallbackToDestructiveMigration()`'ı kullanın.
+
+Normalde, şema değiştiğinde migration stratejisine sahip bir migration nesnesi sağlamanız gerekir. _Migration nesnesi_, hiçbir verinin kaybolmadan, eski şemadaki tüm satırları nasıl alacağınızı ve bunları yeni şemadaki satırlara dönüştüreceğinizi tanımlayan bir nesnedir. [Migration](https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929), bu codelab'in kapsamı dışındadır. Basit bir çözüm, veritabanını yok etmek ve yeniden oluşturmaktır; bu, verilerin kaybolduğu anlamına gelir.
+
+```
+
+.fallbackToDestructiveMigration()
+
+```
+
+14. Son olarak da, `.build()`'i çağırın. Bu, Android Studio hatalarını ortadan kaldıracaktır.
+
+```
+
+.build()
+
+```
+
+15. `If` ifadesinin son adımı olarak, `INSTANCE = instance` atamasını yapın.
+
+```
+
+INSTANCE = instance
+
+```
+
+16. Final kodunuz şöyle görünmelidir:
+
+
+```
+
+@Database(entities = [SleepNight::class], version = 1, exportSchema = false)
+abstract class SleepDatabase : RoomDatabase() {
+
+   abstract val sleepDatabaseDao: SleepDatabaseDao
+
+   companion object {
+
+       @Volatile
+       private var INSTANCE: SleepDatabase? = null
+
+       fun getInstance(context: Context): SleepDatabase {
+           synchronized(this) {
+               var instance = INSTANCE
+
+               if (instance == null) {
+                   instance = Room.databaseBuilder(
+                           context.applicationContext,
+                           SleepDatabase::class.java,
+                           "sleep_history_database"
+                   )
+                           .fallbackToDestructiveMigration()
+                           .build()
+                   INSTANCE = instance
+               }
+               return instance
+           }
+       }
+   }
+}
+
+```
+
+17. Kodunuzu build edin ve çalıştırın.
+
+Artık `Room` veritabanınızla çalışmak için tüm yapı taşlarına sahipsiniz. Bu kod derlenir ve çalışır, ancak gerçekten çalışıp çalışmadığını söylemenin hiçbir yolu yoktur. Bu nedenle, bazı temel testler eklemek için iyi bir zaman.
 
 ### Adım 2: SleepDatabase'i test edin
 
+Bu adımda, veritabanınızın çalıştığını doğrulamak için sağlanan testleri çalıştıracaksınız. Bu, siz veritabanını oluşturmadan önce veritabanının çalıştığına emin olmanıza yardımcı olur. Sağlanan testler temeldir. Bir üretim uygulaması için, tüm DAO'lardaki tüm fonksiyonları ve sorguları uygularsınız.
+
+Başlangıç uygulaması bir **androidTest** klasörü içerir. Bu **androidTest** klasörü, testlerin Android framework'üne ihtiyaç duyduğunu söylemenin süslü bir yolu olan, Android enstrümantasyonunu içeren unit testleri içerir. Bu nedenle testleri fiziksel veya sanal bir cihazda çalıştırmanız gerekir. Elbette, Android framewokr'ünü içermeyen saf unit testleri de oluşturup çalıştırabilirsiniz.
+
+1. Android Studio içindeki, **androidTest** klasöründeki **SleepDatabaseTest** dosyasını açın.
+2. Kodu yorum satırından çıkarmak için, tüm yorumlanmış satırı seçin ve `Cmd+/` veya `Control+/` klavye kısayollarına basın.
+3. Dosyaya bir göz atın.
+
+Yeniden kullanabileceğiniz başka bir kod parçası olduğundan, test kodunun hızlı bir özetini burada bulabilirsiniz:
+
+- `SleepDatabaseTest` bir test class'ıdır.
+- `@RunWith` annotation'ı testleri kuran ve yürüten test runner'ı (test çalıştırıcısı) tanımlar.
+- Kurulum sırasında `@Before` ile annotate edilmiş fonksiyon yürütülür ve `SleepDatabaseDao` ile bir bellek içi (in-memory) `SleepDatabase` oluşturulur. "In-memory", bu veritabanının dosya sistemine kaydedilmediği ve testler çalıştırıldıktan sonra silineceği anlamına gelir.
+- Ayrıca, in-memory veritabanını oluştururken kod, teste özel başka bir metodu, `allowMainThreadQueries`'i çağırır. Varsayılan olarak, main thread'de sorgu çalıştırmayı denerseniz bir hata alırsınız. Bu yöntem, yalnızca test sırasındayken yapmanız gereken, main thread üzerinde testler yapmanızı sağlar.
+- `@Test` ile annotate edilmiş bir test metodunda, bir `SleepNight` yaratır, ekler ve alır ve bunların aynı olduklarını iddia edersiniz. Bir şeyler ters giderse, bir exception atarsınız. Gerçek bir testte, birden fazla `@Test` metodunuz olur.
+- Testler bittiğinde, veritabanını kapatmak için `@After` ile annotate edilmiş fonksiyon yürütülür. 
+
+4. **Project** bölmesindeki test dosyasına sağ tıklayın ve **Run 'SleepDatabaseTest'**i seçin.
+5. Testler bittikten sonra, **SleepDatabaseTest** bölmesi üzerinden tüm testlerin geçmiş olduğunu onaylayın.
+
+![Test pane image](https://developer.android.com/codelabs/kotlin-android-training-room-database/img/f02d9e6e1f41aee9.png)
+
+Tüm testler geçtiği için, artık birkaç şeyi biliyorsunuz:
+
+- Veritabanı doğru bir şekilde oluşturuluyor.
+- Veritabanına bir `SleepNight` ekleyebiliyorsunuz.
+- Bir `SleepNight`'ı çekebiliyorsunuz.
+- `SleepNight`'ın kalite değeri doğru olarak veriliyor.
