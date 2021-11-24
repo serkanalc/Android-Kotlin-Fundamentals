@@ -3,8 +3,8 @@
 - [Metin girişi İçin Bir EditText Ekleyin](#1)
 - [EditText'inize Stil Verin](#2)
 - [Bir Düğme Ekleyin ve Ona Stil Verin](#3)
-<!--
 - [Nickname Görüntülemek İçin Bir TextView Ekleyin](#4)
+<!--
 - [DONE Düğmesine Bir Click Listener Ekleyin](#5)
 - [TextView Nickname'ine bir Click Listener Ekleyin](#3)
 -->
@@ -215,5 +215,5 @@ Tasarım düzenleyicideki düğme rengindeki değişikliğe dikkat edin.
 
 
 
-
+## <a name="4"></a>Nickname Görüntülemek İçin Bir TextView Ekleyin
 
