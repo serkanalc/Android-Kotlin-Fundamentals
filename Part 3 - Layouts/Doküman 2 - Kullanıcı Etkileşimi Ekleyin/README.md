@@ -266,6 +266,93 @@ layout preview aşağıdaki gibi görünmelidir:
 ![image](https://user-images.githubusercontent.com/70329389/143265177-0569015d-3b72-492b-9f96-64cf548d8bd0.png)
 
 
-## <a name="4"></a>TAMAMLANDI Düğmesine Bir Click Listener Ekleyin
+## <a name="5"></a>TAMAMLANDI Düğmesine Bir Click Listener Ekleyin
+
+Düğme nesnesindeki (veya herhangi bir görünümdeki) tıklama işleyicisi, düğmeye (görünüm) dokunulduğunda gerçekleştirilecek eylemi belirtir. Click olayını işleyen işlev, düğmeyle (görünüm) düzeni barındıran Activity'de uygulanmalıdır.
+
+```
+private fun clickHandlerFunction(viewThatIsClicked: View) {
+// Düğme tıklama olayını gerçekleştirmek için kod ekleyin
+}
+```
+
+Tıklama dinleyicisi genel olarak bu biçime sahiptir; burada geçirilen görünüm, tıklamayı veya dokunmayı alan görünümdür.
+
+Tıklama-dinleyici(click-listener) işlevini düğme tıklama olaylarına iki şekilde ekleyebilirsiniz:
+
+- XML düzeninde, `<Button>` öğesine **android:onClick** niteliğini ekleyebilirsiniz. Örneğin:
+
+```
+<Button
+   android:id="@+id/done_button"
+   android:text="@string/done"
+   ...
+   android:onClick="clickHandlerFunction"/>
+  
+```
+
+- SetOnClickListener'ı çağırarak, Aktivitenin onCreate() içinde, çalışma zamanında programlı olarak yapabilirsiniz. Örneğin:
+
+```
+myButton.setOnClickListener {
+   clickHanderFunction(it)
+}
+```
+
+Bu görevde **done_button** için programlı olarak bir tıklama dinleyicisi eklersiniz. Tıklama dinleyicisini, **MainActivity.kt** olan ilgili activity'e eklersiniz.
+
+addNickname adlı tıklama dinleyici işleviniz aşağıdakileri yapacaktır:
+
+- Nick_edit düzenleme metninden metni alın.
+- Nick_text metin görünümündeki metni ayarlayın.
+- Düzenleme metnini ve düğmeyi gizleyin.
+- TextView takma adını görüntüleyin.
+
+### Adım 1 : Tıklama Dinleyicisi (Click Listener) Ekleyin
+
+1. Android Studio'da, **Java** klasöründe **MainActivity.kt** dosyasını açın.
+2. **MainActivity.kt**'de, MainActivity sınıfının içine **addNickname** adlı bir function ekleyin. Görünüm türünde **view** adlı bir giriş parametresi ekleyin. Görünüm parametresi, işlevin çağrıldığı Görünümdür. Bu durumda görünüm, TAMAMLANDI butonunuzun bir örneği olacaktır.
+
+```
+private fun addNickname(view: View) {
+}
+```
+3. **addNickname** function'ın içinde, **nick_edit** düzenleme metnine ve **nick_text** metin görünümüne bir referans almak için **findViewById()** kullanın.
+
+```
+val editText = findViewById<EditText>(R.id.nickname_edit)
+val nicknameTextView = findViewById<TextView>(R.id.nickname_text)
+```
+
+4. **NickTextView** metin görünümündeki text'i, kullanıcının text özelliğinden alarak **editText**'e girdiği metne ayarlayın.
+
+```
+nicknameTextView.text = editText.text
+```
+5. editText'in görünürlük özelliğini **View.GONE** olarak ayarlayarak **EditText** görünümünü takma adını gizleyin.
+
+Önceki bir aşamada, Layout Editor'yi kullanarak **visibility** özelliğini değiştirmiştiniz. Burada aynı şeyi programlı olarak yaparsınız.
+
+```
+editText.visibility = View.GONE
+```
+
+6. **Visibility** özelliğini **View.GONE** olarak ayarlayarak **TAMAMLANDI** düğmesini gizleyin. Function'un giriş parametresi olarak düğmenin referansına zaten sahipsiniz, görünüm.
+
+```
+view.visibility = View.GONE
+```
+
+**addNickname** function'unun sonunda, visibility özelliğini **View.VISIBLE** olarak ayarlayarak takma adı **TextView** görünümünü görünür yapın.
+
+```
+nicknameTextView.visibility = View.VISIBLE
+```
+
+### Aşama 2 : Tıklama Dinleyicisini(Click Listener) TAMAMLANDI Düğmesine Bağlayın
+
+
+
+
 
 
