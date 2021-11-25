@@ -13,7 +13,7 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
   - DAO'yu oluşturun
   - Bir Room database oluşturun & test edin
 
-- Room ile Coroutineleri Kullanın <!-- link ekle --> 
+- [Room ile Coroutineleri Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView/Dok%C3%BCman%202%20-%20Room%20ile%20Coroutineleri%20Kullan%C4%B1n)
   - Başlangıç kodunu inceleyin
   - ViewModel ekleyin
   - Coroutineler
