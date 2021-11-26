@@ -238,6 +238,423 @@ Coroutineler aşağıdaki özelliklere sahiptir:
 
 #### Coroutineler asenkrondur.
 
+Bir coroutine, programınızın ana yürütme adımlarından bağımsız olarak çalışır. Bu paralel veya ayrı bir işlemcide olabilir. Ayrıca, uygulamanın geri kalanı girdi beklerken, araya gizlice işleme yapma sokmuş olursunuz. Asenkron programlamanın önemli yönlerinden biri, siz açıkça (explicitly) beklemeden sonucun hemen kullanılabilir olmasını umamayacak olmanızdır.
+
+Örneğin, araştırma gerektiren bir sorunuz olduğunu ve kibarca bir meslektaşınızdan cevabı bulmasını rica ettiğinizi varsayalım. Meslektaşınız daha sonra kendi başına üzerinde çalışmaya başlar. Meslektaşınız bir cevapla dönene kadar cevaba bağlı olmayan ilgisiz diğer işleri yapmaya devam edebilirsiniz. Bu örnekte, meslektaşınız işi asenkrın olarak "ayrı bir thread'de" yapıyor.
+
+#### Coroutineler non-blocking'dir
+
+Non-blocking, bir coroutine'in main veya UI thread'inin ilerlemesini bloke etmediği veya engellemediği anlamına gelir. Böylece, main thread'de çalıştırılan UI etkileşimi her zaman önceliğe sahip olduğundan, coroutinelerle kullanıcılar mümkün olan en sorunsuz deneyimi yaşayabilirler.
+
+#### Coroutineler asenkron kodu sequential hale getirmek için suspend fonksiyonlarını kullanır
+
+`suspend` anahtar sözcüğü, Kotlin'in bir fonksiyonu veya fonksiyon türünü coroutineler tarafından kullanılabilir olarak işaretleme yöntemidir. Bir coroutine, `suspend` ile işaretlenmiş bir fonksiyonu çağırdığında, fonksiyon normal bir fonksiyon çağrısı gibi dönene kadar onu bloke etmek yerine, coroutine, sonuç hazır olana kadar yürütmeyi suspend eder (askıya alır). Ardından coroutine, sonuçla birlikte kaldığı yerden devam eder.
+
+Coroutine suspend edilir ve bir sonuç beklerken, üzerinde çalıştığı thread'in blokesini kaldırır. Bu şekilde, diğer fonksiyonlar ve coroutineler çalışabilir.
+
+`suspend` anahtar sözcüğü, kodun üzerinde çalıştığı thread'i belirtmez. Bir suspend fonksiyonu, bir arka plan thread'inde veya maşn thread'de çalışabilir.
+
+>İpucu: *Bloke etme* ve *suspend etme* arasındaki fark, bir thread engellenirse başka bir iş olmamasıdır. Thread suspend edilirse, sonuç elde edilene kadar başka işler yapılır.
+
+![image suspend and blocking](https://developer.android.com/codelabs/kotlin-android-training-coroutines-and-room/img/ce77d98e12909f3e.png)
+
+Kotlin'de coroutineleri kullanmak için üç şeye ihtiyacınız var
+- Bir job
+- Bir dispatcher
+- Bir scope
+
+**Job**: Temel olarak, bir job iptal edilebilecek herhangi bir şeydir. Her coroutine'in bir job'ı vardır ve job'ı coroutine'i iptal etmek için kullanabilirsiniz. Joblar, parent-child (ebeveyn-çocuk) hiyerarşileri halinde düzenlenebilir. Bir parent job'ı iptal etmek, job'ın tüm childrenlarını hemen iptal eder; bu, her bir coroutine'i manuel olarak iptal etmekten çok daha uygundur.
+
+**Dispacther**: Dispatcher, çeşitli threadler üzerinde çalışmak için coroutineler gönderir. Örneğin, `Dispatchers.Main` görevleri main thread'de çalıştırır ve `Dispatchers.IO`, I/O görevlerini bloke eden yükü paylaşılan bir thread havuzuna aktarır.
+
+**Scope**: Bir coroutine *scope*'u, coroutine'in çalıştığı context'i tanımlar. Scope, bir coroutine'in job'ı ve dispatcherları hakkındaki bilgileri birleştirir. Scopelar coroutineleri takip eder. Bir coroutine'i başlattığınızda, bu "bir scope'tadır", yani hangi scope'un coroutine'i izleyeceğini belirttiğiniz anlamına gelir.
+
+#### Mimari bileşenler (Architecture components) ile Kotlin coroutineler
+
+Bir [`CoroutineScope`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/), tüm ecoroutinelerinizi takip eder ve coroutinelerinizin ne zaman çalışması gerektiğini yönetmenize yardımcı olur. Ayrıca, içinde başlatılan tüm coroutineleri da iptal edebilir. Her asenkron işlem veya coroutine, belirli bir `CoroutineScope` içinde çalışır.
+
+[Mimari bileşenler](https://developer.android.com/topic/architecture?authuser=1), uygulamanızdaki mantıksal scopelar için birinci sınıf coroutine desteği sağlar. Mimari bileşenler, uygulamanızda kullanabileceğiniz aşağıdaki yerleşik scopeları tanımlar. Yerleşik coroutine scopeları, karşılık gelen her Mimari bileşeni için [KTX extensionlarındadır](https://developer.android.com/kotlin/ktx?authuser=1). Bu scopeları kullanırken uygun bağımlılıkları (dependencies) eklediğinizden emin olun.
+
+- [`ViewModelScope`](https://developer.android.com/topic/libraries/architecture/coroutines?authuser=1#viewmodelscope)
+- [`LifecycleScope`](https://developer.android.com/topic/libraries/architecture/coroutines?authuser=1#lifecyclescope) 
+- [`liveData`](https://developer.android.com/topic/libraries/architecture/coroutines?authuser=1#livedata)
+
+
+[`ViewModelScope`](https://developer.android.com/topic/libraries/architecture/coroutines?authuser=1#viewmodelscope): Uygulamanızdaki her [`
+ViewModel`](https://developer.android.com/topic/libraries/architecture/viewmodel?authuser=1) için bir `
+ViewModelScope` tanımlanır. Bu scope'ta başlatılan herhangi bir coroutine, `ViewModel` temizlenirse otomatik olarak iptal edilir. Bu codelab'de, veritabanı işlemlerini başlatmak için `ViewModelScope`'u kullanacaksınız.
+
+#### Room & Dispatcher
+
+Bir veritabanı işlemi gerçekleştirmek için Room kütüphanesini kullanırken, Room bir arka plan thread'inde veritabanı işlemlerini gerçekleştirmek için bir `Dispatchers.IO` kullanır. Açıkça (explicitly) herhangi bir `Dispacther` belirtmeniz gerekmez. Room bunu sizin için yapacaktır.
 
 ## <a name="d"></a>Aşama 4 : Data toplayın & görüntüleyin
+
+
+Kullanıcının uyku verileriyle aşağıdaki şekillerde etkileşime girmesini istiyorsunuz:
+
+- Kullanıcı **Start** butonuna dokunduğunda, uygulama yeni bir uyku gecesi oluşturur ve uyku gecesini veritabanında saklar.
+- Kullanıcı **Stop** butonuna dokunduğunda, uygulama geceyi bir bitiş saati ile günceller.
+- Kullanıcı **Clear** butonuna dokunduğunda, uygulama veritabanındaki verileri siler.
+
+Bu veritabanı işlemleri uzun zaman alabilir, bu nedenle ayrı bir thread üzerinde çalışmalıdırlar.
+
+### Adım 1: DAO fonksiyonlarını suspend fonksiyonu olarak iaşretleyin
+
+`SleepDatabaseDao.kt`'de, fonskiyonları suspend etmek için kolaylaştırıcı metotları değiştirin.
+
+1. `database/SleepDatabaseDao.kt`'yi açın, Room zaten LiveData döndüren o spesifik @Query için bir arka plan thread'i kullandığından, `getAllNights()` hariç tüm fonksiyonlara suspend anahtar kelimesini ekleyin. Tamamlanmış `SleepDatabaseDao` class'ı şöyle gözükecektir:
+
+```
+
+@Dao
+interface SleepDatabaseDao {
+
+   @Insert
+   suspend fun insert(night: SleepNight)
+
+   @Update
+   suspend fun update(night: SleepNight)
+
+   @Query("SELECT * from daily_sleep_quality_table WHERE nightId = :key")
+   suspend fun get(key: Long): SleepNight?
+
+   @Query("DELETE FROM daily_sleep_quality_table")
+   suspend fun clear()
+
+   @Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC LIMIT 1")
+   suspend fun getTonight(): SleepNight?
+
+   @Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC")
+   fun getAllNights(): LiveData<List<SleepNight>>
+}
+
+```
+
+### Adım 2: Database işlemleri için coroutineleri ayarlayın
+
+Sleep Tracker uygulamasındaki **Start** butonuna dokunulduğunda, yeni bir `SleepNight` instance'ı oluşturmak ve bu instance'ı veritabanında depolamak için `SleepTrackerViewModel`'daki bir fonksiyonu çağırmak istiyorsunuz.
+
+Butonlardan herhangi birine dokunmak, `SleepNight` oluşturma veya güncelleme gibi bir veritabanı işlemini tetikler. Veritabanı işlemleri biraz zaman alabileceğinden, uygulamanın butonları için tıklama işleyicilerini (handlers) uygulamak için coroutineleri kullanırsınız.
+
+1. Uygulama seviyesindeki `build.gradle` dosyasını açın. Dependencies bölümünün altında, sizin için eklenen aşağıdaki dependencylere (bağımlılıklara) ihtiyacınız var.
+
+```
+
+implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+
+// Kotlin Extensions and Coroutines support for Room
+implementation "androidx.room:room-ktx:$room_version"
+
+```
+
+2. `SleepTrackerViewModel.kt` dosyasını açın
+3. Geçerli geceyi tutmak için `tonight` adlı bir değişken (variable) tanımlayın. Değişkeninizi `MutableLiveData` yapın, çünkü verileri gözlemleyebilmeniz ve değiştirebilmeniz gereklidir.
+
+```
+
+private var tonight = MutableLiveData<SleepNight?>()
+
+```
+
+4. `tonight` değişkenine mümkün olan en kısa sürede başlangıç değerini vermek için `tonight` tanımının altında bir `init` bloğu oluşturun ve `initializeTonight()`'ı çağırın. Bir sonraki adımda `initializeTonight()`'ı tanımlayacaksınız.
+
+```
+
+init {
+   initializeTonight()
+}
+
+```
+
+5. `init` bloğunun altında `initializeTonight()`'ı çağırın. `ViewModelScope`'da bir coroutine başlatmak için `viewModelScope.launch`'ı kullanın. Kıvrımlı parantezlerin içinde, `getTonightFromDatabase()`'i çağırarak veritabanından `tonight` için değeri alın ve değeri `tonight.value`'ya atayın. Bir sonraki adımda `getTonightFromDatabase()`'i tanımlayacaksınız.
+
+`launch` için kıvrımlı parantezlerin kullanımına dikkat edin. İsimsiz bir fonksiyon olan bir lambda ifadesi tanımlıyacaklar. Bu örnekte, `launch` coroutine builder'a bir lambda gönderiyorsunuz. Bu builder bir coroutine oluşturur ve bu lambda'nın yürütülmesini ilgili dispatcher'a atar.
+
+```
+
+private fun initializeTonight() {
+   viewModelScope.launch {
+       tonight.value = getTonightFromDatabase()
+   }
+}
+
+```  
+
+6. `getTonightFromDatabase()`'i uygulayın. Başlatılmış bir `SleepNight` yoksa, null yapılabilir bir SleepNight döndüren, bir `private suspend` fonksiyonu olarak tanımlayın. Bu sizi bir hatayla karşı karşıya bırakır, çünkü fonksiyonun bir şey döndürmesi gerekir.
+
+```
+
+private suspend fun getTonightFromDatabase(): SleepNight? { }
+
+
+```
+
+7. `getTonightFromDatabase()` fonksiyonu body'si içinde, `tonight`'ı (en yeni gece) veritabanından alın. Başlangıç ve bitiş saatleri aynı değilse, yani gece zaten tamamlanmışsa, `null` değerini döndürün. Aksi takdirde, geceyi döndürün.
+
+```
+
+var night = database.getTonight()
+       if (night?.endTimeMilli != night?.startTimeMilli) {
+           night = null
+       }
+       return night
+
+```
+
+Tamamlanan `getTonightFromDatabase()` `suspend` fonksiyonunuz şöyle görünmelidir. Daha fazla hata olmamalıdır.
+
+```
+
+private suspend fun getTonightFromDatabase(): SleepNight? {
+    var night = database.getTonight()
+    if (night?.endTimeMilli != night?.startTimeMilli) {
+        night = null
+    }
+    return night
+}
+
+```
+
+### Adım 3: Start butonu için tıklama handler'ını (işleyicisini) ekleyin
+
+Artık **Start** butonunun tıklama handler'ı olan `onStartTracking()`'i uygulayabilirsiniz. Yeni bir `SleepNight` oluşturmanız, veritabanına eklemeniz ve `tonight`'a atamanız gereklidir. `onStartTracking()`'in yapısı `initializeTonight()`'a benzer olacaktır.
+
+1. `SleepTrackerViewModel.kt`'de, `onStartTracking()` için fonksiyon tanımıyla başlayın. Tıklama handlerlarını `getTonightFromDatabase()`'in altına koyabilirsiniz.
+
+```
+
+fun onStartTracking() {}
+
+```
+
+2. `onStartTracking()` içinde, `viewModelScope` içinde bir coroutine başlatın, çünkü bu sonuca devam etmek ve UI'yi güncellemek için ihtiyacınız var.
+
+```
+
+viewModelScope.launch {}
+
+```
+
+4. Coroutine launch içinde, geçerli saati başlangıç zamanı olarak yakalayan yeni bir `SleepNight` oluşturun.
+
+```
+
+val newNight = SleepNight()
+
+```
+
+4. Hala coroutine launch içinde, veritabanına `newNight` eklemek için `insert()`'i çağırın. Bu `insert()` suspend fonksiyonunu henüz tanımlamadığınız için bir hata göreceksiniz. Bunun, `SleepDatabaseDAO.kt`'deki aynı ada sahip metotla aynı `insert()` olmadığına dikkat edin.
+
+```
+
+insert(newNight)
+
+```
+
+5. Yine coroutine launch içinde, `tonight`'ı güncelleyin.
+
+```
+
+tonight.value = getTonightFromDatabase()
+
+```
+
+6. `onStartTracking()`'in altında, `insert()`'i, argümanı olarak bir `SleepNight` alan bir `private suspend` fonksiyonu olarak tanımlayın.
+
+```
+
+private suspend fun insert(night: SleepNight) {}
+
+```
+
+7. `insert()` metodu içinde, veritabanına geceyi eklemek için DAO'yu kullanın.
+
+```
+
+       database.insert(night)
+
+```
+
+Room içeren bir coroutine'in `Dispatchers.IO` kullandığını unutmayın, o nedenle bu main thread'de yürütülmeyecektir.
+
+8. `fragment_sleep_tracker.xml` layout dosyasında, daha önce kurduğunuz data binding büyüsünü kullanarak `onStartTracking()` için tıklama handler'ını `start_button`'a ekleyin. `@{() -> `fonksiyon gösterimi, hiçbir argüman almayan ve `sleepTrackerViewModel`'deki tıklama handler çağıran bir lambda fonksiyonu oluşturur.
+
+```
+
+android:onClick="@{() -> sleepTrackerViewModel.onStartTracking()}"
+
+```
+
+9. Uygulamanızı build edin ve çalıştırın. **Start** butonuna tıklayın. Bu eylem veri oluşturur, ancak henüz hiçbir şey göremezsiniz. Bir sonraki adımda bunu düzelteceksiniz.
+
+>Önemli: Şimdi bir pattern fark ediyor olmalısınız:
+>1. Main UI thread'de çalışan bir coroutine başlatın, çünkü bu coroutine'in sonucu UI'da görüntülenenleri etkiler. Aşağıdaki örnekte gösterildiği gibi, ViewModel'in `viewModelScope` özelliği aracılığıyla bir ViewModel'in `CoroutineScope`'una erişebilirsiniz:
+>2. Sonucu beklerken UI thread'i engellememeniz için long-running işi yapmak için bir suspend fonksiyonu çağırın.
+>3. Long-running çalışmanın sonucu UI'yı etkileyebilir, ancak çalışması UI'dan bağımsızdır. Verimlilik için I/O dispatcher'a geçin (Room kodunu sizin için oluşturur). I/O dispatcher, bu tür işlemler için optimize edilmiş ve ayrılmış bir thread havuzu kullanır.
+>4. Ardından işi yapmak için long-running işlevi çağırın.
+>Pattern aşağıda gösterilmiştir.
+
+
+#### Room olmadan
+
+```
+
+fun someWorkNeedsToBeDone {
+   viewModelScope.launch {
+        suspendFunction()
+   }
+}
+
+suspend fun suspendFunction() {
+   withContext(Dispatchers.IO) {
+       longrunningWork()
+   }
+}
+
+```
+
+#### Room kullanarak
+
+```
+
+// Using Room
+fun someWorkNeedsToBeDone {
+   viewModelScope.launch {
+        suspendDAOFunction()
+   }
+}
+
+suspend fun suspendDAOFunction() {
+   // No need to specify the Dispatcher, Room uses Dispatchers.IO.
+   longrunningDatabaseWork()
+}
+
+```
+
+### Adım 4: Veriyi gösterin
+
+DAO'daki `getAllNights()`, `LiveData` döndürdüğü için, `SleepTrackerViewModel.kt`'de `nights` değişkeni `LiveData`'ya referans verir.
+
+Veritabanındaki veriler her değiştiğinde `LiveData` `nights`'ın en son verileri gösterecek şekilde güncellenmesi bir `Room` özelliğidir. `LiveData`'yı explicit olarak ayarlamanız veya güncellemeniz gerekmez. `Room`, verileri veritabanıyla eşleşecek şekilde günceller.
+
+Ancak `nights`'ı bir text view'da görüntülerseniz, nesne referansını gösterecektir. Nesnenin içeriğini görmek için verileri biçimlendirilmiş (formatted) bir string'e dönüştürün. `nights` veritabanından her yeni veri aldığında yürütülen bir `Transformation` map kullanın.
+
+1. `Util.kt` dosyasını açın ve `formatNights()` tanımı ve ilgili import ifadeleri için kodun yorumunu kaldırın. Android Studio'da kodun yorumunu kaldırmak için `//` ile işaretlenmiş tüm kodları seçin ve `Cmd+/` veya `Control+/` tuşlarına basın.
+
+2. `formatNights()`'ın HTML biçimli bir string olan `Spanned` türünü döndürdüğüne dikkat edin. Bu çok kullanışlıdır çünkü Android'in TextView'u temel HTML'i işleme yeteneğine sahiptir.
+
+3. **res > values > strings.xml** dosyasını açın. Uyku verilerini görüntülemek için string kaynaklarını biçimlendirmek için [`CDATA`](https://www.w3.org/TR/REC-xml/#sec-cdata-sect) kullanımına dikkat edin.
+
+4. **SleepTrackerViewModel.kt**'yi açın. `SleepTrackerViewModel` class'ında, `nights` adlı bir değişken tanımlayın. Veritabanından tüm geceleri alın ve onları `nights` değişkenine atayın
+
+```
+
+private val nights = database.getAllNights()
+
+```
+
+5. `nights`'ı bir `nightString`'e dönüştürmek için `nights` tanımının hemen altına kod ekleyin. `Util.kt`'den `formatNights()` fonksiyonunu kullanın.
+
+`nights`'ı `Transformations` class'ından gelen [`map()`](https://developer.android.com/reference/android/arch/lifecycle/Transformations#map) fonksiyonuna iletin. String kaynaklarınıza erişmek için mapping fonksiyonunu `formatNights()` çağrısı olarak tanımlayın. `nights` ve bir `Resource` objesini bu fonkisyona verin.
+
+```
+
+val nightsString = Transformations.map(nights) { nights ->
+   formatNights(nights, application.resources)
+}
+
+```
+
+6. `fragment_sleep_tracker.xml` layout dosyasını açın. Artık, `TextView`'da, `android:text` özelliğinde kaynak string'ini `nightString`'e bir referans ile değiştirebilirsiniz.
+
+```
+
+android:text="@{sleepTrackerViewModel.nightsString}"
+
+```
+
+7. Kodunuzu tekrar build edin ve uygulamanızı çalıştırın. Başlangıç saatleriyle birlikte tüm uyku verileriniz artık görüntülenmelidir.
+
+8. **Start** butonuna birkaç kez daha dokunduğunuzda daha fazla veri göreceksiniz.
+
+![app image](https://developer.android.com/codelabs/kotlin-android-training-coroutines-and-room/img/e6eabf9793d5ab63.png)
+
+Bir sonraki adımda, **Stop** butonu için işlevselliği etkinleştireceksiniz.
+
+### Adım 5: Stop butonu için tıklama handler'ını ekleyin
+
+Önceki adımdakiyle aynı pattern'ı kullanarak, `SleepTrackerViewModel`'deki **Stop** butonu için tıklama handler'ını uygulayın.
+
+1. `ViewModel`'a `onStopTracking()` ekleyin. `viewModelScope`'ta bir coroutine başlatın. Bitiş zamanı henüz ayarlanmadıysa, `endTimeMilli`'yi mevcut sistem saatine ayarlayın ve gece verileriyle `update()` fonksiyonunu çağırın.
+
+Kotlin'de, `return@``label` syntax'ı, iç içe geçmiş birkaç fonksiyon arasında bu ifadenin döndürüldüğü işlevi belirtir.
+
+```
+
+fun onStopTracking() {
+   viewModelScope.launch {
+       val oldNight = tonight.value ?: return@launch
+       oldNight.endTimeMilli = System.currentTimeMillis()
+       update(oldNight)
+   }
+}
+
+```
+
+2. `insert()`'i uygularken kullandığınız pattern'in aynısını kullanarak `update()`'i uygulayın.
+
+```
+
+private suspend fun update(night: SleepNight) {
+    database.update(night)
+}
+
+```
+
+3. Tıklama handler'ını UI'ya bağlamak için, `fragment_sleep_tracker.xml` layout dosyasını açın ve tıklama handler'ını `stop_button`'a ekleyin.
+
+```
+
+android:onClick="@{() -> sleepTrackerViewModel.onStopTracking()}"
+
+```
+
+4. Uygulamanızı build edin ve çalıştırın.
+
+5. Önce **Start**'a, sonra **Stop**'a tıklayın. Başlangıç saatini, bitiş saatini, değersiz uyku kalitesini ve uyku saatini göreceksiniz.
+
+![app image](https://developer.android.com/codelabs/kotlin-android-training-coroutines-and-room/img/fc7e561d95fd9c02.png)
+
+
+### Adım 6: Clear butonu için tıklama handler'ını ekleyin
+
+1. Benzer şekilde, `onClear()` ve `clear()`'ı' uygulayın.
+
+```
+
+fun onClear() {
+   viewModelScope.launch {
+       clear()
+       tonight.value = null
+   }
+}
+
+suspend fun clear() {
+    database.clear()
+}
+
+```
+
+2. Tıklama handler'ını UI'ya bağlamak için, `fragment_sleep_tracker.xml` dosyasını açın ve tıklama handler'ını `clear_button`'a ekleyin.
+
+```
+
+android:onClick="@{() -> sleepTrackerViewModel.onClear()}"
+
+```
+
+3. Uygulamanızı build edin ve çalıştırın.
+
+4. Tüm verilerden kurtulmak için **Clear**'a tıklayın. Daha sonra **Start** ve **Stop**'a tıklayarak yeni veriler oluşturun.
 
