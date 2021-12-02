@@ -19,12 +19,12 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
   - Coroutineler
   - Data toplayın & görüntüleyin
   
-- Button Statelerini(Durumlarını) Kontrol Etmek İçin LiveData Kullanın <!-- link ekle -->
+- [Button Statelerini(Durumlarını) Kontrol Etmek İçin LiveData Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView/Döküman%203%20-%20Button%20Statelerini%20Kontrol%20Etmek%20İçin%20LiveData%20Kullanın%20)
   - Navigation ekleyin
   - Uyku kalitesini kaydedin
   - Button görünürlüğünü kontrol edin & bir Snackbar ekleyin
  
-- RecyclerView Temelleri <!-- link ekle -->
+- [RecyclerView Temelleri](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView/Döküman%204%20-%20RecyclerView%20Temelleri)
   - RecyclerView
   - RecyclerView ve bir Adapter uygulayın
   - Tüm uyku datası için bir ViewHolder oluşturun
