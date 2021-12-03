@@ -53,14 +53,14 @@ Resimler statik olsa da uygulamanız interaktif (etkileşimli) olacak! Uygulama,
 
 Empty Activity template'i, Mainactivity.kt dosyasında tek bir boş etkinlik oluşturur. Şablon ayrıca aktivite_main.xml adlı bir Layouts dosyası oluşturur. Layout, içerik olarak tek bir TextView ile kök görünüm grubu olarak ConstraintLayout'u kullanır.
 
-2.Android Studio'nun Gradle derlemesini bitirmesini bekleyin. Herhangi bir hata görürseniz, Build > Rebuild Project.
+2.Android Studio'nun Gradle derlemesini bitirmesini bekleyin. Herhangi bir hata görürseniz, **Build > Rebuild Project** yapın.
 
-3.Uygulamayı çalıştırın ve derlemenin tamamlanması için birkaç saniye bekleyin. "Hello World!" yazan bir ekran görmelisiniz. ortasında.
+3.Uygulamayı çalıştırın ve derlemenin tamamlanması için birkaç saniye bekleyin. Tam ortada "Hello World!" yazan bir ekran görmelisiniz.
 
 ![image](https://user-images.githubusercontent.com/80598532/143635928-ea0cff87-7e74-44a9-afa3-25109a0c8d99.png)
 
 ## <a name="2"></a>ConstraintLayout Oluşturmak İçin Layout Editor Kullanın
-Bu görevde, uygulamanız için bir ConstraintLayout oluşturmak için Android Studio LAyout Editor'ünü kullanın.
+Bu görevde, uygulamanız için bir ConstraintLayout oluşturmak için Android Studio Layout Editor'ünü kullanın.
 
 ### 1. Adım: Android Studio çalışma alanınızı kurun.
 
@@ -75,11 +75,11 @@ Bu görevde, uygulamanız için bir ConstraintLayout oluşturmak için Android S
 
 ![image](https://user-images.githubusercontent.com/80598532/143639861-2bcbf788-9b57-4f10-ad9e-72b53a9651da.png)
 
-Varsayılan marjı 16dp'ye ayarladığınızda, bu marjla yeni constraint'ler oluşturulur, böylece her constraint eklediğinizde marjı eklemeniz gerekmez.
+Varsayılan margini 16dp'ye ayarladığınızda, bu marginle yeni constraint'ler oluşturulur, böylece her constraint eklediğinizde margin eklemeniz gerekmez.
 
-4.Hello World metni texy view görünümünde görünene kadar araç çubuğunun sağ tarafındaki + simgesini ![image](https://user-images.githubusercontent.com/80598532/143642614-dabfb624-d028-475f-bb87-67f3ad36257c.png)
+4. Hello World metni text view görünümünde görünene kadar araç çubuğunun sağ tarafındaki + simgesini ![image](https://user-images.githubusercontent.com/80598532/143642614-dabfb624-d028-475f-bb87-67f3ad36257c.png)
  kullanarak yakınlaştırın.
- 5.Attributes bölmesini açmak için Hello World metin görünümüne çift tıklayın.
+5. Attributes bölmesini açmak için Hello World metin görünümüne çift tıklayın.
 ![image](https://user-images.githubusercontent.com/80598532/143647123-5f64dd28-c955-44c3-aa62-636dc82b2523.png)
 
 ### Görünüm denetçisi
