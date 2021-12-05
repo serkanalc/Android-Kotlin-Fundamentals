@@ -19,3 +19,8 @@ Farklı layout'lar oluşturun, kullanıcı etkileşimi ekleyin ve data binding k
     - Nickname Görüntülemek İçin Bir TextView Ekleyin
     - DONE Düğmesine Bir Click Listener Ekleyin
     - TextView Nickname'ine bir Click Listener Ekleyin
+
+- [Data Binding Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%203%20-%20Layouts/Dok%C3%BCman%204%20-%20Data%20binding%20Kullan%C4%B1n)
+
+    - findViewById() Öğesini Ortadan Kaldırmak için Data Binding Kullanın
+    - Verileri görüntülemek için Data Binding kullanın
