@@ -184,6 +184,113 @@ Uygulamanızı oluşturun ve çalıştırın... ve eskisi gibi görünmeli ve ç
 
 ## <a name="2"></a>Verileri Görüntülemek İçin Data Binding'i kullanın
 
+Bir data sınıfını doğrudan bir görünüm için kullanılabilir hale getirmek için data binding'den yararlanabilirsiniz. Bu teknik, kodu basitleştirir ve daha karmaşık durumları ele almak için son derece değerlidir.
+
+Bu örnekte, string kaynaklarını kullanarak ad ve takma ad ayarlamak yerine ad ve takma ad için bir data sınıfı oluşturursunuz. data binding'i kullanarak data sınıfını görünüm için kullanılabilir hale getirirsiniz.
+
+### Aşama 1 : MyName Data Sınıfını Oluşturun
+
+1. Java dizinindeki Android Studio'da MyName.kt dosyasını açın. Bu dosyaya sahip değilseniz, yeni bir Kotlin dosyası oluşturun ve buna MyName.kt adını verin.
+
+2. Ad ve takma ad için bir veri sınıfı tanımlayın. Varsayılan değerler olarak boş dizeleri kullanın.
+
+```
+data class MyName(var name: String = "", var nickname: String = "")
+```
+### Aşama 2 : Layout'a Data Ekleyin
+
+Activity_main.xml dosyasında, ad şu anda bir string kaynağından bir TextView'da ayarlanmıştır. Adın başvurusunu, veri sınıfındaki verilere yapılan bir başvuruyla değiştirmeniz gerekir.
+
+1. aktivite_main.xml'de Code sekmesini açın.
+2. Düzenin en üstünde, `<layout>` ve `<LinearLayout>` etiketleri arasına bir `<data></data>` etiketi ekleyin. Görünümü verilerle bağlayacağınız yer burasıdır.
+
+```
+<data>
+  
+</data>
+
+```
+
+veri etiketlerinin içinde, bir sınıfa referans tutan adlandırılmış değişkenler bildirebilirsiniz.
+
+3. `<data>` etiketinin içine bir `<variable>` etiketi ekleyin.
+
+4. Değişkene "myName" adını vermek için bir ad parametresi ekleyin. Bir tür parametresi ekleyin ve türü, MyName veri sınıfının tam nitelikli adına ayarlayın (paket adı + değişken adı).
+
+```
+<variable
+       name="myName"
+       type="com.example.android.aboutme.MyName" />
+```
+
+Şimdi, ad için string kaynağını kullanmak yerine, myName değişkenine başvurabilirsiniz.
+
+> Not: Proje sihirbazında projeyi nasıl kurduğunuza bağlı olarak paket adınız farklılık gösterebilir. Uygulamanızın paket adının, tür değişkeninin paket adıyla eşleştiğinden emin olun.
+
+5. android:text="@string/name" ifadesini aşağıdaki kodla değiştirin.
+
+```
+android:text="@={myName.name}"
+```
+
+@={}, küme parantezleri içinde başvurulan verileri almak için bir yönergedir.
+
+myName, daha önce tanımladığınız, myName veri sınıfını işaret eden ve sınıftan name özelliğini getiren myName değişkenine başvurur.
+
+### Aşama 3 : Data Oluşturun
+
+Artık layout dosyanızdaki verilere bir referansınız var. Ardından, gerçek dataları oluşturursunuz.
+
+1. MainActivity.kt dosyasını açın.
+
+2. onCreate() üzerinde, kural olarak myName olarak da adlandırılan özel bir değişken oluşturun. Değişkene, adı geçerek MyName veri sınıfının bir örneğini atayın.
+
+```
+private val myName: MyName = MyName("Serkan Alc")
+```
+3. onCreate() içinde, layout dosyasındaki myName değişkeninin değerini, az önce bildirdiğiniz myName değişkeninin değerine ayarlayın. Değişkene doğrudan XML'de erişemezsiniz. Buna bağlama nesnesi aracılığıyla erişmeniz gerekir.
+
+```
+binding.myName = myName
+```
+
+4. Değişiklik yaptıktan sonra binding nesnesini yenilemeniz gerektiğinden bu bir hata gösterebilir. Uygulamanızı oluşturun ve hata ortadan kalkmalıdır.
+
+### Aşama 4 : TextView'da Takma Ad İçin Data Sınıfını Kullanın
+
+Son adım, TextView'daki takma ad için data sınıfını da kullanmaktır.
+
+1. Activity_main.xml'i açın.
+
+2. Nick_text metin görünümünde bir text özelliği ekleyin. Aşağıda gösterildiği gibi, data sınıfındaki takma adı referans alın.
+
+```
+android:text="@={myName.nickname}"
+```
+
+MainActivity'de, takma adı myName değişkeninde ayarlamak için NickText.text = NickEdit.text.toString() öğesini kodla değiştirin.
+
+```
+myName?.nickname = nicknameEdit.text.toString()
+```
+
+Takma ad ayarlandıktan sonra, kodunuzun kullanıcı arabirimini yeni verilerle yenilemesini istiyorsunuz. Bunu yapmak için, doğru verilerle yeniden oluşturulmaları için tüm bağlama ifadelerini geçersiz kılmalısınız.
+
+4. Kullanıcı arabiriminin güncellenmiş bağlama nesnesindeki değerle yenilenmesi için takma adı ayarladıktan sonra invalidateAll() ekleyin.
+
+```
+binding.apply {
+   myName?.nickname = nicknameEdit.text.toString()
+   invalidateAll()
+   ...
+}
+```
+5. Uygulamanızı oluşturun ve çalıştırın; uygulama öncekiyle tamamen aynı şekilde çalışmalıdır.
+
+
+
+
+
 
 
 
