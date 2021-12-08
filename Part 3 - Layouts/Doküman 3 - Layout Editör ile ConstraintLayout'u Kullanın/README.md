@@ -144,7 +144,7 @@ android:layout_marginEnd="@dimen/margin_wide"
 4.Projeye yazı tipi ekle butonunu seçin.
 5.Tamamı tıklayın.
 
-![Uploading image.png…]()
+![image](https://user-images.githubusercontent.com/80598532/145288748-c34e841a-15d2-428f-8a14-d27d93e20a97.png)
 
 Bu, roboto.ttf yazı tipi dosyasını içeren bir res/font klasörü ekler.Ayrıca, text görünümünüz için @font/Roboto attribute'u ayarlanır.
 
@@ -176,6 +176,27 @@ Bu stilde, arka plan rengi ve metin rengi varsayılan Android renk kaynaklarına
 
 
 ## <a name="4"></a>İkinci bir TextView Ekleyin ve Constrait Ekleyin (kısıtlamalar)
+
+Bu görevde, box_one_text'in altına başka bir text view eklersiniz. Yeni text view box_one_text ve layoutun üst öğesiyle sınırlandırırsınız. 
+
+### 1. Adım: Yeni bir metin görünümü ekleyin
+
+1. Activity_main.xml dosyasını açın ve Design sekmesine geçin.
+2. Palet bölmesinden bir TextView'i aşağıda gösterildiği gibi doğrudan designn editor önizlemesine sürükleyin. Text view'u sol kenar boşluğuyla hizalı olarak box_one_text'in altına yerleştirin.
+
+![image](https://user-images.githubusercontent.com/80598532/145289842-f0604e61-d877-4899-894e-509dd01b38ed.png)
+
+
+3. Design editor'de, yeni text view'a tıklayın, ardından işaretçiyi text view'un üst tarafındaki noktanın üzerinde tutun. Aşağıda gösterilen bu noktaya kısıtlama tutamacı (constraint handle) denir.
+
+![Uploading image.png…]()
+
+
+
+
+
+
+
 ## <a name="5"></a>TextView Görünümleri Zinciri Oluşturun
 ## <a name="6"></a>Text görünümerine ClickHandler Ekleyin
 ## <a name="7"></a>Temel Constrait Ekleyin
