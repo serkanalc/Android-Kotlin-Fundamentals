@@ -1,26 +1,27 @@
-# Layouts
+# Fragment Oluşturun
 
-Farklı layout'lar oluşturun, kullanıcı etkileşimi ekleyin ve data binding kullanın. Kendinizle ilgili ilginç gerçekleri bir düğme, bir resim ve kaydırılabilir bir metinle gösteren AboutMe uygulamasını tamamlarsınız. Ayrıca tıklanabilir TextView'ler ve dokunulduğunda renk değiştiren Düğmelerden oluşan ColorMyViews uygulamasını da oluşturacaksınız.
+- [Genel Bakış](#0) 
+- [Başlangıç Uygulaması Projesini Keşfedin](#1) 
 
-## İşte Konu başlıkları:
 
- - [Layout Editör ile LinearLayout'u Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%203%20-%20Layouts/Dok%C3%BCman%201%20-%20Layout%20Edit%C3%B6r%20ile%20LinearLayout'u%20Kullan%C4%B1n)
-    - AboutMe Projesini Oluşturun
-    - LinearLayout'u Kullanmak İçin Root Layout'unu Değiştirin
-    - Layout Editörünü Kullanarak bir TextView Ekleyin
-    - TextView'inize Style Verin
-    - Bir ImageView Ekleyin
+## <a name="0"></a>Aşama Ø : Genel Bakış
 
- - [Kullanıcı Etkileşimi Ekleyin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%203%20-%20Layouts/Dok%C3%BCman%202%20-%20Kullan%C4%B1c%C4%B1%20Etkile%C5%9Fimi%20Ekleyin)
-    
-    - Metin girişi İçin Bir EditText Ekleyin
-    - EditText'inize Stil Verin
-    - Bir Düğme Ekleyin ve Ona Stil Verin
-    - Nickname Görüntülemek İçin Bir TextView Ekleyin
-    - DONE Düğmesine Bir Click Listener Ekleyin
-    - TextView Nickname'ine bir Click Listener Ekleyin
+Bu dersi oluşturan üç kod laboratuvarında AndroidTrivia adlı bir uygulama üzerinde çalışıyorsunuz. Tamamlanan uygulama, kullanıcının Android kodlaması hakkında üç önemsiz soruyu yanıtladığı bir oyundur. Kullanıcı üç soruyu da doğru cevaplarsa oyunu kazanır ve sonuçlarını paylaşabilir.
 
-- [Data Binding Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%203%20-%20Layouts/Dok%C3%BCman%204%20-%20Data%20binding%20Kullan%C4%B1n)
+![Ekran Resmi 2021-12-12 03 35 03](https://user-images.githubusercontent.com/70329389/145696137-595bb2dd-d947-4b19-bde8-012748e93c63.png)
 
-    - findViewById() Öğesini Ortadan Kaldırmak için Data Binding Kullanın
-    - Verileri görüntülemek için Data Binding kullanın
+AndroidTrivia uygulaması, navigation kalıplarını ve kontrollerini gösterir. Uygulamanın birkaç bileşeni vardır:
+
+- Yukarıdaki ekran görüntüsünde solda gösterilen başlık ekranında, kullanıcı oyunu başlatır.
+- Yukarıda ortada gösterilen soruların olduğu oyun ekranında, kullanıcı oyunu oynar ve cevaplarını gönderir.
+- Sağ üstte gösterilen navigation drawer, uygulamanın yanından dışarı doğru kayar ve başlık içeren bir menü içerir. drawer simgesi navigation drawer'ı açar. Navigation drawer menüsü, Hakkında sayfasına bir bağlantı ve oyunun kurallarına bir bağlantı içerir.
+
+Uygulamanın üst kısmında, uygulamanın adını gösteren *uygulama çubuğu (*veya işlem çubuğu) adı verilen bir görünüm görüntülenir .
+
+## <a name="1"></a>Aşama 1 : Başlangıç Uygulaması Projesini Keşfedin
+
+Bu kod laboratuvarında, Trivia uygulamasını tamamlarken ihtiyaç duyduğunuz şablon kodu ve Parça sınıflarını sağlayan bir başlangıç uygulamasından çalışırsınız.
+
+1. AndroidTrivia-Starter Android Studio projesini indirin. Android-kotlin-fundamentals-starter-apps zip dosyasının tamamını indirmeniz gerekebilir.
+2. Projeyi Android Studio'da açın ve uygulamayı çalıştırın. Uygulama açıldığında, uygulama adını ve boş bir ekranı görüntülemekten başka bir şey yapmıyor.
+ 
