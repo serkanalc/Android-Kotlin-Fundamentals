@@ -30,7 +30,7 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
   - Tüm uyku datası için bir ViewHolder oluşturun
   - Kodunuzu geliştirin
   
-- RecyclerView ile DiffUtil & Data Binding <!-- link ekle -->
+- [RecyclerView ile DiffUtil & Data Binding](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView/D%C3%B6k%C3%BCman%205%20-%20RecyclerView%20ile%20DiffUtil%20%26%20Data%20Binding)
   - Şimdiye kadar neler yaptığınızı gözden geçirin & başlayın
   - DiffUtil ile listenin içeriğini yenileyin
   - Listenizi yönetmek için ListAdapter kullanın
