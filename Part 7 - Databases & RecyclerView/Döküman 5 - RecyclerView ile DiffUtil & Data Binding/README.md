@@ -120,5 +120,24 @@ override fun areContentsTheSame(oldItem: SleepNight, newItem: SleepNight): Boole
 ```
 
 ## <a name="c"></a>Aşama 3 : Listenizi yönetmek için ListAdapter kullanın
+
+Değişen bir listeyi görüntülemek için bir `RecyclerView` kullanmak yaygın bir pattern'dır. `RecyclerView`, bir liste tarafından desteklenen bir `RecyclerView` adapter oluşturmanıza yardımcı olan `ListAdapter` adlı bir adapter class'ı sağlar.
+
+`ListAdapter` sizin için listenin kaydını tutar ve liste güncellendiğinde adapter'a haber verir.
+
+### Adım 1: Adapter'ınızı ListAdapter'ı extend etmesi için değiştirin
+
+1. `SleepNightAdapter.kt` dosyasında, `ListAdapter`'ı extend etmek için `SleepNightAdapter`'ın class imzasını değiştirin.
+2. İstenirse `androidx.recyclerview.widget.ListAdapter`'ı import edin.
+3. `SleepNightAdapter.ViewHolder`'dan önce, `ListAdapter`'a ilk argüman olarak `SleepNight`'ı ekleyin.
+4. Constructor'a parametre olarak `SleepNightDiffCallback()` ekleyin. `ListAdapter` bunu listede nelerin değiştiğini bulmak için kullanacaktır. Bitmiş `SleepNightAdapter` class imzanız aşağıda gösterildiği gibi görünmelidir.
+
+```
+
+class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback()) {
+
+```
+
+5.
 ## <a name="d"></a>Aşama 4 : RecyclerView ile DataBinding kullanın
 ## <a name="e"></a>Aşama 5 : Binding adapterlar yaratın
