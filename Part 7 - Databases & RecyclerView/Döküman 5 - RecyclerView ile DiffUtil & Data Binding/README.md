@@ -6,7 +6,7 @@
 - [RecyclerView ile DataBinding kullanın](#d)
 - [Binding adapterlar yaratın](#e)
 
-Başlangıç yygulamasının, aşağıdaki şekilde gösterildiği gibi fragmentlarla temsil edilen iki ekranı vardır.
+Başlangıç uygulamasının, aşağıdaki şekilde gösterildiği gibi fragmentlarla temsil edilen iki ekranı vardır.
 
 ![app image](https://developer.android.com/codelabs/kotlin-android-training-diffutil-databinding/img/76ec2be31e018176.png)
 
