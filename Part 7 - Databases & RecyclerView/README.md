@@ -38,6 +38,7 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
   - Binding adapterlar yaratın
 
 - [RecyclerView'da Grid Layout](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView/D%C3%B6k%C3%BCman%206%20-%20RecyclerView'da%20Grid%20Layout%20)
+  - Layoutlar & LayoutManagerlar
   - GridLayout uygulayın
 
 - RecyclerView Öğeleri ile Etkileşime Geçin <!-- link ekle -->
