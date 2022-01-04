@@ -1,6 +1,7 @@
 # <a name="1"></a>RecyclerView'da Grid Layout
 
-- [GridLayout uygulayın](#a)
+- [Layoutlar & LayoutManagerlar](#a)
+- [GridLayout uygulayın](#b)
 
 Sleep-tracker uygulamasının, aşağıdaki şekilde gösterildiği gibi fragmentlarla temsil edilen iki ekranı vardır.
 
@@ -17,4 +18,6 @@ Uyku verileri bir `RecyclerView`'da görüntülenir. Bu aşamada, uygulamayı `G
 
 ![grid layout](https://developer.android.com/codelabs/kotlin-android-training-grid-layout/img/b0abde98c5f99bf6.png)
 
-## <a name="a"></a>Aşama 1 : GridLayout uygulayın
+## <a name="a"></a>Aşama 1 : Layoutlar & LayoutManagerlar
+
+## <a name="b"></a>Aşama 2 : GridLayout uygulayın
