@@ -271,3 +271,150 @@ binding nesnesi yerindeyken, artık `sleepLength`, `quality` ve `qualityImage` �
 
 ## <a name="e"></a>Aşama 5 : Binding adapterlar yaratın
 
+Bu aşamada, viewlarınızdaki verileri ayarlamak için binding adapterlar ile data binding kullanmak için uygulamanızı güncelleyeceksiniz.
+
+Önceki bir codelabde, `LiveData`'yı almak ve text viewlarda görüntülemek üzere biçimlendirilmiş stringler oluşturmak için [`Transformations`](https://developer.android.com/reference/android/arch/lifecycle/Transformations) classını kullandınız. Ancak, farklı veri türlerini veya karmaşık türleri bind etmeniz gerekiyorsa, data binding'in bu türleri kullanmasına yardımcı olmak için binding adapterlar sağlayabilirsiniz. Binding adapterlar, verilerinizi alan ve data binding'in text veya image gibi bir view'u bind etmek için kullanabileceği bir şeye uyarlayan adapterlardır.
+
+Uyku kalitesi görüntüsü için bir tane ve her text alanı için bir tane olmak üzere üç binfing adapter uygulayacaksınız. Özetle, bir binding adapter'ı bildirmek için, bir öğe ve bir view alan bir metot tanımlarsınız ve bunu `@BindingAdapter` ile annotate edersiniz. Metodun bodysinde, dönüşümü uygularsınız. Kotlin'de, verileri alan view classına bir extension fonksiyonu olarak bir binding adapter yazabilirsiniz.
+
+### Adım 1: Binding adapterlar oluşturun
+
+Bu adımda bir dizi class'ı import etmeniz gerekeceğini unutmayın.
+
+1. `SleepNightAdapter.kt`'yi açın.
+2. `ViewHolder` classının içinde `bind()` metodunu bulun ve kendinize bu metodun ne yaptığını hatırlatın. `binding.sleepLength`, `binding.quality` ve `binding.qualityImage` için değerleri hesaplayan kodu alacak ve bunun yerine adapter'ın içinde kullanacaksınız. (Şimdilik kodu olduğu gibi bırakın; sonraki adımda taşıyacaksınız.)
+3. `sleeptracker` paketinde, `BindingUtils.kt` isimli yeni bir dosya oluşturun ve açın.
+4. Bir sonraki adımda statik fonksiyonlar oluşturacağınız için `BindingUtils` classındaki her şeyi silin.
+
+```
+
+class BindingUtils {}
+
+```
+
+5. `TextView` üzerinde `setSleepDurationFormatted` adlı bir extension fonksiyonu bildirin ve bir `SleepNight` iletin. Bu fonksiyon, uyku süresini hesaplamak ve biçimlendirmek için adapter'ınız olacaktır.
+
+```
+
+fun TextView.setSleepDurationFormatted(item: SleepNight) {}
+
+```
+
+6. `setSleepDurationFormatted` gövdesinde, verileri `ViewHolder.bind()`'da yaptığınız gibi view'a bind edin. `convertDurationToFormatted()` öğesini çağırın ve ardından `TextView` `text`'ini biçimlendirilmiş metne ayarlayın. (Bu, `TextView`'daki bir extension fonksiyonu olduğundan, `text` özelliğine doğrudan erişebilirsiniz.)
+
+
+```
+
+text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, context.resources)
+
+```
+
+7. Bu binding adapter hakkında data binding'i anlatmak için, fonksiyonu `@BindingAdapter` ile annotate edin.
+8. Bu fonksiyon, `sleepDurationFormatted` özelliğinin adapter'ıdır, bu nedenle `sleepDurationFormatted` öğesini `@BindingAdapter` öğesine argüman olarak iletin.
+
+```
+
+@BindingAdapter("sleepDurationFormatted")
+
+```
+
+9. İkinci adapter, uyku kalitesini bir `SleepNight` nesnesindeki değere göre ayarlar. `TextView` üzerinde `setSleepQualityString()` adlı başka bir extension fonksiyonu oluşturun ve bir `SleepNight` iletin.
+10. Body'de, verileri `ViewHolder.bind()`'da yaptığınız gibi view'a bind edin. `convertNumericQualityToString`'i çağırın ve `text`'i ayarlayın.
+11. `@BindingAdapter("sleepQualityString")` ile fonksiyonu annotate edin.
+
+```
+
+@BindingAdapter("sleepQualityString")
+fun TextView.setSleepQualityString(item: SleepNight) {
+   text = convertNumericQualityToString(item.sleepQuality, context.resources)
+}
+
+```
+
+12. Görüntüyü bir image view'a ayarlayan üçüncü bir binding adapter'a ihtiyacımız var. Üçüncü extension fonksiyonunu `ImageView` üzerinde oluşturun, `setSleepImage`'ı çağırın ve aşağıda gösterildiği gibi `ViewHolder.bind()`'daki kodu kullanın.
+
+```
+
+@BindingAdapter("sleepImage")
+fun ImageView.setSleepImage(item: SleepNight) {
+   setImageResource(when (item.sleepQuality) {
+       0 -> R.drawable.ic_sleep_0
+       1 -> R.drawable.ic_sleep_1
+       2 -> R.drawable.ic_sleep_2
+       3 -> R.drawable.ic_sleep_3
+       4 -> R.drawable.ic_sleep_4
+       5 -> R.drawable.ic_sleep_5
+       else -> R.drawable.ic_sleep_active
+   })
+}
+
+```
+
+convertDurationToFormatted ve convertNumericQualityToString'i import etmeniz gerekebilir.
+
+### Adım 2: SleepNightAdapter'ı güncelleyin
+
+1. `SleepNightAdapter.kt`'yi açın.
+2. `bind()` metodundaki her şeyi silin, çünkü artık bu işi sizin yerinize yapmak için data binding'i ve yeni adapterlarınızı kullanabilirsiniz.
+
+```
+
+fun bind(item: SleepNight) {
+}
+
+```
+
+3. `bind()` içinde, `item`'e sleep'i atayın, çünkü binding nesnesine yeni `SleepNight`'ınız hakkında bilgi vermeniz gerekir.
+
+```
+
+binding.sleep = item
+
+```
+
+4. Bu satırın altına `binding.executePendingBindings()` ekleyin. Bu çağrı, data binding'in bekleyen bağlamaları hemen yürütmesini isteyen bir optimizasyondur. Bir `RecyclerView`'da binding adapterları kullandığınızda `executePendingBindings()` öğesini çağırmak her zaman iyi bir fikirdir, çünkü viewları boyutlandırmayı biraz hızlandırabilir.
+
+```
+
+binding.executePendingBindings()
+
+```
+
+### Adım 3: XML layout'una bindingleri ekleyin
+
+1. `list_item_sleep_night.xml`'i açın.
+2. `ImageView`'da, görüntüyü ayarlayan binding adapter ile aynı ada sahip bir `app` özelliği ekleyin. Aşağıda gösterildiği gibi `sleep` değişkenini iletin.
+
+Bu özellik, adapter aracılığıyla view ve binding nesnesi arasındaki bağlantıyı oluşturur. `sleepImage`'a her referans edildiğinde, adapter `SleepNight`'tan gelen verileri uyarlayacaktır.
+
+
+```
+
+app:sleepImage="@{sleep}"
+
+```
+
+3. Şimdi, `sleep_length` ve `quality_string` text viewları için benzer bir app özelliği ekleyin. `sleepDurationFormatted` veya `sleepQualityString` her referans edildiğinde, adapterlar `SleepNight`'tan gelen verileri uyarlayacaktır. Her özelliği ilgili `TextView`'a koyduğunuzdan emin olun.
+
+```
+
+app:sleepDurationFormatted="@{sleep}"
+
+```
+
+```
+
+app:sleepQualityString="@{sleep}"
+
+```
+
+4. Uygulamanızı çalıştırın. Daha önce olduğu gibi tamamen aynı şekilde çalışır. Binding adapterlar, veri değiştikçe viewları biçimlendirme ve güncelleme işlerinin tümünü üstlenir, `ViewHolder`'ı basitleştirir ve koda eskisinden çok daha iyi bir yapı verir.
+
+Son birkaç alıştırma için aynı listeyi görüntülediniz. Bu tasarım gereği böyle yapıldı; `Adapter` interface'inin kodunuzu birçok farklı şekilde tasarlamanıza izin verdiğini göstermek için. Kodunuz ne kadar karmaşıksa, onu iyi tasarlamak o kadar önemli hale gelir. Üretim uygulamalarında bu patternlar ve diğerleri `RecyclerView` ile birlikte kullanılır. Patternların hepsi işe yarıyor ve her birinin faydaları var. Hangisini seçeceğiniz, ne inşa ettiğinize bağlıdır.
+
+Tebrikler! Bu noktada Android'de `RecyclerView`'da ustalaşma yolundasınız.
+
+
+
+
+
