@@ -138,6 +138,107 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
 
 ```
 
-5.
+5. `SleepNightAdapter` classının içinde, setter dahil tüm `data` alanını silin. Artık buna ihtiyacınız yok, çünkü `ListAdapter` listeyi sizin için takip edecek.
+6. `ListAdapter` bu metodu sizin için uyguladığı için `getItemCount()` override'ını silin.
+7. `onBindViewHolder()`'daki hatadan kurtulmak için `item` değişkenini değiştirin. Bir `item`'i almak için `data`'yı kullanmak yerine, `ListAdapter`'ın sağladığı `getItem(position)` metodunu çağırın.
+
+```
+
+val item = getItem(position)
+
+```
+
+### Adım 2: Listeyi güncel tutmak için submitList()'i kullanın
+
+Değiştirilmiş bir liste mevcut olduğunda, kodunuzun bunu `ListAdapter`'a bildirmesi gerekir. `ListAdapter`, `ListAdapter`'a listenin yeni bir sürümünün mevcut olduğunu bildirmek için `sendList()` adlı bir metot sağlar. Bu metot çağrıldığında, `ListAdapter` yeni listeyi eski liste ile karşılaştırır ve eklenen, kaldırılan, taşınan veya değiştirilen öğeleri algılar. Ardından `ListAdapter`, `RecyclerView` tarafından gösterilen öğeleri günceller.
+
+1. `SleepTrackerFragment.kt`'yi açın.
+2. `onCreateView()` içinde, `sleepTrackerViewModel` üzerindeki observer'da, sildiğiniz `data` değişkeninin referans alındığı hatayı bulun.
+3. `adapter.data = it`'i, `adapter.submitList(it)` çağrısıyla değiştirin. Güncellenmiş kod aşağıda gösterilmektedir.
+
+```
+
+sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
+   it?.let {
+       adapter.submitList(it)
+   }
+})
+
+```
+
+4. Uygulamanızı çalıştırın. findNavController'ı import etmeniz gerekebilir. Uygulamanızın daha hızlı çalıştığını fark edebilirsiniz, listeniz küçükse fark edilmeyebilir.
+
+
 ## <a name="d"></a>Aşama 4 : RecyclerView ile DataBinding kullanın
+
+Bu aşamada, data binding'i ayarlamak için önceki codelabler ile aynı tekniği kullanacak ve `findViewById()` çağrılarını ortadan kaldıracaksınız.
+
+### Adım 1: Layout dosyasına data binding ekleyin
+
+1. **Code** sekmesinde `list_item_sleep_night.xml` layout dosyasını açın.
+2. İmleci `ConstraintLayout` tag'inin üzerine getirin ve `Alt+Enter` (Mac'te `Option+Enter`) tuşlarına basın. Intention menüsü ("quick fix" menüsü) açılacaktır.
+3. **Convert to data binding layout**'u seçin. Bu, layout'u `<layout>` içine sarar ve içine bir `<data>` tag'i ekler.
+4. Gerekirse en başa dönün ve `<data>` tag'inin içinde `sleep` adında bir değişken bildirin.
+5. `type`'ını `SleepNight`'ın tam adı yapın, `com.example.android.trackmysleepquality.database.SleepNight`. Bitmiş `<data>` tag'iniz aşağıda gösterildiği gibi görünmelidir.
+
+```
+
+ <data>
+        <variable
+            name="sleep"
+            type="com.example.android.trackmysleepquality.database.SleepNight"/>
+    </data>
+
+```
+
+6. `Binding` nesnesinin oluşturulmasını zorlamak için önce **Build > Clean Project**'i, sonra **Build > Rebuild Project**'i seçin. (Eğerhala sorun yaşıyorsanız, **File > Invalidate Caches / Restart**'ı seçin.) `ListItemSleepNightBinding` binding nesnesi, ilgili kodla birlikte projenin oluşturulan dosyalarına eklenir.
+
+
+### Adım 2: Data binding kullanarak item layout'u inflate edin
+
+1. `SleepNightAdapter.kt`'yi açın.
+2. `companion object` içinde, `from(parent: ViewGroup)` fonksiyonunu bulun.
+3. `view` değişkeninin bildirimini silin.
+
+**Silinecek** kod:
+
+```
+
+val view = layoutInflater
+       .inflate(R.layout.list_item_sleep_night, parent, false)
+       
+```
+
+4. `view` değişkeninin olduğu yerde, aşağıda gösterildiği gibi `ListItemSleepNightBinding` binding nesnesini inflate eden `binding` adlı yeni bir değişken tanımlayın. Binding nesnesinin gerekli içe aktarımını yapın.
+
+```
+
+val binding =
+ListItemSleepNightBinding.inflate(layoutInflater, parent, false)
+
+```
+
+5. Fonksiyonun sonunda, `view` döndürmek yerine `binding` döndürün.
+
+```
+
+return ViewHolder(binding)
+
+```
+6.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## <a name="e"></a>Aşama 5 : Binding adapterlar yaratın
