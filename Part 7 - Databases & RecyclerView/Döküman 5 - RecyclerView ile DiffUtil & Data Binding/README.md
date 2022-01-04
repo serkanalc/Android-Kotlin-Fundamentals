@@ -225,20 +225,49 @@ ListItemSleepNightBinding.inflate(layoutInflater, parent, false)
 return ViewHolder(binding)
 
 ```
-6.
 
+6. `binding` üzerindeki hatadan kurtulmak için imlecinizi `binding` kelimesinin üzerine getirin. Intention menüsünü açmak için `Alt+Enter `(Mac'te `Option+Enter`) tuşlarına basın.
+7. **Change parameter ‘itemView' type of primary constructor of class ‘ViewHolder' to ‘ListItemSleepNightBinding'**'i seçin. Bu, `ViewHolder` classının parametre türünü günceller.
 
+![intention_menu](https://developer.android.com/codelabs/kotlin-android-training-diffutil-databinding/img/d7213f958ae695b5.png)
 
+8. İmzadaki değişikliği görmek için `ViewHolder`'ın class tanımına gidin. `from()` metodunda `itemView`'ı `binding` olarak değiştirdiğiniz için `itemView` için bir hata görüyorsunuz.
 
+`ViewHolder` class tanımında, `itemView` oluşumlarından birine sağ tıklayın ve **Refactor** > **Rename** öğesini seçin. Adı `binding` olarak değiştirin.
 
+9. `binding` parametresini bir özellik (property) yapmak için önüne `val` anahtar kelimesini koyun.
+10. `RecyclerView.ViewHolder` parent class'ına yapılan çağrıda, parametreyi `binding` yerine `binding.root` olarak değiştirin. Bir `View`'u iletmeniz gerekir ve `binding.root`, öğe layout'unuzdaki kök (root) `ConstraintLayout`'tur.
+11. Bitmiş class bildiriminiz aşağıdaki kod gibi görünmelidir.
 
+```
 
+class ViewHolder private constructor(val binding: ListItemSleepNightBinding) : RecyclerView.ViewHolder(binding.root){
 
+```
 
+Ayrıca `findViewById()` çağrıları için hatalar göreceksiniz. Bu hataları bir sonraki bölümde düzelteceksiniz.
 
+### Adım 3: findViewById()'yi değiştirin
 
+Artık findViewById() yerine `binding` nesnesini kullanmak için `sleepLength`, `quality` ve `qualityImage` özelliklerini güncelleyebilirsiniz.
 
+1. Aşağıda gösterildiği gibi, `binding` nesnesinin viewlarını kullanmak için `sleepLength`, `qualityString` ve `qualityImage`'ın ilk değer tanımlamalarını değiştirin. Bundan sonra, kodunuz daha fazla hata göstermemelidir.
 
+```
 
+val sleepLength: TextView = binding.sleepLength
+val quality: TextView = binding.qualityString
+val qualityImage: ImageView = binding.qualityImage
+
+```
+
+binding nesnesi yerindeyken, artık `sleepLength`, `quality` ve `qualityImage` özelliklerini tanımlamanız gerekmez. `DataBinding`, aramaları (lookups) önbelleğe alır, bu nedenle bu özellikleri bildirmeye gerek yoktur.
+
+2. `sleepLength`, `quality` ve `qualityImage` özellik adlarına sağ tıklayın. Her özellik için **Refactor > Inline**'ı seçin veya `Ctrl+Alt+N`'ye (Mac'te `Option+Command+N`) basın.
+
+![inline property](https://developer.android.com/codelabs/kotlin-android-training-diffutil-databinding/img/b136364471dd01fb.png)
+
+3. Uygulamanızı çalıştırın. (Hatalar varsa projenizi **Clean** ve **Rebuild** etmeniz gerekebilir.)
 
 ## <a name="e"></a>Aşama 5 : Binding adapterlar yaratın
+
