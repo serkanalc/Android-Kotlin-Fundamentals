@@ -41,7 +41,7 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
   - Layoutlar & LayoutManagerlar
   - GridLayout uygulayın
 
-- RecyclerView Öğeleri ile Etkileşime Geçin <!-- link ekle -->
+- [RecyclerView Öğeleri ile Etkileşime Geçin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView/D%C3%B6k%C3%BCman%207%20-%20RecyclerView%20%C3%96%C4%9Feleri%20ile%20Etkile%C5%9Fime%20Ge%C3%A7in)
   - Başlangıç kodunu alın & uygulamadaki değişiklikleri inceleyin
   - Öğeleri tıklanabilir yapın
   - Öğe tıklamalarını yönetin
