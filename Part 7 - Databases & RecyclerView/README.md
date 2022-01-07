@@ -46,7 +46,7 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
   - Öğeleri tıklanabilir yapın
   - Öğe tıklamalarını yönetin
 
-- RecyclerView'da Headerlar (Başlıklar) ekleyin <!-- link ekle -->
+- [RecyclerView'da Headerlar (Başlıklar) ekleyin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView/D%C3%B6k%C3%BCman%208%20-%20RecyclerView'da%20Headerlar%20ekleyin) 
   - RecyclerView'da Headerlar
   - RecyclerView'unuza bir header ekleyin
   - Liste manipülasyonları için coroutineleri kullanın
