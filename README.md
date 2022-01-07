@@ -9,7 +9,7 @@ Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotli
 
 - [x] [Build Your First App](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%201%20-%20Build%20Your%20First%20App)
 - [x] [Build an Interactive App](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%202%20-%20Build%20an%20interactive%20app)
-- [ ] Layouts
+- [x] Layouts
 - [ ] Navigation
 - [ ] Activity & Fragment Lifecycles
 - [ ] Architecture Components
