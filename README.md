@@ -13,7 +13,7 @@ Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotli
 - [ ] Navigation
 - [ ] Activity & Fragment Lifecycles
 - [ ] Architecture Components
-- [ ] Databases & RecyclerView
+- [x] Databases & RecyclerView
 - [ ] Connect to the Internet
 - [ ] Repository & WorkManager
 - [ ] Design For Everyone
