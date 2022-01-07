@@ -223,3 +223,123 @@ val adapter = SleepNightAdapter(SleepNightListener { nightId ->
 4. Uygulamayı çalıştırın, öğelere dokunun ve doğru `nightId` ile bir toast görüntülediklerini doğrulayın. Öğelerin artan `nightId` değerleri olduğundan ve uygulama önce en son geceyi görüntülediğinden, en düşük `nightId` değerine sahip öğe listenin en altındadır.
 
 ## <a name="c"></a>Aşama 3 : Öğe tıklamalarını yönetin
+
+Bu aşamada, `RecyclerView`'daki bir öğeye tıklandığında davranışı değiştirirsiniz, böylece uygulama bir toast göstermek yerine, tıklanan gece hakkında daha fazla bilgi gösteren bir ayrıntı fragment'ına gider.
+
+### Adım 1: Tıklama ile navigate edin
+
+Bu adımda, yalnızca bir toast görüntülemek yerine, `SleepTrackerFragment`'in `onCreateView()` öğesindeki click listener lambdasını, `nightId`'yi `SleepTrackerViewModel`'e geçirmek ve navigation'ı `SleepDetailFragment`'e tetiklemek için değiştirirsiniz.
+
+#### Click handler fonksiyonunu tanımlayın:
+
+1. **SleepTrackerViewModel.kt**'yi açın.
+2. `SleepTrackerViewModel` class'ının içinde, class tanımının sonuna doğru `onSleepNightClicked()` click handler fonksiyonunu oluşturun.
+
+```
+
+fun onSleepNightClicked(id: Long) {
+
+}
+
+```
+
+3. `onSleepNightClicked()` içinde, `_navigateToSleepDetail` öğesini tıklanan uyku gecesinin geçirilen `id`'sine ayarlayarak gezinmeyi tetikleyin.
+
+```
+
+fun onSleepNightClicked(id: Long) {
+   _navigateToSleepDetail.value = id
+}
+
+```
+
+4. `_navigateToSleepDetail`'i uygulayın. Daha önce yaptığınız gibi, navigation durumu için bir `private MutableLiveData` tanımlayın. Ve onunla gitmek için bir public `val`.
+
+```
+
+private val _navigateToSleepDetail = MutableLiveData<Long>()
+val navigateToSleepDetail
+   get() = _navigateToSleepDetail
+   
+```
+
+5. Uygulama navigation'ı bitirdikten sonra aranacak metodu tanımlayın. Onu `onSleepDetailNavigate()` olarak adlandırın ve değerini `null` olarak ayarlayın.
+
+```
+
+fun onSleepDetailNavigated() {
+    _navigateToSleepDetail.value = null
+}
+
+```
+
+#### Click handler'ı çağırmak için kodu ekleyin:
+
+6. **SleepTrackerFragment.kt** dosyasını açın ve adapterı oluşturan ve `SleepNightListener`'ı bir toast gösterecek şekilde tanımlayan koda gidin.
+
+```
+
+val adapter = SleepNightAdapter(SleepNightListener { nightId ->
+   Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
+})
+
+```
+
+7. Bir öğeye dokunulduğunda `sleepTrackerViewModel`'de `onSleepNightClicked()` adlı bir click handler'ı çağırmak için toast'un altına aşağıdaki kodu ekleyin. `nightId`'yi iletin, böylece view model hangi uyku gecesini alacağını bilir.
+
+```
+
+sleepTrackerViewModel.onSleepNightClicked(nightId)
+
+```
+
+#### Tıklamaları gözlemlemek için kodu ekleyin:
+
+8. **SleepTrackerFragment.kt**'yi açın.
+9. `onCreateView()` içinde, fonksiyonun alt kısmında, `manager` bildiriminin hemen üstüne, yeni `navigateToSleepDetail` `LiveData`'yı gözlemlemek için kod ekleyin. `navigateToSleepDetail` değiştiğinde, `night`'ın içinden geçerek `SleepDetailFragment`'e gidin ve ardından `onSleepDetailNavigated()`'i arayın. Bunu daha önceki bir aşamada yaptığınız için, işte kod:
+
+```
+
+sleepTrackerViewModel.navigateToSleepDetail.observe(viewLifecycleOwner, Observer { night ->
+            night?.let {
+              this.findNavController().navigate(
+                        SleepTrackerFragmentDirections
+                                .actionSleepTrackerFragmentToSleepDetailFragment(night))
+               sleepTrackerViewModel.onSleepDetailNavigated()
+            }
+        })
+
+```
+
+10. Kodunuzu çalıştırın, bir öğeye tıklayın ve ... uygulama çöküyor.
+
+
+#### Binding adapterlardaki null değerleri işleyin:
+
+11. Uygulamayı hata ayıklama modunda (debug mode) tekrar çalıştırın. Bir öğeye dokunun ve Errors'u görmek için logları filtreleyin. Aşağıdaki gibi bir şey içeren bir stack trace gösterecektir.
+
+```
+
+Caused by: java.lang.IllegalArgumentException: Parameter specified as non-null is null: method kotlin.jvm.internal.Intrinsics.checkParameterIsNotNull, parameter item
+
+```
+
+Ne yazık ki stack trace, bu hatanın nerede tetiklendiğini açıkça göstermez. Data binding'in bir dezavantajı, kodunuzda hata ayıklamayı zorlaştırabilmesidir. Bir öğeyi tıkladığınızda uygulama çöküyor ve sadece yeni kod tıklamayı işlemek için.
+
+Ancak, bu yeni click-handling mekanizmasıyla, artık binding adapterların `item` için `null` bir değerle çağrılmasının mümkün. Özellikle, uygulama başladığında `LiveData` `null` olarak başlar, bu nedenle adapterların her birine null checkler eklemeniz gerekir.
+
+12. `BindingUtils.kt`'de, binding adapterlarının her biri için `item` argümanının türünü null olarak değiştirin ve body'yi `item?.let{...}` ile sarın. Örneğin, `sleepQualityString` için adapter'ı şöyle görünecektir. Diğer adapterlerı de aynı şekilde değiştirin.
+
+```
+
+@BindingAdapter("sleepQualityString")
+fun TextView.setSleepQualityString(item: SleepNight?) {
+   item?.let {
+       text = convertNumericQualityToString(item.sleepQuality, context.resources)
+   }
+}
+
+```
+
+13. Uygulamanızı çalıştırın. Bir öğeye dokunun ve bir detay view'u açılır.
+
