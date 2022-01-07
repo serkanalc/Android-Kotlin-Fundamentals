@@ -520,6 +520,182 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 ## <a name="7"></a>Temel Constrait Ekleyin
 
+### Temel Constraint
+
+
+
 
 ## <a name="8"></a>Buton Zinciri Ekleyin
+
+Bu görevde, üç Buton görünümü ekler ve bunları birbirine zincirlersiniz.
+
+### 1.Adım: Üç Buton Ekleyin
+
+1. Design sekmesinde aktivite_main.xml dosyasını açın. Palet bölmesinden üç butonu layoutun altına sürükleyin.
+
+![image](https://user-images.githubusercontent.com/80598532/148479657-52d60b91-051e-43ee-8321-5ec954c33efb.png)
+
+2. strings.xml dosyasında, Buton görünümleri için aşağıdaki dize kaynaklarını ekleyin:
+
+```
+<string name="button_red">RED</string>
+<string name="button_yellow">YELLOW</string>
+<string name="button_green">GREEN</string>
+
+```
+
+3. Buton görünümlerine aşağıdaki attribute'leri ayarlayın:
+
+| Attribute | Left Button | Middle Button | Right Button |
+|---|---|
+| id | red_button | yellow_button | green_button |
+| text | @string/button_red | @string/button_yellow | @string/button_green |
+
+Buton etiketlerini birbiriyle dikey olarak hizalayın. Bunu yapmak için red_button ve green_button taban çizgilerini yellow_button'ın taban çizgisiyle sınırlayın. (Bir view'e taban çizgisi constrainti eklemek için, view'a tıklayın ve view'un altında görünen Edit Baseline simgesini ![image](https://user-images.githubusercontent.com/80598532/148480037-90f01c86-08e4-42a1-bb33-3e23fae7d577.png) kullanın.)
+
+![image](https://user-images.githubusercontent.com/80598532/148480050-2bf87ce8-1007-4709-a02d-471992e4ffa4.png)
+
+İpucu: Taban çizgisi constrainti ve alt constraint birbirini dışlar, bu nedenle aynı view (görünüm) için ikisini birden oluşturamazsınız. Bir alt constraint ve ardından bir taban çizgisi constrainti eklerseniz, Layout Editor alt kısıtlamayı kaldırır.
+
+### 2.Adım: Yatay (Horizontal) Bir Zincir Oluşturun ve Onu Sınırlayın (Constraint Uygulayın)
+
+1. Design Editor'de veya Component Tree'de üç buton görünümünün tümünü seçin ve sağ tıklayın. Chains > Create Horizontal chain seçin.
+
+![image](https://user-images.githubusercontent.com/80598532/148480345-678148c1-c675-4540-a1e4-b6721fdd75df.png)
+
+2. Bu marginler henüz ayarlanmamışsa, yellow_button için 16dp'lik sağ ve sol marginleri ayarlamak için görünüm denetçisini kullanın.
+
+![image](https://user-images.githubusercontent.com/80598532/148480426-a4135b0f-439b-4fea-9d2c-4d2928f36b02.png)
+
+3. Görünüm denetçisini kullanarak red_button'ın sol marginini 16dp'ye ayarlayın. green_button'ın sağ marginini 16dp'ye ayarlayın.
+4. Sarı_düğmenin üst kısmını info_text'in alt kısmıyla bağlayın (sınırlayın).
+5. Yellow_button'ın altını düzenin alt kısmıyla sınırlayın (bağlayın).
+
+![image](https://user-images.githubusercontent.com/80598532/148480568-1d8a0f1d-6977-4082-bb34-55cb3d799f7f.png)
+
+6. Butonları layoutun altına bırakmak için yellow_button'ın dikey sapmasını 100 (XML'de 1.0) olarak değiştirin.
+7. Layoutunuzu farklı cihazlar ve yönler için test edin. Layout, tüm aygıtlar ve yönler için çalışmayabilir, ancak çoğu için çalışmalıdır.
+
+Buton görünümleri için oluşturulan XML kodu aşağıdakine benzer olacaktır:
+
+
+```
+
+<Button
+   android:id="@+id/red_button"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_marginStart="@dimen/margin_wide"
+   android:text="@string/button_red"
+   android:visibility="visible"
+   app:layout_constraintBaseline_toBaselineOf="@+id/yellow_button"
+   app:layout_constraintEnd_toStartOf="@+id/yellow_button"
+   app:layout_constraintHorizontal_bias="0.5"
+   app:layout_constraintStart_toStartOf="parent" />
+
+<Button
+   android:id="@+id/yellow_button"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_marginStart="@dimen/margin_wide"
+   android:layout_marginTop="@dimen/margin_wide"
+   android:layout_marginBottom="@dimen/margin_wide"
+   android:text="@string/button_yellow"
+   android:visibility="visible"
+   app:layout_constraintBottom_toBottomOf="parent"
+   app:layout_constraintEnd_toStartOf="@+id/green_button"
+   app:layout_constraintHorizontal_bias="0.5"
+   app:layout_constraintStart_toEndOf="@+id/red_button"
+   app:layout_constraintTop_toBottomOf="@+id/info_text"
+   app:layout_constraintVertical_bias="1.0" />
+
+<Button
+   android:id="@+id/green_button"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_marginEnd="16dp"
+   android:text="@string/button_green"
+   app:layout_constraintBaseline_toBaselineOf="@+id/yellow_button"
+   app:layout_constraintEnd_toEndOf="parent"
+   app:layout_constraintHorizontal_bias="0.5"
+   app:layout_constraintStart_toEndOf="@+id/yellow_button" />
+   
+```
+
+
 ## <a name="9"></a>Butonlara ClickHandlers Ekleyin
+
+Bu görevde, her bir Buton görünümüne bir tıklama işleyicisi (ClickHandlers) eklersiniz. Tıklama işleyici (ClickHandlers), TextView görünümlerinin rengini değiştirir.
+
+1. res/values/colors.xml dosyasına aşağıdaki renkleri ekleyin:
+
+```
+<color name="my_green">#12C700</color>
+<color name="my_red">#E54304</color>
+<color name="my_yellow">#FFC107</color>
+
+```
+
+2. MainActivity.kt'de, buton görünümleri için referanslar almak için findViewById'i kullanın. Bunu yapmak için, aşağıdaki kodu setListeners() tıklama işleyici işlevinin içine, clickableViews bildiriminin üzerine koyun:
+
+
+```
+
+val redButton = findViewById<Button>(R.id.red_button)
+val greenButton = findViewById<Button>(R.id.green_button)
+val yellowButton = findViewById<Button>(R.id.yellow_button)
+
+```
+
+
+3. setListeners() içinde,Buton görünümlerinin referanslarını tıklanabilir viewlar listesine ekleyin.
+
+
+```
+
+private fun setListeners() {
+   ...
+   val clickableViews: List<View> =
+       listOf(boxOneText, boxTwoText, boxThreeText,
+boxFourText, boxFiveText, rootConstraintLayout,
+redButton, greenButton, yellowButton
+)
+   ... 
+}
+
+```
+
+
+
+4. makeColored() işlevinin içine, kullanıcı butonlara dokunduğunda text viewlarının renklerini değiştirmek için kod ekleyin. Bir view arka planı olarak kaynaklarda tanımlanan özel bir renk ayarlamak için setBackgroundResource() işlevini kullanın. View'un arka planı olarak önceden tanımlanmış renkleri ayarlamak için setBackgroundColor() işlevini kullanın. Yeni kodu, gösterildiği gibi, else ifadesinin üzerine ekleyin:
+
+
+```
+
+private fun makeColored(view: View) {
+   when (view.id) {
+
+      ...
+
+       // Boxes using custom colors for background
+       R.id.red_button -> box_three_text.setBackgroundResource(R.color.my_red)
+       R.id.yellow_button -> box_four_text.setBackgroundResource(R.color.my_yellow)
+       R.id.green_button -> box_five_text.setBackgroundResource(R.color.my_green)
+
+       else -> view.setBackgroundColor(Color.LTGRAY)
+   }
+}
+
+```
+
+5. Son uygulamanızı çalıştırın. Text view'larına ve butonlara tıklayın. Ekranınız böyle bir şeye benzeyecek.
+
+
+![image](https://user-images.githubusercontent.com/80598532/148481170-e51b22f7-8597-4f77-92ed-22374476c68d.png)
+
+
+
+
+
+
+
