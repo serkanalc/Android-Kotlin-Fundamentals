@@ -62,7 +62,26 @@ fun getNightWithId(key: Long): LiveData<SleepNight>
 
 7. Data binding'i güncellemek için uygulamanızı clean ve rebuild edin.
 
-### Adım 1: Uyku ayrıntıları ekranı için kodu inceleyin
+### Adım 2: Uyku ayrıntıları ekranı için kodu inceleyin
+
+Bu aşamada, uyku gecesi için bir click handler (tıklama işleyicisi) uygulayacaksınız. Bir kez tıklandığında, uygulama o belirli uyku gecesi hakkında ayrıntıları gösteren bir fragment'a gidecektir. Başlangıç kodunuz zaten bu `SleepDetailFragment` için fragment ve navgation graph'i içerir, çünkü bu oldukça fazla koddur (ve fragmentlar ve navigation bu aşamanın bir parçası değildir). Aşağıdaki kod ayrıntılarını öğrenin:
+
+1. Uygulamanızda `sleepdetail` paketini bulun. Bu paket, bir fragment, view model ve bir gecelik uykunun ayrıntılarını görüntüleyen fragment için bir view model factory içerir.
+2. `sleepdetail` paketinde, `SleepDetailViewModel` kodunu açın ve inceleyin. Bu view model, constructor'da bir `SleepNight` için bir anahtar ve bir DAO alır.
+
+Class'ın body'si, verilen anahtar için `SleepNight`'ı alacak koda ve **Close** düğmesine basıldığında `SleepTrackerFragment`'e geri navigation'ı kontrol etmek için `navigationToSleepTracker` değişkenine sahiptir.
+
+`getNightWithId()` fonksiyonu, bir `LiveData<SleepNight>` döndürür ve `SleepDatabaseDao`'da (`database` paketinde) tanımlanır.
+
+3. `sleepdetail` paketinde `SleepDetailFragment` kodunu açın ve inceleyin. Data binding, view model ve navigation için observer kurulumuna dikkat edin.
+4. `sleepdetail` paketinde `SleepDetailViewModelFactory` kodunu açın ve inceleyin.
+5. layout klasöründe, `fragment_sleep_detail.xml` dosyasını inceleyin. View model'dan her view'da görüntülenecek verileri almak için `<data>` tag'inde tanımlanan `sleepDetailViewModel` değişkenine dikkat edin.
+
+Layout, uyku kalitesi için bir `ImageView`, kalite derecelendirmesi için bir `TextView`, uyku uzunluğu için bir `TextView` ve ayrıntı fragment'ını kapatmak için bir `Button` içeren bir `ConstraintLayout` içerir.
+
+6. `navigation.xml` dosyasını açın. `sleep_tracker_fragment` için, `sleep_detail_fragment`'a yeni action'a dikkat edin.
+
+Yeni action, `action_sleep_tracker_fragment_to_sleepDetailFragment`, uyku izleyici fragment'ından ayrıntılar ekranına yapılan navigation'dır.
 
 ## <a name="b"></a>Aşama 2 : Öğeleri tıklanabilir yapın
 ## <a name="c"></a>Aşama 3 : Öğe tıklamalarını yönetin
