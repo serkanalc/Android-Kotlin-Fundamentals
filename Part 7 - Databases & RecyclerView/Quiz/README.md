@@ -1,0 +1,3 @@
+# Kotlin Fundamentals: Databases & RecyclerView
+
+Bu Quiz Databases & RecyclerView aşaması quizinin tam çevirisidir. Aşağıdaki soruları çözdüyseniz [bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-seven/kotlin-fundamentals-seven?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-seven%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-seven%2Fkotlin-fundamentals-seven)  cevapları gönderip başarı seviyenizi görebilir ve paylaşılabilir bir badge kazanabilirsiniz! Bu sınavı geçmek için en az 5 soruyu doğru cevaplamalısınız.
