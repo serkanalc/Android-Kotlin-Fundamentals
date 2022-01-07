@@ -257,14 +257,14 @@ Bu şekilde bir constraint oluşturduğunuzda, constraint üst öğeye veya ona 
 
 2. Activity_main.xml dosyasını açın ve Design sekmesine tıklayın. Yeni text view'da aşağıdaki attribute'ları (nitelikleri) ayarlamak için Attributes bölmesini kullanın:
 
-
 | Attribute | Value |
 |---|---|
 | id | box_two_text |
-| layout_height| 130dp |
+| layout_height | 130dp |
 | layout_width | 130dp |
 | style | @style/whiteBox |
 | text | @string/box_two |
+
 
 Bu durumda, text view'un yüksekliği ve genişliği için sabit boyutlar atarsınız. Yalnızca görünümünüzün tüm cihazlarda ve düzenlerde her zaman sabit bir boyutu olması gerekiyorsa, yükseklik ve genişlik için sabit boyutlar atayın.
 
@@ -410,7 +410,7 @@ Aralarına boşluk eklemek için üç text view'da Layout_margin niteliklerini a
 
 ## <a name="6"></a>Text görünümerine ClickHandler Ekleyin
 
-In this task, you make the ColorMyViews app a little more colorful. First you change the color of all the text views to white. Then you add a click handler that changes the view's color and the layout background color when the user taps it.
+Bu görevde ColorMyViews uygulamasını biraz daha renkli hale getiriyorsunuz. İlk önce tüm metin görünümlerinin rengini beyaz olarak değiştirirsiniz. Ardından, kullanıcı dokunduğunda görünümün rengini ve layout arka plan rengini değiştiren bir click handler eklersiniz.
 
 1. style.xml dosyasında, whiteBox stilinin içinde arka plan rengini beyaz olarak değiştirin. Metin görünümleri beyaz yazı tipiyle beyazdan başlayacak ve ardından kullanıcı bunlara dokunduğunda renkleri değiştirecektir.
 
