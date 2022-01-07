@@ -173,6 +173,29 @@ Bu, roboto.ttf yazı tipi dosyasını içeren bir res/font klasörü ekler.Ayrı
 ```
 Bu stilde, arka plan rengi ve metin rengi varsayılan Android renk kaynaklarına ayarlanmıştır. Yazı tipi Roboto olarak ayarlanmıştır. Metin ortaya hizalanmış ve kalın yazılmıştır ve metin boyutu box_text_size olarak ayarlanmıştır.
 
+### 3.Adım: Text View İçin Bir Dize Kaynağı Ekleyin
+
+1. Nitelikler (Attributes) bölmesinde, text niteliğini bulun. (Anahtar simgesi olmayanı istiyorsunuz.)
+2. Kaynaklar (Resources) iletişim kutusunu açmak için metin özelliğinin yanındaki ... (üç nokta) öğesini tıklayın.
+3. Kaynaklar iletişim kutusunda Add new resource > New string Value seçin. Kaynak adını box_one ve değeri Box One olarak ayarlayın.
+4. Tamam'ı tıklayın.
+
+![image](https://user-images.githubusercontent.com/80598532/148471048-8b6f6bfb-c228-4a80-824b-903c56667902.png)
+
+### 4.Adım: Text View için Attributes (Nitelik) Ayarlarını Bitirin
+
+1. Attributes bölmesinde, text view'un id'sini box_one_text olarak ayarlayın.
+2. Stili @style/whiteBox olarak ayarlayın.
+3. Kodu temizlemek için text sekmesine geçin ve android:fontFamily="@font/roboto" attribute'unu kaldırın, çünkü bu yazı tipi whiteBox stilinde mevcuttur.
+4. Design sekmesine geri dönün. Design editor'ün üst kısmında, Önizleme için Cihaz (D) düğmesini tıklayın. Farklı ekran konfigürasyonlarına sahip cihaz türlerinin bir listesi görüntülenir. Varsayılan cihaz Pixel'dir.
+
+![image](https://user-images.githubusercontent.com/80598532/148471285-1eefbdf3-aad5-4625-a779-940a1fa91b17.png)
+
+5. Listeden farklı cihazlar seçin ve TextView'in farklı ekran konfigürasyonlarına nasıl uyum sağladığını görün.
+6. Uygulamanızı çalıştırın. "Box One" metniyle birlikte stil sahibi bir yeşil text view görürsünüz.
+
+![image](https://user-images.githubusercontent.com/80598532/148471386-16a572cd-89ba-4ae4-a928-d67b85b29595.png)
+
 
 
 ## <a name="4"></a>İkinci bir TextView Ekleyin ve Constrait Ekleyin (kısıtlamalar)
@@ -189,16 +212,314 @@ Bu görevde, box_one_text'in altına başka bir text view eklersiniz. Yeni text 
 
 3. Design editor'de, yeni text view'a tıklayın, ardından işaretçiyi text view'un üst tarafındaki noktanın üzerinde tutun. Aşağıda gösterilen bu noktaya kısıtlama tutamacı (constraint handle) denir.
 
-![Uploading image.png…]()
+![image](https://user-images.githubusercontent.com/80598532/148469320-c282cb95-e75a-4f0d-ac67-fc81d03f0794.png)
+
+İşaretçiyi kısıtlama tutamacı (constraint handle) üzerinde tuttuğunuzda tutamaç (handle) yeşile döner ve yanıp söner.
+
+### 2. Adım: Yeni Text View'e Constraints Ekleyin
+
+Yeni text view'ün üst kısmını "Box One" metin görünümünün altına bağlayan bir constraint oluşturun:
+
+1. Yeni text view'de işaretçiyi üst constraint handle üzerinde tutun.
+2. Görünümün üst constraint handle'ına tıklayın ve yukarı sürükleyin. Bir kısıtlama çizgisi belirir. Kısıtlama çizgisini aşağıda gösterildiği gibi Box One text view'unun altına bağlayın.
+
+![image](https://user-images.githubusercontent.com/80598532/148470110-9fa6f3e9-ed31-415c-9093-915651e8c9fa.png)
 
 
+Tıklamayı bıraktığınızda, kısıtlama oluşturulur ve yeni text view Box One'ın altındaki 16 dp'lik mesafeye taşınır. (Yeni text view'un üst kenar boşluğu 16 dp'dir çünkü bu, daha önce belirlediğiniz varsayılan değerdir.)
 
 
+Şimdi bir sol kconstraint oluşturun:
+1. Yeni view'ın sol tarafındaki constraint handle'a tıklayın.
+2. Kısıtlama çizgisini layout'un (sayfanın) sol kenarına sürükleyin.
+
+![image](https://user-images.githubusercontent.com/80598532/148470305-4fe0e5a8-588a-4145-9b8e-b2996f3de101.png)
+
+
+İpucu: Görünüm denetçisini kullanarak da constraintler oluşturabilirsiniz. Örneğin, yeni text view'da bir sol constraint oluşturmak için:
+
+1. Önizlemede,yeni tex view'a seçmek için tıklayın.
+2. Görünüm denetçisinde, aşağıda gösterildiği gibi kutunun sol tarafındaki + simgesini ![image](https://user-images.githubusercontent.com/80598532/148470468-c06ed04a-c40d-4571-aa5b-2fc2d2203199.png) tıklayın.
+
+![image](https://user-images.githubusercontent.com/80598532/148470486-b2c03ef3-7687-452a-bccd-d9256191f8b3.png)
+
+Bu şekilde bir constraint oluşturduğunuzda, constraint üst öğeye veya ona daha yakın bir görünüme eklenir.
+
+
+### 3.Adım: Yeni Text View için Attributes (Nitelikleri) Ayarlayın
+
+1. res/values/strings.xml dosyasını açın. Aşağıdaki kodla yeni bir dize kaynağı ekleyin:
+
+```
+<string name="box_two">Box Two</string>
+
+```
+
+2. Activity_main.xml dosyasını açın ve Design sekmesine tıklayın. Yeni text view'da aşağıdaki attribute'ları (nitelikleri) ayarlamak için Attributes bölmesini kullanın:
+
+
+| Attribute | Value |
+|---|---|
+| id | box_two_text |
+| layout_height| 130dp |
+| layout_width | 130dp |
+| style | @style/whiteBox |
+| text | @string/box_two |
+
+Bu durumda, text view'un yüksekliği ve genişliği için sabit boyutlar atarsınız. Yalnızca görünümünüzün tüm cihazlarda ve düzenlerde her zaman sabit bir boyutu olması gerekiyorsa, yükseklik ve genişlik için sabit boyutlar atayın.
+
+
+Önemli: Gerçek dünya uygulamaları geliştirirken, mümkün olduğunda UI öğelerinizin yüksekliği ve genişliği için esnek kısıtlamalar kullanın. Örneğin, match_constraint veya wrap_content kullanın. Uygulamanızda ne kadar sabit boyutlu UI öğelerine sahipseniz, düzeniniz farklı ekran yapılandırmaları için o kadar az uyarlanabilir.
+
+3. Uygulamanızı çalıştırın. Aşağıdaki ekran görüntüsüne benzer şekilde, biri diğerinin üzerinde iki yeşil TextView görünümü görmelisiniz:
+
+![image](https://user-images.githubusercontent.com/80598532/148472291-7f6e3813-40a4-40b1-b346-a91a3819ab4d.png)
 
 
 
 ## <a name="5"></a>TextView Görünümleri Zinciri Oluşturun
+
+Bu görevde, üç TextView görünümü eklersiniz. Text view'lar birbirleriyle dikey olarak ve "Box Two"ntext view'u ile yatay olarak hizalanır. Görünüşler bir zincir halinde olacak.
+
+### Zincirler
+Zincir, çift yönlü constraintslerle birbirine bağlanan bir görüş grubudur. Bir zincir içindeki görünümler, dikey veya yatay olarak dağıtılabilir. Örneğin, aşağıdaki diyagram, yatay bir zincir oluşturan, birbiriyle sınırlı iki görünümü göstermektedir.
+
+![image](https://user-images.githubusercontent.com/80598532/148472831-13bdc618-5098-4b0d-b455-59d6b6245703.png)
+
+#### Zincirin Başı
+Bir zincirdeki ilk görünüme zincirin başı denir. Zincirin başına ayarlanan öznitelikler, zincirdeki tüm görünümleri kontrol eder, konumlandırır ve dağıtır. Yatay zincirler için baş en soldaki görünümdür. Dikey zincirler için baş, en üstteki görünümdür. Aşağıdaki iki diyagramın her birinde "A" zincirin başıdır.
+
+
+![image](https://user-images.githubusercontent.com/80598532/148472958-301c2626-70d2-40cd-af75-8f5056619433.png)
+
+#### Zincir Stilleri
+
+Zincir stilleri, zincirleme görünümlerin yayılma ve hizalanma şeklini tanımlar. Bir zincir stili özniteliği atayarak, ağırlık ekleyerek veya görünümlere önyargı ayarlayarak bir zincire stil verirsiniz.
+
+Üç zincir stili vardır:
+ - Spread (Yayılma): Bu, default (varsayılan) stildir. Kenar boşlukları hesaba katıldıktan sonra görünümler kullanılabilir alana eşit olarak yayılır.
+
+![image](https://user-images.githubusercontent.com/80598532/148473156-554903b3-7698-4f99-9803-d6805ab5adde.png)
+
+- Spread Inside (İçeriye yayılma): İlk ve son görünümler, zincirin her iki ucundaki üst öğeye eklenir. Görünümlerin geri kalanı, kullanılabilir alana eşit olarak yayılır.
+
+![image](https://user-images.githubusercontent.com/80598532/148473256-9fe5f88a-943f-48d4-a1c6-0497a2f04907.png)
+
+- Packed (Paketlenmiş): Kenar boşlukları hesaplandıktan sonra görünümler birlikte paketlenir. Ardından, zincirin baş görünümünün sapmasını değiştirerek tüm zincirin konumunu ayarlayabilirsiniz.
+
+![image](https://user-images.githubusercontent.com/80598532/148473395-68a45a15-f9f1-41a9-af9d-787def921e3b.png)
+
+- Weighted (Ağırlıklı): Görünümler, layout_constraintHorizontal_weight veya layout_constraintVertical_weight özniteliklerinde ayarlanan değerlere göre tüm alanı dolduracak şekilde yeniden boyutlandırılır. Örneğin, A, B ve C olmak üzere üç görünüm içeren bir zincir hayal edin. A Görünümü 1 ağırlık kullanır. B ve C görünümlerinin her biri 2 ağırlık kullanır. B ve C görünümlerinin kapladığı alan A görünümünün iki katıdır. , Aşağıda gösterildiği gibi.
+
+
+![image](https://user-images.githubusercontent.com/80598532/148473576-f4874d0f-a96e-4561-9f9b-5cb3674a0f2c.png)
+
+Bir zincire zincir stili eklemek için, zincirin başı için layout_constraintHorizontal_chainStyle veya layout_constraintVertical_chainStyle attribute'unu ayarlayın. Bu görevde öğrendiğiniz Layout Editor'de zincir stilleri ekleyebilirsiniz.
+
+Alternatif olarak, XML koduna zincir stilleri ekleyebilirsiniz. Örneğin:
+
+
+```
+// Horizontal spread chain
+app:layout_constraintHorizontal_chainStyle="spread"
+
+// Vertical spread inside chain
+app:layout_constraintVertical_chainStyle="spread_inside"
+
+// Horizontal packed chain
+app:layout_constraintHorizontal_chainStyle="packed"
+
+```
+### 1.Adım: Üç Text View Ekleyin ve Dikey Bir Zincir Oluşturun
+
+1. Design sekmesinde aktivite_main.xml dosyasını açın. Palet bölmesinden üç TextView görünümünü tasarım düzenleyicisine (design editor) sürükleyin. Üç yeni text view'u de aşağıda gösterildiği gibi "Box Two" text view'unun sağına koyun.
+
+![image](https://user-images.githubusercontent.com/80598532/148473948-cc306e89-81c4-4795-967e-85045dc76254.png)
+
+2. strings.xml dosyasında, yeni text view'lerin adları için aşağıdaki dize kaynaklarını ekleyin:
+
+
+```
+<string name="box_three">Box Three</string>
+<string name="box_four">Box Four</string>
+<string name="box_five">Box Five</string>
+
+```
+
+3. Yeni text view'lar için aşağıdaki attributeleri ayarlayın:
+
+| Attribute | Top Text View | Middle Text View | Bottom Text View |
+|---|---|
+| id | box_three_text | box_four_text | box_five_text |
+| text | @string/box_three | @string/box_four | @string/box_five |
+| style | @style/whiteBox | @style/whiteBox | @style/whiteBox |
+
+![image](https://user-images.githubusercontent.com/80598532/148474329-d5d49303-22d7-41dc-af97-78884c512d36.png)
+
+Component Tree'de (bileşen ağacında), Bileşen Ağacında, eksik attributelarla ilgili hatalar görürsünüz. Bu hataları daha sonra düzeltirsiniz.
+
+### 2.Adım: Bir Zincir Oluşturun ve Onu "Box Two" Yüksekliğiyle Sınırlayın
+
+1. Üç yeni text view'un tümünü seçin, sağ tıklayın ve Chains > Create Vertical Chain'i seçin.
+
+![image](https://user-images.githubusercontent.com/80598532/148474500-721e9b0c-7d3b-432e-b34e-541bc2d0ffc9.png)
+
+Bu, "Box One"'dan layoutun sonuna kadar uzanan dikey bir zincir oluşturur.
+
+2. éBox Three" tepesinden "Box Two" üstüne uzanan bir constraint ekleyin. Bu, mevcut üst constraint'i kaldırır ve onu yeni constraint ile değiştirir. Constraint'i açıkça silmeniz gerekmez.
+
+![image](https://user-images.githubusercontent.com/80598532/148474666-7a390c26-6f0b-4a89-8616-b07fa14d0d54.png)
+
+3. "Box Five" altından "Box Two" altına bir constraint ekleyin.
+
+![image](https://user-images.githubusercontent.com/80598532/148474732-b028bb2c-03cc-4078-8285-a0146a4bbf2f.png)
+
+Üç text view'un artık "Box Two"'nun üst ve alt kısımlarıyla sınırlandırıldığını gözlemleyin.
+
+
+### 3.Adım: Sağa ve Sola Constraints Ekleyin
+
+1. "Box Three"'nin sol tarafını "Box Two"'nun sağ tarafıyla sınırlayın. "Box Four" ve "Box Five" için tekrarlayın, her birinin sol tarafını "Box Two"'nun sağ tarafıyla sınırlayın.
+
+![image](https://user-images.githubusercontent.com/80598532/148474887-4f0f35a6-a4cb-42ed-978b-0f5f279b44cb.png)
+
+2. Üç text view'un her birinin sağ tarafını layoutun sağ tarafıyla sınırlayın.
+
+![image](https://user-images.githubusercontent.com/80598532/148474950-f4cac0ee-6679-486c-a258-07234453cd71.png)
+
+3. Üç text view'un her biri için, constraint türünü "Match Constraints" olarak değiştirmeye eşdeğer olan layout_width niteliğini 0dp'ye değiştirin.
+
+![image](https://user-images.githubusercontent.com/80598532/148475224-e10a1f87-1d59-4b28-8a29-2552d86d4ca4.png)
+
+### 4.Adım: Margin Ekleme
+
+Aralarına boşluk eklemek için üç text view'da Layout_margin niteliklerini ayarlamak için Attributes bölmesini kullanın.
+
+1. "Box Three" için, başlangıç ve bitiş kenar boşlukları için @dimen/margin_wide kullanın. Diğer kenar boşluklarını kaldırın.
+2. "Box Four" için başlangıç, bitiş, üst ve alt kenar boşlukları için @dimen/margin_wide kullanın. Diğer kenar boşluklarını kaldırın.
+3. "Box Five" için, başlangıç ve bitiş kenar boşlukları için @dimen/margin_wide kullanın. Diğer kenar boşluklarını kaldırın.
+4. Uygulamanızdaki text viewların cihaz yapılandırma değişikliklerine nasıl uyum sağladığını görmek için önizlemenin yönünü değiştirin. Bunu yapmak için, araç çubuğunda Önizleme için Oryantasyon (O) simgesine ![image](https://user-images.githubusercontent.com/80598532/148475499-01ce08b1-fed4-4eb5-81bf-baea1772aa74.png) tıklayın ve Landscape'ı seçin.
+
+![image](https://user-images.githubusercontent.com/80598532/148475520-51857e74-a4ab-4ade-9a49-0e14a75b8c4b.png)
+
+5. Uygulamayı çalıştırın. Beş tarz TextView görünümü görmelisiniz. Constraint'lerin daha geniş bir ekranda nasıl davrandığını görmek için uygulamayı Nexus 10 gibi daha büyük bir cihazda veya öykünücüde çalıştırmayı deneyin.
+
+![image](https://user-images.githubusercontent.com/80598532/148475610-2abcf73e-3c26-43cc-a76f-3908fcda1958.png)
+
+
+
 ## <a name="6"></a>Text görünümerine ClickHandler Ekleyin
+
+In this task, you make the ColorMyViews app a little more colorful. First you change the color of all the text views to white. Then you add a click handler that changes the view's color and the layout background color when the user taps it.
+
+1. style.xml dosyasında, whiteBox stilinin içinde arka plan rengini beyaz olarak değiştirin. Metin görünümleri beyaz yazı tipiyle beyazdan başlayacak ve ardından kullanıcı bunlara dokunduğunda renkleri değiştirecektir.
+
+```
+<item name="android:background">@android:color/white</item>
+
+```
+
+2. MainActivity.kt'de onCreate() işlevinden sonra makeColored() adlı bir işlev ekleyin. İşlevin parametresi olarak View'u kullanın. Bu görünüm, rengi değişecek olandır.
+
+```
+private fun makeColored(view: View) {
+}
+
+```
+
+Her görünümün bir resource id'si vardır. Resource id (Kaynak kimliği), layout dosyasındaki aktivite_main.xml görünümün kimliği özelliğine atanan değerdir. Bir renk ayarlamak için kod, view'un Resource id'sinde bir When ifadesi kullanarak değişecektir. Tıklama eylemi aynı olduğunda birçok view için bir tıklama işleyici işlevini kullanmak yaygın bir kalıptır.
+
+3. makeColored() işlevini uygulayın: view'un Resource id'sini kontrol etmek için bir when bloğu ekleyin. Color sınıfı sabitlerini kullanarak view'un arka plan rengini değiştirmek için her view id'sinde setBackgroundColor() işlevini çağırın. Kod girintisini düzeltmek için Code > Reformat code'u seçin.
+
+```
+private fun makeColored(view: View) {
+   when (view.id) {
+      
+       // Boxes using Color class colors for the background
+       R.id.box_one_text -> view.setBackgroundColor(Color.DKGRAY)
+       R.id.box_two_text -> view.setBackgroundColor(Color.GRAY)
+       R.id.box_three_text -> view.setBackgroundColor(Color.BLUE)
+       R.id.box_four_text -> view.setBackgroundColor(Color.MAGENTA)
+       R.id.box_five_text -> view.setBackgroundColor(Color.BLUE) 
+   }
+}
+
+```
+
+4. Çalıştırmak için az önce eklediğiniz kodun android.graphics.Color kitaplığına ihtiyacı var. Android Studio bu kitaplığı otomatik olarak içe aktarmadıysa, kitaplığı MainActivity sınıf tanımından önce eklemek için bir import ifadesi kullanın.
+5. Kullanıcı arka plana dokunursa, arka plan renginin açık griye dönüşmesini istersiniz. Açık renkli bir arka plan, görünümlerin ana hatlarını ortaya çıkaracak ve kullanıcıya bir sonraki nereye dokunulacağı konusunda bir ipucu verecektir.
+
+Id, viewların hiçbiriyle eşleşmiyorsa, kullanıcının arka plana dokunduğunu bilirsiniz. When ifadesinin sonuna başka bir ifade ekleyin. Diğerinin içinde, arka plan rengini açık gri olarak ayarlayın.
+
+```
+else -> view.setBackgroundColor(Color.LTGRAY)
+
+```
+
+6. Activity_main.xml dosyasında, ConstraintLayout root (kök) dizinine bir id ekleyin. Android sisteminin rengini değiştirmek için bir tanımlayıcıya ihtiyacı vardır.
+
+```
+android:id="@+id/constraint_layout"
+
+```
+
+7. MainActivity.kt'de, her view'de tıklama-dinleyici işlevi makeColored()'ı ayarlamak için setListeners() adlı bir işlev ekleyin. Her text view ve root layout için bir referans almak için findViewByID kullanın. Her referansı bir değişkene atayın.
+
+```
+private fun setListeners() {
+
+   val boxOneText = findViewById<TextView>(R.id.box_one_text)
+   val boxTwoText = findViewById<TextView>(R.id.box_two_text)
+   val boxThreeText = findViewById<TextView>(R.id.box_three_text)
+   val boxFourText = findViewById<TextView>(R.id.box_four_text)
+   val boxFiveText = findViewById<TextView>(R.id.box_five_text)
+
+   val rootConstraintLayout = findViewById<View>(R.id.constraint_layout)
+}
+
+```
+
+Bu kodun çalışması için android.widget.TextView kitaplığına ihtiyacı var. Android Studio bu kitaplığı otomatik olarak içe aktarmazsa, kitaplığı MainActivity sınıf tanımından önce eklemek için bir import ifadesi kullanın.
+
+8. setListeners() fonksiyonunun sonunda, bir view listesi tanımlayın. Listeye tıklanabilir Viewlar adını verin ve tüm view örneklerini listeye ekleyin.
+
+
+```
+fun setListeners() {
+...
+   val clickableViews: List<View> =
+       listOf(boxOneText, boxTwoText, boxThreeText,
+              boxFourText, boxFiveText, rootConstraintLayout)
+  }
+
+```
+
+9.setListeners() işlevinin sonunda, her view için lintener (dinleyiciyi) ayarlayın. Bir for döngüsü ve setOnClickListener() işlevini kullanın. 
+
+```
+   for (item in clickableViews) {
+       item.setOnClickListener { makeColored(it) }
+
+```
+
+10. MainActivity.kt'de onCreate() fonksiyonunun sonunda setListeners()'a bir çağrı yapın.
+
+
+```
+override fun onCreate(savedInstanceState: Bundle?) {
+...
+   setListeners()
+}
+
+```
+
+11. Uygulamanızı çalıştırın. İlk başta boş bir ekran görüyorsunuz. Viewları ve arka planı ortaya çıkarmak için ekrana dokunun. Devam edin ve kendi başınıza daha fazla view ve renkle daha fazlasını deneyin.
+
+![image](https://user-images.githubusercontent.com/80598532/148479299-3b6de5da-68a8-4ee8-8307-9e9da744e18b.png)
+
+
 ## <a name="7"></a>Temel Constrait Ekleyin
+
+
 ## <a name="8"></a>Buton Zinciri Ekleyin
 ## <a name="9"></a>Butonlara ClickHandlers Ekleyin
