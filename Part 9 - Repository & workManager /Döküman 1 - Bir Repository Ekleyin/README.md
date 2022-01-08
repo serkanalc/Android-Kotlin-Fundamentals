@@ -72,7 +72,7 @@ Bu başlangıç uygulaması, uygulamanın repository modülüne odaklanabilmeniz
 
 `network/DataTransferObjects.kt` class'ı, `NetworkVideo` adlı bir [data transfer object](https://en.wikipedia.org/wiki/Data_transfer_object) (veri aktarım nesnesi) için data class'ını içerir. Data transfer object, ağ sonucunu parse etmek için kullanılır. Bu dosya ayrıca ağ sonuçlarını bir domain nesneleri listesine dönüştürmek için bir kolaylık metodu olan `asDomainModel()` içerir. Data transfer objectleri, ağ sonuçlarını parse etmek için fazladan mantık içerdiklerinden, domain nesnelerinden farklıdır.
 
->İpucu: Ağ, domain ve veritabanı nesnelerini ayırmak en iyi uygulamadır (best practice). Bu strateji, [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) ilkesini takip eder. Ağ yanıtı veya veritabanı şeması (schema) değişirse, tüm uygulamanın kodunu güncellemeden uygulama bileşenlerini değiştirebilmek ve yönetebilmek istersiniz.
+>**İpucu:** Ağ, domain ve veritabanı nesnelerini ayırmak en iyi uygulamadır (best practice). Bu strateji, [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) ilkesini takip eder. Ağ yanıtı veya veritabanı şeması (schema) değişirse, tüm uygulamanın kodunu güncellemeden uygulama bileşenlerini değiştirebilmek ve yönetebilmek istersiniz.
 
 4. Başlangıç kodunun geri kalanını kendi başınıza keşfetmeyi deneyin.
 
@@ -100,7 +100,7 @@ Aşağıdaki tablo, Android'de network (ağ) caching uygulamanın birkaç yolunu
 
 Bu aşamada, çevrimdışı cache olarak kullanmak için uygulamanıza bir `Room` veritabanı ekleyeceksiniz.
 
->Anahtar kavram: Uygulama her başlatıldığında ağdan veri almayın. Bunun yerine, veritabanından aldığınız verileri görüntüleyin. Bu teknik, uygulama yükleme süresini azaltır.
+>**Anahtar kavram:** Uygulama her başlatıldığında ağdan veri almayın. Bunun yerine, veritabanından aldığınız verileri görüntüleyin. Bu teknik, uygulama yükleme süresini azaltır.
 
 ![data fetch](https://developer.android.com/codelabs/kotlin-android-training-repository/img/e23d9d1fb048f343.png)
 
@@ -262,12 +262,126 @@ fun getDatabase(context: Context): VideosDatabase {
 }
 
 ```
->İpucu: `.isInitialized` Kotlin özelliği, `lateinit` özelliğine (bu örnekte `INSTANCE`) bir değer atanmışsa `true`, aksi takdirde `false` döndürür.
+>**İpucu:** `.isInitialized` Kotlin özelliği, `lateinit` özelliğine (bu örnekte `INSTANCE`) bir değer atanmışsa `true`, aksi takdirde `false` döndürür.
 
 Artık, `Room`'u kullanarak veritabanını uyguladınız. Bir sonraki görevde, bir repository pattern'ı kullanarak bu veritabanını nasıl kullanacağınızı öğreneceksiniz.
 
-
 ## <a name="d"></a>Aşama 4 : Repositoryler
+
+### Repository pattern
+
+_Repository pattern_'ı, veri kaynaklarını uygulamanın geri kalanından izole eden bir tasarım pattern'ıdır.
+
+Bir _repository_, veri kaynakları (persistent modeller, web hizmetleri ve cacheler gibi) ile uygulamanın geri kalanı arasında aracılık yapar. Aşağıdaki şema, `LiveData` kullanan activityler gibi uygulama bileşenlerinin bir repository yoluyla veri kaynaklarıyla nasıl etkileşime girebileceğini gösterir.
+
+![repository diagram](https://developer.android.com/codelabs/kotlin-android-training-repository/img/69021c8142d29198.png)
+
+Bir repository uygulamak için, bir sonraki aşamada oluşturduğunuz `VideosRepository` class'ı gibi bir _repository class_'ı kullanırsınız. Repository class, veri kaynaklarını uygulamanın geri kalanından yalıtır ve uygulamanın geri kalanına veri erişimi için temiz bir API sağlar. Bir repository class kullanmak, kod ayrımı (separation) ve mimarisi için önerilen en iyi uygulamadır.
+
+### Repository pattern
+
+Bir repository modülü, veri işlemlerini gerçekleştirir ve birden çok backend kullanmanıza olanak tanır. Tipik bir gerçek dünya uygulamasında, repository, bir ağdan veri alıp almamaya veya yerel bir veritabanında cache edilen sonuçları kullanmaya karar verme mantığını uygular. Bu, kodunuzu modüler ve test edilebilir hale getirmeye yardımcı olur. Repository'yi kolayca taklit edebilir ve kodun geri kalanını test edebilirsiniz.
+
 ## <a name="e"></a>Aşama 5 : Bir repository oluşturun
+
+Bu aşamada, önceki aşamada uyguladığınız çevrimdışı cache'i yönetmek için bir repository oluşturursunuz. `Room` veritabanınızın çevrimdışı cache'i yönetme mantığı yoktur, yalnızca verileri ekleme ve alma yöntemleri vardır. Repository, ağ sonuçlarını alma ve veritabanını güncel tutma mantığına sahip olacaktır.
+
+### Adım 1: Bir repository ekleyin
+
+1. `repository/VideosRepository.kt`'de, bir `VideosRepository` class'ı oluşturun. `Dao` metotlarına erişmek için bir `VideosDatabase` nesnesini class'ın constructor parametresi olarak iletin.
+
+```
+
+/**
+* Ağdan devbyte videoları almak ve bunları diskte depolamak için bir repository
+*/
+class VideosRepository(private val database: VideosDatabase) {
+}
+
+```
+
+2. `VideosRepository` class'ının içine, argümanı olmayan ve hiçbir şey döndürmeyen bir `refreshVideos()` metodu ekleyin. Bu metot, çevrimdışı cache'i yenilemek için kullanılan API olacaktır.
+3. `refreshVideos()`'u bir suspend fonksiyonu yapın. `refreshVideos()` bir veritabanı işlemi gerçekleştirdiği için, bir coroutine'den çağrılmalıdır.
+
+>**Not:** Android'deki veritabanları dosya sisteminde veya diskte depolanır ve kaydetmek için bir disk I/O gerçekleştirmeleri gerekir. Disk I/O veya diske okuma ve yazma işlemi yavaştır ve işlem tamamlanana kadar her zaman mevcut thread'i engeller. Bu nedenle, disk I/O'sunu [I/O dispatcher](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-i-o.html)'ında çalıştırmanız gerekir. Bu dispatcher, [`withContext`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-context.html)`(Dispatchers.IO) { ... }` kullanarak, blocking I/O görevlerini paylaşılan bir thread havuzuna boşaltmak için tasarlanmıştır.
+
+4. `refreshVideos()` metodunun içinde, ağ ve veritabanı işlemlerini gerçekleştirmek için coroutine context'ini `Dispatchers.IO` olarak değiştirin.
+
+```
+
+/**
+* Çevrimdışı cache'te depolanan videoları yenileyin.
+*
+* Bu fonksiyon, veritabanı ekleme veritabanı işleminin IO dispatcher'ında gerçekleşmesini sağlamak için IO dispatcher'ı kullanır. * 'withContext' kullanarak IO dispatcher'ına geçerek, bu işlevin main thread dahil herhangi bir thread'den çağrılması artık * *   * güvenlidir.
+*
+*/
+suspend fun refreshVideos() {
+   withContext(Dispatchers.IO) {
+   }
+}
+
+```
+
+5. `withContext` bloğunun içinde, Retrofit servisi instance'ı `DevByteNetwork`'ü kullanarak DevByte video oynatma listesini ağdan alın.
+
+```
+
+val playlist = DevByteNetwork.devbytes.getPlaylist()       
+
+```
+
+6. `refreshVideos()` metodunun içinde, çalma listesini ağdan getirdikten sonra, çalma listesini `Room` veritabanında saklayın.
+
+Çalma listesini depolamak için `VideosDatabase` nesnesini, `database`, kullanın. Ağdan alınan `playlist`'i ileterek `insertAll` DAO metodunu çağırın. `playlist`'i veritabanı nesnesine maplemek için `asDatabaseModel()` extensipn fonksiyonunu kullanın.
+
+```
+
+database.videoDao.insertAll(playlist.asDatabaseModel())
+
+```
+
+7. Çağrıldığında izlemek için bir log ifadesi içeren tam `refreshVideos` metodu:
+
+```
+
+suspend fun refreshVideos() {
+   withContext(Dispatchers.IO) {
+       Timber.d("refresh videos is called");
+       val playlist = DevByteNetwork.devbytes.getPlaylist()
+       database.videoDao.insertAll(playlist.asDatabaseModel())
+   }
+}
+
+```
+
+### Adım 2: Veritabanından veri alın
+
+Bu adımda, veritabanından video oynatma listesini okumak için bir `LiveData` nesnesi oluşturursunuz. Bu `LiveData` nesnesi, veritabanı güncellendiğinde otomatik olarak güncellenir. Bağlı fragment veya activity yeni değerlerle yenilenir.
+
+1. `VideosRepository` class'ında, `DevByteVideo` nesnelerinin bir listesini tutmak için `videos` adlı bir `LiveData` nesnesi bildirin.
+2. `database.videoDao`'yu kullanarak `videos` nesnesini initialize edin. `getVideos()` DAO metodunu çağırın. `getVideos()` metodu bir `DevByteVideo` nesneleri listesi değil, bir veritabanı nesneleri listesi döndürdüğü için, Android Studio bir "type mismatch" (tür uyuşmazlığı) hatası verir.
+
+```
+
+val videos: LiveData<List<DevByteVideo>> = database.videoDao.getVideos()
+
+```
+
+3. Hatayı düzeltmek için, veritabanı nesneleri listesini bir domain nesneleri listesine dönüştürmek için `Transformations.map`'i kullanın. `asDomainModel()` dönüştürme metodunu kullanın.
+
+>**Tazeleme:** [Transformations.map](https://developer.android.com/reference/android/arch/lifecycle/Transformations.html#map(android.arch.lifecycle.LiveData%3CX%3E,%20android.arch.core.util.Function%3CX,%20Y%3E)) metodu, bir `LiveData` nesnesini başka bir `LiveData` nesnesine dönüştürmek için bir dönüştürme fonksiyonu kullanır. Dönüşümler, yalnızca etkin bir activity veya bir fragmenti döndürülen `LiveData` özelliğini gözlemlediğinde hesaplanır.
+
+```
+
+val videos: LiveData<List<DevByteVideo>> = Transformations.map(database.videoDao.getVideos()) {
+   it.asDomainModel()
+}
+
+```
+
+Artık uygulamanız için bir repository uyguladınız. Sonraki aşamada, yerel veritabanını güncel tutmak için basit bir refreshing (yenileme) stratejisi kullanacaksınız.
+
 ## <a name="f"></a>Aşama 6 : Bir refresh stratejisi kullanarak repository'yi entegre edin
+
+Bu aşamada, basit bir refresh stratejisi kullanarak repository'nizi `ViewModel` ile entegre edersiniz. Video oynatma listesini doğrudan ağdan değil, `Room` veritabanından görüntülersiniz.
 
