@@ -97,6 +97,161 @@ Aşağıdaki tablo, Android'de network (ağ) caching uygulamanın birkaç yolunu
 
 
 ## <a name="c"></a>Aşama 3 : Çevrimdışı cache ekleyin
+
+Bu aşamada, çevrimdışı cache olarak kullanmak için uygulamanıza bir `Room` veritabanı ekleyeceksiniz.
+
+>Anahtar kavram: Uygulama her başlatıldığında ağdan veri almayın. Bunun yerine, veritabanından aldığınız verileri görüntüleyin. Bu teknik, uygulama yükleme süresini azaltır.
+
+![data fetch](https://developer.android.com/codelabs/kotlin-android-training-repository/img/e23d9d1fb048f343.png)
+
+Uygulama ağdan veri getirdiğinde, verileri hemen görüntülemek yerine verileri veritabanında saklayın.
+
+Yeni bir ağ sonucu alındığında, yerel veri tabanını güncelleyin ve yerel veri tabanından yeni içeriği ekranda görüntüleyin. Bu teknik, çevrimdışı cache'in her zaman güncel olmasını sağlar. Ayrıca, cihaz çevrimdışıysa uygulamanız yerel olarak cache edilmiş verileri yükleyebilir.
+
+### Adım 1: Room dependency'sini ekleyin
+
+1. `build.gradle (Module:app)` dosyasını açın ve projeye `Room` dependency'sini ekleyin.
+
+```
+
+// Room dependency
+def room_version = "2.1.0-alpha06"
+implementation "androidx.room:room-runtime:$room_version"
+kapt "androidx.room:room-compiler:$room_version"
+
+```
+
+### Adım 2: Database nesnesini ekleyin
+
+Bu adımda, veritabanı nesnelerini temsil etmek için `DatabaseVideo` adlı bir veritabanı entity'si oluşturacaksınız. Ayrıca `DatabaseVideo` nesnelerini domain nesnelerine ve ağ nesnelerini `DatabaseVideo` nesnelerine dönüştürmek için kolaylık metotlarını uygulayacaksınız.
+
+1. `database/DatabaseEntities.kt`'i açın ve `DatabaseVideo` adı verilen bir `Room` entity'si oluşturun. Primary key olarak `url`'yi verin. DevBytes server tasarımı, video URL'sinin her zaman benzersiz olmasını sağlar.
+
+```
+
+/**
+* DatabaseVideo veritabaınındaki bir video entity'sini temsil eder.
+*/
+@Entity
+data class DatabaseVideo constructor(
+       @PrimaryKey
+       val url: String,
+       val updated: String,
+       val title: String,
+       val description: String,
+       val thumbnail: String)
+       
+```
+
+2. `database/DatabaseEntities.kt` dosyasında, `asDomainModel()` adlı bir extension fonksiyonu oluşturun. `DatabaseVideo` veritabanı nesnelerini domain nesnelerine dönüştürmek için bu fonksiyonu kullanın.
+
+```
+
+/**
+* DatabaseVideolarını domain entitylerine mapleyin.
+*/
+fun List<DatabaseVideo>.asDomainModel(): List<DevByteVideo> {
+   return map {
+       DevByteVideo(
+               url = it.url,
+               title = it.title,
+               description = it.description,
+               updated = it.updated,
+               thumbnail = it.thumbnail)
+   }
+}
+
+```
+
+Bu örnek uygulamada dönüştürme basittir ve bu kodun bir kısmı gerekli değildir. Ancak gerçek dünyadaki bir uygulamada domain, veritabanı ve ağ nesnelerinin yapısı farklı olacaktır. Karmaşık olabilecek dönüştürme mantığına ihtiyacınız olacak.
+
+3. `network/DataTransferObjects.kt` dosyasını açın ve `asDatabaseModel()` adlı bir extension fonksiyonu oluşturun. Ağ nesnelerini `DatabaseVideo` veritabanı nesnelerine dönüştürmek için bu fonksiyonu kullanın.
+
+```
+
+/**
+* Network resultlarını veritabanı nesnelerine dönüştürün
+*/
+fun NetworkVideoContainer.asDatabaseModel(): List<DatabaseVideo> {
+   return videos.map {
+       DatabaseVideo(
+               title = it.title,
+               description = it.description,
+               url = it.url,
+               updated = it.updated,
+               thumbnail = it.thumbnail)
+   }
+}
+
+```
+
+### Adım 3: VideoDao'yu ekleyin
+
+Bu adımda, VideoDao'yu uygulayacak ve veritabanına erişmek için iki yardımcı metot tanımlayacaksınız. Bir yardımcı metot, videoları veritabanından alır ve diğer metot, videoları veritabanına ekler.
+
+1. `database/Room.kt`'de, bir `VideoDao` interface'i tanımlayın ve `@Dao` ile annotate edin.
+
+```
+
+@Dao
+interface VideoDao { 
+}
+
+```
+2. `VideoDao` interface'inin içinde, veritabanındaki tüm videoları almak için `getVideos()` adlı bir metot oluşturun. Bu metodun return türünü `LiveData` olarak değiştirin, böylece UI'da görüntülenen veriler, veritabanındaki veriler her değiştirildiğinde yenilenecektir.
+
+```
+
+   @Query("select * from databasevideo")
+   fun getVideos(): LiveData<List<DatabaseVideo>>
+   
+```
+
+Android Studio'da bir `Unresolved reference` hatası görünürse, `androidx.room.Query`'yi import edin.
+
+3. `VideoDao` interface'inin içinde, ağdan alınan videoların bir listesini veritabanına eklemek için başka bir `insertAll()` metodu tanımlayın. Basit olması için, video entry'si veritabanında zaten mevcutsa, veritabanı entry'sin overwrite edin. Bunu yapmak için, conflict stratejisini `REPLACE` olarak ayarlamak için `onConflict` argümanını kullanın.
+
+```
+
+@Insert(onConflict = OnConflictStrategy.REPLACE)
+fun insertAll( videos: List<DatabaseVideo>)
+
+```
+
+### Adım 4: RoomDatabase'i uygulayın 
+
+Bu adımda, [`RoomDatabase`](https://developer.android.com/reference/android/arch/persistence/room/RoomDatabase)'i uygulayarak çevrimdışı cache'iniz için veritabanını eklersiniz.
+
+1. `database/Room.kt`'de `VideoDao` interface'inden sonra `VideosDatabase` adlı bir `abstract` class oluşturun. `VideosDatabase`'i `RoomDatabase`'den extend edin.
+2. `VideosDatabase` sınıfını bir `Room` veritabanı olarak işaretlemek için `@Database` annotation'ını kullanın. Bu veritabanına ait olan `DatabaseVideo` entity'sini bildirin ve versiyon numarasını `1` olarak ayarlayın.
+3. `VideosDatabase` içinde, `Dao` metotlarına erişmek için `VideoDao` türünde bir değişken tanımlayın.
+
+```
+
+@Database(entities = [DatabaseVideo::class], version = 1)
+abstract class VideosDatabase: RoomDatabase() {
+   abstract val videoDao: VideoDao
+}
+
+```
+
+4. Singleton nesnesini tutmak için classların dışında `INSTANCE` adlı bir `private` `lateinit` değişkeni oluşturun. Veritabanının birden çok instance'ının aynı anda açılmasını önlemek için `VideosDatabase` [singleton](https://en.wikipedia.org/wiki/Singleton_pattern) olmalıdır.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## <a name="d"></a>Aşama 4 : Repositoryler
 ## <a name="e"></a>Aşama 5 : Bir repository oluşturun
 ## <a name="f"></a>Aşama 6 : Bir refresh stratejisi kullanarak repository'yi entegre edin
