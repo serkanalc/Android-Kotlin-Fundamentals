@@ -4,7 +4,7 @@ DevBytes adlı uygulamayı tamamlayarak WorkManager ile repository oluşturmayı
 
 ## İşte Konu başlıkları:
 
-- [Bir Repositry Ekleyin]()
+- [Bir Repository Ekleyin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%209%20-%20Repository%20%26%20workManager%20/D%C3%B6k%C3%BCman%201%20-%20Bir%20Repository%20Ekleyin)
   - Kurulum ve başlangıç kodu kılavuzu
   - Caching
   - Çevrimdışı cache ekleyin
@@ -29,4 +29,5 @@ Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödül
 ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir
 bir badge kazanabilirsiniz!
 
-![fun_9]()
+![fun_9](https://user-images.githubusercontent.com/46448616/148640302-856cbabe-1be2-41b5-806a-3e7fe7cdf321.png)
+
