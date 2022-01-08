@@ -236,20 +236,35 @@ abstract class VideosDatabase: RoomDatabase() {
 ```
 
 4. Singleton nesnesini tutmak için classların dışında `INSTANCE` adlı bir `private` `lateinit` değişkeni oluşturun. Veritabanının birden çok instance'ının aynı anda açılmasını önlemek için `VideosDatabase` [singleton](https://en.wikipedia.org/wiki/Singleton_pattern) olmalıdır.
+5. Classların dışında bir `getDatabase()` metodu oluşturun ve tanımlayın. `getDatabase()` içinde, `synchronized` bloğu içindeki `INSTANCE` değişkenini initialize edin ve döndürün.
 
+```
 
+@Dao
+interface VideoDao {
+...
+}
+abstract class VideosDatabase: RoomDatabase() {
+...
+}
 
+private lateinit var INSTANCE: VideosDatabase
 
+fun getDatabase(context: Context): VideosDatabase {
+   synchronized(VideosDatabase::class.java) {
+       if (!::INSTANCE.isInitialized) {
+           INSTANCE = Room.databaseBuilder(context.applicationContext,
+                   VideosDatabase::class.java,
+                   "videos").build()
+       }
+   }
+   return INSTANCE
+}
 
+```
+>İpucu: `.isInitialized` Kotlin özelliği, `lateinit` özelliğine (bu örnekte `INSTANCE`) bir değer atanmışsa `true`, aksi takdirde `false` döndürür.
 
-
-
-
-
-
-
-
-
+Artık, `Room`'u kullanarak veritabanını uyguladınız. Bir sonraki görevde, bir repository pattern'ı kullanarak bu veritabanını nasıl kullanacağınızı öğreneceksiniz.
 
 
 ## <a name="d"></a>Aşama 4 : Repositoryler
