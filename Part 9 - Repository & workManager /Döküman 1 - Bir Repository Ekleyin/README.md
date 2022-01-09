@@ -385,3 +385,82 @@ Artık uygulamanız için bir repository uyguladınız. Sonraki aşamada, yerel 
 
 Bu aşamada, basit bir refresh stratejisi kullanarak repository'nizi `ViewModel` ile entegre edersiniz. Video oynatma listesini doğrudan ağdan değil, `Room` veritabanından görüntülersiniz.
 
+Bir _database refresh_, yerel veritabanını ağdan gelen verilerle senkronize halde tutmak için güncelleme veya yenileme işlemidir. Bu örnek uygulama için, repository'den veri talep eden modülün yerel verileri yenilemekten sorumlu olduğu çok basit bir refresh stratejisi kullanıyorsunuz.
+
+Gerçek dünyadaki bir uygulamada stratejiniz daha karmaşık olabilir. Örneğin, kodunuz arka planda verileri otomatik olarak yenileyebilir (bant genişliğini hesaba katarak) veya kullanıcının bir sonraki kullanma olasılığı en yüksek olan verileri cache edebilir.
+
+1. `viewmodels/DevByteViewModel.kt` içinde, `DevByteViewModel` class'ı içinde, `VideosRepository` türünde `videosRepository` adlı bir `private` member değişkeni oluşturun. Singletın `VideosDatabase` nesnesini ileterek değişkeni instantiate edin.
+
+```
+
+/**
+* Bu ViewModel'in sonuçları alacağı veri kaynağı.
+*/
+private val videosRepository = VideosRepository(getDatabase(application))
+
+```
+
+2. `DevByteViewModel` class'ında, `refreshDataFromNetwork()` metodunu `refreshDataFromRepository()` metoduyla değiştirin.
+
+Eski metot, `refreshDataFromNetwork()`, Retrofit kütüphanesini kullanarak ağdan video oynatma listesini getirdi. Yeni metot, video oynatma listesini repository'den yükler.
+
+```
+
+/**
+* Repository'deki verileri yenileyin. Bir arka plan thread'inde çalıştırmak için bir coroutine launch kullanın.
+*/
+private fun refreshDataFromRepository() {
+   viewModelScope.launch {
+       try {
+           videosRepository.refreshVideos()
+           _eventNetworkError.value = false
+           _isNetworkErrorShown.value = false
+
+       } catch (networkError: IOException) {
+           // Show a Toast error message and hide the progress bar.
+           if(playlist.value.isNullOrEmpty())
+               _eventNetworkError.value = true
+       }
+   }
+}
+
+```
+
+3. `DevByteViewModel` class'ında, `init` bloğunun içindeki fonksiyon çağrısını `refreshDataFromNetwork()` fonksiyonundan `refreshDataFromRepository()` olarak değiştirin. Bu kod, video oynatma listesini doğrudan ağdan değil repository'den alır.
+
+```
+
+init {
+   refreshDataFromRepository()
+}
+
+```
+
+4. `DevByteViewModel` class'ında, `_playlist` özelliğini ve onun destek özelliği olan `playlist`'i silin.
+
+Silinecek kod: 
+
+```
+
+private val _playlist = MutableLiveData<List<Video>>()
+...
+val playlist: LiveData<List<Video>>
+   get() = _playlist
+
+```
+
+5. Uygulamanızı çalıştırın. Uygulama daha önce olduğu gibi çalışır, ancak şimdi DevBytes çalma listesi ağdan alınır ve `Room` veritabanına kaydedilir. Çalma listesi ekranda doğrudan ağdan değil, `Room` veritabanından görüntülenir.
+
+![app image](https://developer.android.com/codelabs/kotlin-android-training-repository/img/30ee74d946a2f6ca.png)
+
+7. Farkı fark etmek için emülatörde veya cihazda uçak modunu etkinleştirin.
+8. Uygulamayı bir kez daha çalıştırın. "Ağ Hatası" taoast mesajının görüntülenmediğine, bunun yerine çalma listesinin çevrimdışı cache'ten getirilip görüntülendiğine dikkat edin.
+9. Emülatörde veya cihazda uçak modunu kapatın.
+10. Uygulamayı kapatıp yeniden açın. Ağ isteği arka planda çalışırken, uygulama çalma listesini çevrimdışı cache'ten yükler.
+
+Ağdan yeni veriler gelirse, ekran yeni verileri gösterecek şekilde otomatik olarak güncellenir. Ancak DevBytes server'ı içeriğini yenilemez, bu nedenle veri güncellemesini görmezsiniz.
+
+>**İpucu:** Test için cache'i kaldırmanın en kolay yolu, uygulamayı cihazdan kaldırmaktır.
+
+Harika iş! Bu dökümanda, `Room`'u kullanarak çevrimdışı bir cache uyguladınız, cache'i bir repository'ye eklediniz ve bir dönüşüm kullanarak `LiveData`'yı değiştirdiniz. Ayrıca, çalma listesini ağdan almak yerine repository'deki çalma listesini görüntülemek için çevrimdışı cache'i `ViewModel` ile entegre ettiniz.
+
