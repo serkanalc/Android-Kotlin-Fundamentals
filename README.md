@@ -15,7 +15,7 @@ Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotli
 - [ ] Architecture Components
 - [x] [Databases & RecyclerView](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView)
 - [ ] Connect to the Internet
-- [ ] Repository & WorkManager
+- [x] Repository & WorkManager
 - [ ] Design For Everyone
 - [ ] Quiz'ler
 
