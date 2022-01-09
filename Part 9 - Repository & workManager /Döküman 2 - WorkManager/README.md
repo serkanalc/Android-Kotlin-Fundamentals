@@ -326,9 +326,7 @@ val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(15, TimeUni
 
 ```
 
-2. `Logcat` bölmesini Android Studio'da açın ve `RefreshDataWorker` üzerine filtreleyin. Önceki logları temizlemek için **Clear logcat** simgesini tıklayın.
-
-![Clear logcat](https://developer.android.com/codelabs/kotlin-android-training-work-manager/img/73fa94afd290964.png)
+2. `Logcat` bölmesini Android Studio'da açın ve `RefreshDataWorker` üzerine filtreleyin. Önceki logları temizlemek için **Clear logcat** simgesini tıklayın. ![Clear logcat](https://developer.android.com/codelabs/kotlin-android-training-work-manager/img/73fa94afd290964.png)
 
 3. Uygulamayı çalıştırın ve `WorkManager` yinelenen work'ünüzü hemen planlar. **Logcat** bölmesinde, loglara dikkat edin; work request her 15 dakikada bir çalıştırılır. Başka bir work request logları kümesi görmek için 15 dakika bekleyin. Uygulamayı çalışır durumda bırakabilir veya kapatabilirsiniz; work manager yine de çalışmalıdır.
 
@@ -413,9 +411,7 @@ val constraints = Constraints.Builder()
 Bu adımda, uygulamayı çalıştırırsınız ve belirli aralıklarla arka planda çalışan kısıtlı work request'i fark edersiniz.
 
 1. Önceden zamanlanmış görevleri iptal etmek için uygulamayı cihazdan veya emülatörden kaldırın.
-2. Android Studio'da **Logcat** bölmesini açın. **Logcat** bölmesinde, soldaki **Clear logcat** simgesine tıklayarak önceki logları temizleyin. `work`'e göre filtreleyin.
-
-![clear logcat icon](https://developer.android.com/codelabs/kotlin-android-training-work-manager/img/73fa94afd290964.png)
+2. Android Studio'da **Logcat** bölmesini açın. **Logcat** bölmesinde, soldaki **Clear logcat** simgesine tıklayarak önceki logları temizleyin. `work`'e göre filtreleyin. ![clear logcat icon](https://developer.android.com/codelabs/kotlin-android-training-work-manager/img/73fa94afd290964.png)
 
 3. Constraintlerin nasıl çalıştığını görebilmek için cihazdaki veya emülatördeki Wi-Fi'yi kapatın. Geçerli kod, isteğin yalnızca ölçülmemiş bir ağda (unmetered network) çalışması gerektiğini belirten yalnızca bir constraint belirler. Wi-Fi kapalı olduğundan, cihaz ağa bağlı değildir, ölçülü veya ölçülü değildir. Bu nedenle, bu constraint karşılanmayacaktır.
 4. Uygulamayı çalıştırın ve **Logcat** bölmesine dikkat edin. `WorkManager`, arka plan görevini hemen schedule eder. Ağ constraint'i karşılanmadığından görev çalıştırılmaz.
