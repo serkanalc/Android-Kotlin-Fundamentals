@@ -12,7 +12,7 @@ DevBytes adlı uygulamayı tamamlayarak WorkManager ile repository oluşturmayı
   - Bir repository oluşturun
   - Bir refresh stratejisi kullanarak repository'yi entegre edin
 
-- [WorkManager]()
+- [WorkManager](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%209%20-%20Repository%20%26%20workManager%20/D%C3%B6k%C3%BCman%202%20-%20WorkManager)
   - Kurulum ve başlangıç kodu kılavuzu
   - WorkManager
   - WorkManager dependency'sini ekleyin
