@@ -21,7 +21,7 @@ DevBytes adlı uygulamayı tamamlayarak WorkManager ile repository oluşturmayı
   - Constraintler ekleyin
   
 
-- Quiz <!-- link ekle -->
+- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%209%20-%20Repository%20%26%20workManager%20/Quiz)
 
 ## Ödül:
 
