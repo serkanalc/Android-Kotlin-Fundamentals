@@ -23,7 +23,7 @@ Bu aşamada, DevBytes uygulamasının başlangıç kodunu indirip inceleyebilirs
 
 ### Adım 1: Başlangıç uygulamasını indirin & çalıştırın
 
-1. DevBytes başlangıç kodunu GitHub'dan indirin.
+1. [DevBytes başlangıç kodu](https://github.com/serkanalc/Android-Kotlin-Fundamentals-Projeler/tree/main/DevBytesstarter)nu GitHub'dan indirin.
 2. Kodu zip'ten çıkarın ve projeyi Android Studio'da açın.
 3. Henüz bağlı değilse, test cihazınızı veya emülatörünüzü internete bağlayın. Uygulamayı build edin ve çalıştırın. Uygulama, ağdan DevByte videolarının bir listesini alır ve görüntüler.
 4. Uygulamada, YouTube uygulamasında açmak için herhangi bir videoya tıklayın.
