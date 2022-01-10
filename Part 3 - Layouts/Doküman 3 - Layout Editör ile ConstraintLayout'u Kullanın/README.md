@@ -349,7 +349,7 @@ app:layout_constraintHorizontal_chainStyle="packed"
 3. Yeni text view'lar için aşağıdaki attributeleri ayarlayın:
 
 | Attribute | Top Text View | Middle Text View | Bottom Text View |
-|---|---|
+|---|---|---|---|
 | id | box_three_text | box_four_text | box_five_text |
 | text | @string/box_three | @string/box_four | @string/box_five |
 | style | @style/whiteBox | @style/whiteBox | @style/whiteBox |
@@ -547,7 +547,7 @@ Bu görevde, üç Buton görünümü ekler ve bunları birbirine zincirlersiniz.
 3. Buton görünümlerine aşağıdaki attribute'leri ayarlayın:
 
 | Attribute | Left Button | Middle Button | Right Button |
-|---|---|
+|---|---|---|---|
 | id | red_button | yellow_button | green_button |
 | text | @string/button_red | @string/button_yellow | @string/button_green |
 
