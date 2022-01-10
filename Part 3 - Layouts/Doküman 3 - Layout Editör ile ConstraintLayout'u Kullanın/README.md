@@ -547,7 +547,7 @@ Bu görevde, üç Buton görünümü ekler ve bunları birbirine zincirlersiniz.
 3. Buton görünümlerine aşağıdaki attribute'leri ayarlayın:
 
 | Attribute | Left Button | Middle Button | Right Button |
-|---|---|
+|---|---|---|---|
 | id | red_button | yellow_button | green_button |
 | text | @string/button_red | @string/button_yellow | @string/button_green |
 
