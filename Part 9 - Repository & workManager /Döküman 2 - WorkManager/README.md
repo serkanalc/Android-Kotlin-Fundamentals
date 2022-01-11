@@ -24,7 +24,7 @@ Bu aşamada, başlangıç kodunu indirip inceleyebilirsiniz.
 
 Bu aşamada, başlangıç uygulamasını indirip çalıştırır ve başlangıç kodunu incelersiniz.
 
-1. Henüz DevBytes uygulamanız yoksa, bu döküman için DevBytes başlangıç kodunu GitHub'daki DevBytesRepository projesinden indirin.
+1. Henüz DevBytes uygulamanız yoksa, bu döküman için DevBytes başlangıç kodunu GitHub'daki [DevBytesRepository projesi](https://github.com/serkanalc/Android-Kotlin-Fundamentals-Projeler/tree/main/DevBytesRepository)nden indirin.
 2. Kodu zip'ten çıkarın ve projeyi Android Studio'da açın.
 3. Henüz bağlı değilse, test cihazınızı veya emülatörünüzü internete bağlayın. Uygulamayı build edin ve çalıştırın. Uygulama, ağdan DevByte videolarının bir listesini alır ve görüntüler.
 4. Uygulamada, YouTube uygulamasında açmak için herhangi bir videoya tıklayın.
