@@ -518,10 +518,189 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ![image](https://user-images.githubusercontent.com/80598532/148479299-3b6de5da-68a8-4ee8-8307-9e9da744e18b.png)
 
 
-## <a name="7"></a>Temel Constrait Ekleyin
+## <a name="7"></a>Temel (Baseline) Constrait Ekleyin
 
-### Temel Constraint
+### Temel(Baseline) Constraint
 
+Satır taban çizgisi constrainti, bir view'un metninin satır taban çizgisini başka bir view'un metninin satır taban çizgisiyle hizalar. Metin içeren view'ları hizalamak, özellikle yazı tipleri farklı boyuttaysa zor olabilir. Taban çizgisi kısıtlaması (baseline constraint), hizalamayı sizin için yapar.
+
+![image](https://user-images.githubusercontent.com/80598532/148950596-31f8e970-18a0-4074-a22a-e4a33228e008.png)
+
+
+İmleci üzerinde tuttuğunuzda view'un altında görüntülenen Edit Baseline**(Temeli Düzenle) ![image](https://user-images.githubusercontent.com/80598532/148950900-d361ff9f-f7a5-4090-8f26-03c0fc3f3984.png)simgesini kullanarak Layout Editor'de taban çizgisi kısıtlamaları(constrainleri) oluşturabilirsiniz. Baseline Constraint için eşdeğer XML kodu, layout_constraintBaseline_toBaselineOf** olan ConstraintLayout attribute'üne sahiptir.
+
+Baseline Constraint için örnek XML kodu:
+
+
+```
+<Button
+   android:id="@+id/buttonB"
+   ...   
+   android:text="B"
+   app:layout_constraintBaseline_toBaselineOf="@+id/buttonA" />
+
+```
+
+Bu görevde, kullanıcıya uygulamayı nasıl kullanacağını söyleyen talimatlar eklersiniz. Biri label (etiket) ve diğeri talimat bilgileri için olmak üzere iki TextView görünümü oluşturursunuz. Text view'ların farklı yazı tipi boyutları vardır ve bunların baseline constraint'lerini hizalarsınız.
+
+### 1.Adım:Label İçin Bir Text View Ekleyin  
+
+1. Activity_main.xml'i Design sekmesinde açın ve Palet bölmesinden bir text view'u design editor'e sürükleyin. Text view'u "Box Two"'nun altına yerleştirin. Bu text view,label'ı tutacaktır.
+
+![image](https://user-images.githubusercontent.com/80598532/148952532-824fcc6b-c661-4fb3-9c57-fca8cb3bb1d0.png)
+
+2. strings.xml içinde, Label Text view için bir dize kaynağı oluşturun.
+
+```
+<string name="how_to_play">How to play:</string>
+```
+
+3. Yeni eklenen TextView label'ına aşağıdaki attribute'ları ayarlamak için Attributes bölmesini kullanın:
+
+| Attribute | Value |
+|---|---|
+| id | label_text |
+| fontFamily | roboto |
+| text | @string/how_to_play |
+| textSize | 24sp |
+| textStyle | B (bold) |
+
+4. Default marginleri 16dp'ye ayarlamak için toolbar'da "Default Magins" ![image](https://user-images.githubusercontent.com/80598532/148953469-8a6189a5-5696-4887-9ca2-d2c9828aa456.png) simgesini kullanın.
+5. Label_text view'unun sol tarafını layoutsun sol öğesiyle bağlayın.
+
+![image](https://user-images.githubusercontent.com/80598532/148961027-3798e47a-e02a-4fb2-b6b9-f5ff9058cd68.png)
+
+6. Activity_main.xml dosyasında Layout Editor, layout_marginStart attribute'unu sabit kodlanmış 16 dp değeriyle ekler. 16dp'yi @dimen/margin_wide ile değiştirin. XML kodu şimdi şuna benzer:
+
+```
+<TextView
+   android:id="@+id/label_text"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_marginStart="@dimen/margin_wide"
+   android:fontFamily="@font/roboto"
+   android:text="@string/how_to_play"
+   android:textSize="24sp"
+   android:textStyle="bold"
+   app:layout_constraintStart_toStartOf="parent"
+   tools:layout_editor_absoluteY="287dp"/> <!--Designtime attribute-->
+```
+
+#### Tasarım Zamanı Attribute'leri
+
+Tasarım zamanı attribute'leri, çalışma zamanında değil, yalnızca layout tasarımı sırasında kullanılır ve uygulanır. Uygulamayı çalıştırdığınızda, tasarım zamanı attribute'leri yoksayılır.
+
+Tasarım zamanı attribute'leri, tools ad alanı ile öneklendirilir; örneğin, yukarıda gösterilen oluşturulan kod parçacığında tools:layout_editor_absoluteY. Bu kod satırı, henüz dikey bir kısıtlama eklemediğiniz için eklenmiştir.
+
+Bir ConstraintLayout'taki tüm view'ların yatay ve dikey olarak sınırlandırılması gerekir, aksi takdirde uygulamayı çalıştırdığınızda view'lar üst öğenin bir kenarına atlar. View yatay olarak sınırlandırılmamışsa, Layout Editor'ün tools:layout_editor_absoluteX eklemesinin nedeni budur. Layout Editor, view'ları tasarım sırasında yerinde tutmak için tasarım zamanı attribute'una view'ın yerleşimdeki geçerli konumunun değerini verir. Bu tool öattribute'lerini güvenle yok sayabilirsiniz, çünkü Android Studio, siz kısıtlamaları oluşturduktan sonra bunları kaldırır.
+
+
+Tasarım zamanı attribute'lerini kullanarak, Layout Editor içinden bir text view veya image view'a örnek önizleme verileri de ekleyebilirsiniz.
+
+Örnek verilerle deneme yapmayı deneyin:
+1. Layout'unuza yeni bir text view ekleyin.
+2. Design editor'de, işaretçiyi yeni view'un üzerinde tutun. constraint_layout simgesi ![image](https://user-images.githubusercontent.com/80598532/148962700-63da7d2a-bd2d-4919-a2ae-6f2c1b5bcff0.png) view'un altında görünür. Aşağıda gösterildiği gibi Design-time View Attributes açılır menüsünü görüntülemek için simgeye tıklayın:
+
+![image](https://user-images.githubusercontent.com/80598532/148962868-e68656d8-f0fb-41f4-a8d6-5b80614d621a.png)
+
+3. Açılır listeden bir örnek veri türü seçin. Örneğin, metin örneği verilerini tarih/aaggyy olarak ayarlarsanız, tasarımda bugünün tarihi görüntülenir.
+4. Yeni oluşturduğunuz text view'u silin.
+
+
+### 2.Adım: Info Text İçin Bir Text View Ekleyin
+1. Palet bölmesinden başka bir text view'u layout editor'e sürükleyin. View'u, aşağıda gösterildiği gibi label_text text view'unun yanına ve altına yerleştirin. Bu yeni text view, kullanıcının göreceği yardım bilgileri içindir. Baseline constraints oluşturduğunuzda ne olduğunu görebilmeniz için yeni view'un label_text view'undan dikey olarak konumlandırıldığından emin olun.
+
+![image](https://user-images.githubusercontent.com/80598532/148963544-b1b71dc3-841c-4a86-bcc9-238e10352d49.png)
+
+2. strings.xml'de, yeni text view için bir dize kaynağı oluşturun.
+
+```
+<string name="tap_the_boxes_and_buttons">Tap the screen and buttons.</string>
+```
+
+3. Aşağıdaki attribute'leri yeni text view'a ayarlamak için Attributes bölmesini kullanın:
+
+| Attribute | Value |
+|---|---|
+| id | info_text |
+| layout_width | 0dp (which is equivalent to match_constraint) |
+| fontFamily | roboto |
+| text | @string/tap_the_boxes_and_buttons |
+
+4. info_text öğesinin sağ tarafını layout'un sağ kenarıyla sınırlayın. info_text'in sol tarafını, label_text'in sağına (ucuna) sınırlayın.
+
+![image](https://user-images.githubusercontent.com/80598532/148964278-670a56c7-49dd-4008-8a09-baad29282872.png)
+
+
+### 3.Adım: İki Text View'un Baseline'larını Hizalayın.
+1. label_text'i tıklayın. View'un altında Edit Baseline simgesi ![image](https://user-images.githubusercontent.com/80598532/148964698-ee7cbcb6-7878-4006-b507-2eedd891c990.png) görünür. ![image](https://user-images.githubusercontent.com/80598532/148964738-77f4b904-a8fd-4cbc-a350-8e8edbb2a507.png) simgesine tıklayın. Alternatif olarak, sağ tıklayıp Shoe Baseline'ı de seçebilirsiniz. (View, layout'da yeni bir konuma atlayabilir.)
+2. İşaretçiyi, aşağıda gösterildiği gibi yeşil baseline yanıp sönene kadar label view üzerinde tutun.
+
+![image](https://user-images.githubusercontent.com/80598532/148964964-359d62e9-d8bc-4dd8-aabd-5a4c8384d638.png)
+
+3. Yeşil baseline'a tıklayın ve sürükleyin. Info text view'da baseline'ı yeşil yanıp sönen tbaseline'ın altına bağlayın.
+
+![image](https://user-images.githubusercontent.com/80598532/148965196-f8838611-6925-4acc-b033-7aba62511fc4.png)
+
+İpucu!
+Bir view'da ayarlanan tüm constraint'leri silmek için:
+
+1. Design sekmesinde, view'a tıklayın.
+2. View altında görünen Delete Constraints simgesini ![image](https://user-images.githubusercontent.com/80598532/148965476-21a655a5-b6b0-44e6-a790-d43147407744.png) tıklayın.
+
+Belirli bir constraint'i silmek için:
+
+1. Silmek istediğiniz constraint'in imlecini constraint handle üzerinde tutun. Constraint handle (nokta) kırmızıya döner. ![image](https://user-images.githubusercontent.com/80598532/148965679-32a99dda-cbe0-417d-bdb1-6f73ee62c19f.png)
+2. Kırmızı constraint handle'a tıklayın.
+
+### Adım 4: İki Text View'a Dikey Constraint'ler Ekleyin
+Dikey constraint'ler olmadan, view'lar çalışma zamanında ekranın en üstüne (dikey 0) gider. Dikey constraint'ler eklemek, uygulamayı çalıştırdığınızda iki text view'u yerinde tutar.
+
+1. info_text'in alt kısmını layoutun alt kısmıyla sınırlayın.
+2. info_text'in üst kısmını box_two_text'in altına ekleyin.
+
+![image](https://user-images.githubusercontent.com/80598532/148966283-61f2eebd-a30f-4ca6-b82d-c4a12765f2f1.png)
+
+![image](https://user-images.githubusercontent.com/80598532/148966299-149a43ae-5ad5-453f-86aa-72c104993948.png)
+
+info_text view'unu yukarı veya aşağı taşımayı deneyin. label_text view'unun takip ettiğine ve taban çizgisinde hizalı kaldığına dikkat edin.
+
+3. Görünüm denetçisinde, info_text view'unun dikey sapmasını 0 olarak değiştirin. Bu, text view'larını en üst kısıtlanmış görünüme, "Box Two"'ya daha yakın tutar. (Design Editor'u tıklattığınızda Attributes bölmesinde görünüm denetçisi (view inspector) görünmüyorsa, Android Studio'yu kapatın ve yeniden açın.)
+
+4. Oluşturulan XML kodu şuna benzer görünmelidir:
+
+```
+<TextView
+   android:id="@+id/label_text"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_marginStart="@dimen/margin_wide"
+   android:text="@string/how_to_play"
+   android:textSize="24sp"
+   android:textStyle="bold"
+   app:layout_constraintBaseline_toBaselineOf="@+id/info_text"
+   app:layout_constraintStart_toStartOf="parent" />
+
+<TextView
+   android:id="@+id/info_text"
+   android:layout_width="0dp"
+   android:layout_height="wrap_content"
+   android:layout_marginStart="@dimen/margin_wide"
+   android:layout_marginTop="@dimen/margin_wide"
+   android:layout_marginEnd="@dimen/margin_wide"
+   android:layout_marginBottom="@dimen/margin_wide"
+   android:text="@string/tap_the_boxes_and_buttons"
+   app:layout_constraintBottom_toBottomOf="parent"
+   app:layout_constraintEnd_toEndOf="parent"
+   app:layout_constraintHorizontal_bias="0.0"
+   app:layout_constraintStart_toEndOf="@+id/label_text"
+   app:layout_constraintTop_toBottomOf="@+id/box_two_text"
+   app:layout_constraintVertical_bias="0.0" />
+
+```
+5. Uygulamanızı çalıştırın. Ekranınız aşağıdaki ekran görüntüsüne benzer görünmelidir.
+
+![image](https://user-images.githubusercontent.com/80598532/148966988-7475d87a-2f77-4480-9d20-e94ea56aa92e.png)
 
 
 
