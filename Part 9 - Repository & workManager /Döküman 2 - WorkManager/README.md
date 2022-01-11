@@ -531,7 +531,7 @@ private fun setupRecurringWork() {
                .setConstraints(constraints)
                .build()
        
-       Timber.d("Periodic Work request for sync is scheduled")
+       Timber.d("Sync için Periodic Work request'i schedule edildi")
        WorkManager.getInstance().enqueueUniquePeriodicWork(
                RefreshDataWorker.WORK_NAME,
                ExistingPeriodicWorkPolicy.KEEP,
