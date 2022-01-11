@@ -9,31 +9,18 @@ Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotli
 
 ## İçerik
 
-- [x] [Build Your First App](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%201%20-%20Build%20Your%20First%20App)
-- [x] [Build an Interactive App](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%202%20-%20Build%20an%20interactive%20app)
-- [x] [Layouts](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%203%20-%20Layouts)
-- [ ] Navigation
-- [ ] Activity & Fragment Lifecycles
-- [ ] Architecture Components
-- [x] [Databases & RecyclerView](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView)
-- [ ] Connect to the Internet
-- [x] [Repository & WorkManager](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%209%20-%20Repository%20%26%20workManager%20)
-- [ ] Design For Everyone
-- [ ] Quiz'ler
-
-
-|  ✅  |          Konu Başlığı          | Döküman Sayısı  | Proje Sayısı | Tahmini Süre | İlgili Kişi   | Başarım Rozeti |
-|-----|:------------------------------:|-----------------|--------------|--------------|:-------------:|:--------------:|
-|     | Build Your First App           |                 |              |              | Serkan Alc    |<img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-one/badge.svg" width="135em"/> |
-|     | Build an Interactive App       |                 |              |              | Serkan Alc    | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-two/badge.svg" width="135em"/>  
-|     | Layouts                        |                 |              |              | Serkan Alc    | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-three/badge.svg" width="135em"/>
-|     | Navigation                     |                 |              |              | Ceren Tunay   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-four/badge.svg" width="135em"/>
-|     | Activity & Fragment Lifecycles |                 |              |              | Begüm Yolcu   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-five/badge.svg" width="135em"/>
-|     | Architecture Components        |                 |              |              |               | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-six/badge.svg" width="135em"/>
-|     | Databases & RecyclerView       |                 |              |              | Begüm Yolcu   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-seven/badge.svg" width="135em"/>
-|     | Connect to the Internet        |                 |              |              |               | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-eight/badge.svg" width="135em"/>
-|     | Repository & WorkManager       |                 |              |              | Begüm Yolcu   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-nine/badge.svg" width="135em"/>
-|     | Design For Everyone            |                 |              |              |               | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-ten/badge.svg" width="135em"/>
+|✅  |          Konu Başlığı          | Döküman Sayısı  | Proje Sayısı | Tahmini Süre | İlgili Kişi   | Başarım Rozeti |
+|-----|:------------------------------:|:-----------------:|:--------------:|:--------------:|:-------------:|:--------------:|
+|✅     | [Build Your First App](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%201%20-%20Build%20Your%20First%20App)           |2 Doküman                 |              |              | Serkan Alc    |<img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-one/badge.svg" width="135em"/> |
+|✅     | [Build an Interactive App](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%202%20-%20Build%20an%20interactive%20app)       |3 Doküman                 |              |              | Serkan Alc    | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-two/badge.svg" width="135em"/>  
+|✅     | [Layouts](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%203%20-%20Layouts)                        |4 Doküman                 |              |              | Serkan Alc    | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-three/badge.svg" width="135em"/>
+|⏳     | Navigation                     |3 Doküman                 |              |              | Ceren Tunay   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-four/badge.svg" width="135em"/>
+|⏳     | Activity & Fragment Lifecycles |2 Doküman                 |              |              | Begüm Yolcu   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-five/badge.svg" width="135em"/>
+|⏳     | Architecture Components        |4 Doküman                 |              |              |               | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-six/badge.svg" width="135em"/>
+|✅     | [Databases & RecyclerView](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%207%20-%20Databases%20%26%20RecyclerView)       |8 Doküman                 |              |              | Begüm Yolcu   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-seven/badge.svg" width="135em"/>
+⏳    | Connect to the Internet        |3 Doküman                 |              |              |               | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-eight/badge.svg" width="135em"/>
+|✅     | [Repository & WorkManager](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%209%20-%20Repository%20%26%20workManager%20)       |2 Doküman                 |              |              | Begüm Yolcu   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-nine/badge.svg" width="135em"/>
+|⏳     | Design For Everyone            |3 Doküman                 |              |              |               | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-ten/badge.svg" width="135em"/>
 
 
 
