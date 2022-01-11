@@ -346,7 +346,7 @@ database.videoDao.insertAll(playlist.asDatabaseModel())
 
 suspend fun refreshVideos() {
    withContext(Dispatchers.IO) {
-       Timber.d("refresh videos is called");
+       Timber.d("refresh videos çağrıldı");
        val playlist = DevByteNetwork.devbytes.getPlaylist()
        database.videoDao.insertAll(playlist.asDatabaseModel())
    }
