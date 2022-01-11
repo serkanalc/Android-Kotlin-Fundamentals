@@ -1,4 +1,4 @@
-# Kullanıcı Etkileşimi Ekleyin
+# Layout Editör ile ConstraintLayout'u Kullanın
 
 - [ColorMyView Projesini Oluşturun](#1)
 - [ConstraintLayout Oluşturmak İçin Layout Editor Kullanın](#2)
