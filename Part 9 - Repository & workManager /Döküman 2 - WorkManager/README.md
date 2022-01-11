@@ -230,6 +230,8 @@ Bir `WorkRequest` schedule etmenin yolları hakkında daha fazla bilgi edinmek i
 
 1. `RefreshDataWorker` class'ında, class'ın başına bir companion object ekleyin. Bu worker'ı benzersiz şekilde tanımlamak için bir work (çalışma) adı tanımlayın.
 
+>**Not:** Bu work ismi class'ın en üstünde de bulacağınız, package isminden gelmektedir. Kendi kodunuzda bu örnektekinden biraz farklı olabilir.
+
 ```
 
 companion object {
