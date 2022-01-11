@@ -169,6 +169,7 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
        val repository = VideosRepository(database)
        try {
            repository.refreshVideos()
+           Timber.d("WorkManager: Sync için work request çalıştırıldı.")
        } catch (e: HttpException) {
            return Result.retry()
        }
