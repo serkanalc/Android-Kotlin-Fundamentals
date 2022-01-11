@@ -449,7 +449,18 @@ val playlist: LiveData<List<Video>>
 
 ```
 
-5. Uygulamanızı çalıştırın. Uygulama daha önce olduğu gibi çalışır, ancak şimdi DevBytes çalma listesi ağdan alınır ve `Room` veritabanına kaydedilir. Çalma listesi ekranda doğrudan ağdan değil, `Room` veritabanından görüntülenir.
+5. `DevByteViewModel` class'ında, `videosRepository` nesnesini instantiate ettikten sonra, repository'den bir `LiveData` video listesi tutmak için `playlist` adı verilen yeni bir `val` ekleyin.
+
+```
+
+/**
+* Ekranda gösterilen videoların bir playlist'i.
+*/
+val playlist = videosRepository.videos
+
+```
+
+6. Uygulamanızı çalıştırın. Uygulama daha önce olduğu gibi çalışır, ancak şimdi DevBytes çalma listesi ağdan alınır ve `Room` veritabanına kaydedilir. Çalma listesi ekranda doğrudan ağdan değil, `Room` veritabanından görüntülenir.
 
 ![app image](https://developer.android.com/codelabs/kotlin-android-training-repository/img/30ee74d946a2f6ca.png)
 
