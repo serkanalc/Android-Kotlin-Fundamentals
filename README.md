@@ -5,9 +5,9 @@
 
 ![Android 12 Bootcamp (2)](https://user-images.githubusercontent.com/70329389/139955062-4e63d1a2-abf8-499b-88e2-e9b40ed2228a.png)
 
-Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotlin Fundamentals](https://developer.android.com/courses/kotlin-fundamentals/course) dokümantasyonunu Türkçeye çevriyor olacağız.
+## 📝 İçerik:
 
-## İçerik
+Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotlin Fundamentals](https://developer.android.com/courses/kotlin-fundamentals/course) dokümantasyonunu Türkçeye çevriyor olacağız. Sizi hangi konu başlıklarının beklediğini, döküman sayısını, tahmini çalışma süresini, hangi başarım rozetini alabileceğinizi aşağıdaki tablodan görebilirsiniz. Aynı zamanda bir hata veya güncel olmayan bir parçayla karşılaşırsanız ilgili dokümanının sorumlu kişisine ulaşıp en kısa sürede güncellenmesini gözlemleyebilirsiniz.
 
 |✅  |          Konu Başlığı          | Döküman Sayısı  | Proje Sayısı | Tahmini Süre | İlgili Kişi   | Başarım Rozeti |
 |-----|:------------------------------:|:-----------------:|:--------------:|:--------------:|:-------------:|:--------------:|
@@ -24,15 +24,15 @@ Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotli
 
 
 
-## Güncellemeler
+## 🛠 Güncellemeler
 
-Bu repositoriyi düzenli olarak güncelliyor ve geliştiriyoruz sizde bu güncellemelerden haberdar olmak ve birsonraki geliştirme veya eklememizin ne zaman gerçekleşeceğini öğrenmek için [bu linki](https://github.com/serkanalc/Android-Kotlin-Fundamentals/wiki/Updates) takip edebilirsiniz.
+Bu repositoriyi düzenli olarak güncelliyor ve geliştiriyoruz. siz de bu güncellemelerden haberdar olmak ve bir sonraki geliştirme veya güncellememizin ne zaman gerçekleşeceğini öğrenmek için [bu linki](https://github.com/serkanalc/Android-Kotlin-Fundamentals/wiki/Updates) ilerlemeyi takip edebilirsiniz. İlerleyiş hakkında bize görüşlerinizi ve önerilerinizi iletmekten çekinmeyin. 
 
-## Bu Repoyu Faydalı Buldunuz Mu ?
+## ⭐ Bu Repoyu Faydalı Buldunuz Mu ?
 
 Eğer size bir faydası dokunduysa bu repoyu starlayarak sizde [Stargazers](https://github.com/serkanalc/Android-Kotlin-Fundamentals/stargazers)'ların arasına katılabilirsiniz.⭐
 
-## Lisans
+## 🧾 Lisans
 
 ```
 Copyright © 2021 Serkan Alc
