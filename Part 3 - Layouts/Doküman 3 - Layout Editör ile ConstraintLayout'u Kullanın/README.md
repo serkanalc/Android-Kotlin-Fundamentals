@@ -801,7 +801,6 @@ Buton görünümleri için oluşturulan XML kodu aşağıdakine benzer olacaktı
    
 ```
 
-
 ## <a name="9"></a>Butonlara ClickHandlers Ekleyin
 
 Bu görevde, her bir Buton görünümüne bir tıklama işleyicisi (ClickHandlers) eklersiniz. Tıklama işleyici (ClickHandlers), TextView görünümlerinin rengini değiştirir.
