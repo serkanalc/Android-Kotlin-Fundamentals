@@ -20,6 +20,18 @@ Farklı layout'lar oluşturun, kullanıcı etkileşimi ekleyin ve data binding k
     - DONE Düğmesine Bir Click Listener Ekleyin
     - TextView Nickname'ine bir Click Listener Ekleyin
 
+ - [Layout Editör ile ConstraintLayout'u Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%203%20-%20Layouts/Dok%C3%BCman%203%20-%20Layout%20Edit%C3%B6r%20ile%20ConstraintLayout'u%20Kullan%C4%B1n)
+
+    - ColorMyView Projesini Oluşturun
+    - ConstraintLayout Oluşturmak İçin Layout Editor Kullanın
+    - TextView'e Stil Verin
+    - İkinci bir TextView Ekleyin ve Constrait Ekleyin (kısıtlamalar)
+    - TextView Görünümleri Zinciri Oluşturun
+    - Text görünümerine ClickHandler Ekleyin
+    - Temel Constrait Ekleyin
+    - Buton Zinciri Ekleyin
+    - Butonlara ClickHandlers Ekleyin
+
 - [Data Binding Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%203%20-%20Layouts/Dok%C3%BCman%204%20-%20Data%20binding%20Kullan%C4%B1n)
 
     - findViewById() Öğesini Ortadan Kaldırmak için Data Binding Kullanın
