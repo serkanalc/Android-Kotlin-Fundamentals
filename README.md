@@ -21,6 +21,22 @@ Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotli
 - [ ] Design For Everyone
 - [ ] Quiz'ler
 
+
+|  ✅  |          Konu Başlığı          | Döküman Sayısı  | Proje Sayısı | Tahmini Süre | İlgili Kişi   | Başarım Rozeti |
+|-----|:------------------------------:|-----------------|--------------|--------------|:-------------:|:--------------:|
+|     | Build Your First App           |                 |              |              | Serkan Alc    |<img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-one/badge.svg" width="135em"/> |
+|     | Build an Interactive App       |                 |              |              | Serkan Alc    | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-two/badge.svg" width="135em"/>  
+|     | Layouts                        |                 |              |              | Serkan Alc    | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-three/badge.svg" width="135em"/>
+|     | Navigation                     |                 |              |              | Ceren Tunay   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-four/badge.svg" width="135em"/>
+|     | Activity & Fragment Lifecycles |                 |              |              | Begüm Yolcu   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-five/badge.svg" width="135em"/>
+|     | Architecture Components        |                 |              |              |               | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-six/badge.svg" width="135em"/>
+|     | Databases & RecyclerView       |                 |              |              | Begüm Yolcu   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-seven/badge.svg" width="135em"/>
+|     | Connect to the Internet        |                 |              |              |               | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-eight/badge.svg" width="135em"/>
+|     | Repository & WorkManager       |                 |              |              | Begüm Yolcu   | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-nine/badge.svg" width="135em"/>
+|     | Design For Everyone            |                 |              |              |               | <img src="https://developers.google.com/profile/badges/playlists/android/kotlin-fundamentals-ten/badge.svg" width="135em"/>
+
+
+
 ## Güncellemeler
 
 Bu repositoriyi düzenli olarak güncelliyor ve geliştiriyoruz sizde bu güncellemelerden haberdar olmak ve birsonraki geliştirme veya eklememizin ne zaman gerçekleşeceğini öğrenmek için [bu linki](https://github.com/serkanalc/Android-Kotlin-Fundamentals/wiki/Updates) takip edebilirsiniz.
