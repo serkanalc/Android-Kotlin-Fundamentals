@@ -24,9 +24,13 @@ Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotli
 
 Bu repositoriyi düzenli olarak güncelliyor ve geliştiriyoruz. siz de bu güncellemelerden haberdar olmak ve bir sonraki geliştirme veya güncellememizin ne zaman gerçekleşeceğini öğrenmek için [bu linki](https://github.com/serkanalc/Android-Kotlin-Fundamentals/wiki/Updates) ilerlemeyi takip edebilirsiniz. İlerleyiş hakkında bize görüşlerinizi ve önerilerinizi iletmekten çekinmeyin. 
 
-# ⭐ Bu Repoyu Faydalı Buldunuz Mu ?
+# <img align="right" src="https://media.giphy.com/media/LnKdiQXyu3DrhadXx6/giphy.gif" width='110' /> Bu Repoyu Faydalı Buldunuz Mu ?
 
-Eğer size bir faydası dokunduysa bu repoyu starlayarak sizde [Stargazers](https://github.com/serkanalc/Android-Kotlin-Fundamentals/stargazers)'ların arasına katılabilirsiniz.⭐
+
+Eğer size bir faydası dokunduğunu düşünüyorsanız bu repoyu starlayarak siz de [Stargazers](https://github.com/serkanalc/Android-Kotlin-Fundamentals/stargazers)'ların arasına katılıp bizi buna benzer kaynak paylaşımları yapmaya motive edebilirsiniz.⭐
+
+Bu repo gönüllülük esaslı geliştirilmiştir, dolayısıyla bir şey eksikse veya düzeltilmesi gerekiyorsa lütfen ilgili kişilere ulaşarak bunu bildirin ve en kısa sürede düzenlememize katkıda bulunmuş olun 👍🏻
+
 
 # 🧾 Lisans
 
