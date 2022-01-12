@@ -1,5 +1,5 @@
 <h1 align="center">  
-   Android Kotlin Fundamentals | Türkçe Dokümantasyon Çevirisi
+   Android Kotlin Fundamentals
    </h1>  
 
 
