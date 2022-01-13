@@ -15,7 +15,7 @@ Android'in stil sisteminin temellerini, Materyal Tasarımı ilkelerini uygulaman
 
  - [Design For Everyone](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2010%20-%20Design%20For%20Everyone/Dok%C3%BCman%203%20-%20Design%20for%20Everyone)
 
- - Quiz
+ - [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2010%20-%20Design%20For%20Everyone/Quiz)
 
 ## Ödül:
 
