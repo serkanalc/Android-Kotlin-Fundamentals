@@ -24,13 +24,16 @@ Bu kod laboratuvarında, Trivia uygulamasını tamamlarken ihtiyaç duyduğunuz 
 
 1. AndroidTrivia-Starter Android Studio projesini indirin. Android-kotlin-fundamentals-starter-apps zip dosyasının tamamını indirmeniz gerekebilir.
 2. Projeyi Android Studio'da açın ve uygulamayı çalıştırın. Uygulama açıldığında, uygulama adını ve boş bir ekranı görüntülemekten başka bir şey yapmıyor.
+
  ![image](https://user-images.githubusercontent.com/80598532/149355693-9e5fea2d-2606-4998-bc61-81e7fbc9508f.png)
  
 3. Android Studio Proje bölmesinde, proje dosyalarını keşfetmek için Proje: Android görünümünü açın. MainActivity sınıfını ve Fragment sınıflarını görmek için app > Java klasörünü açın.
+4. 
 ![image](https://user-images.githubusercontent.com/80598532/149355964-a45e3545-23a0-4931-9181-1b8de1177995.png)
 
 4. res > layout klasörünü açın ve Activity_main.xml'e çift tıklayın. Activity_main.xml dosyası, Layout Editor'de görünür.
 5. Design sekmesini açın. Activity_main.xml dosyası için Component Tree, root'u dikey(vertical) LinearLayout olarak gösterir.
+
 ![image](https://user-images.githubusercontent.com/80598532/149356438-a9125758-cc9f-4260-ba21-28733974186c.png)
 
 - Vertical Linear Layout'ta, düzendeki tüm alt görünümler dikey olarak hizalanır.
@@ -77,7 +80,7 @@ class TitleFragment : Fragment() {
 }
 ```
 
-#### Binding Object Bağlayıcı Nesne) oluşturun.
+#### Binding Object (Bağlayıcı Nesne) oluşturun.
 Fragment şimdi derlenmeyecek. Fragment'i derlemek için, bir binding object (bağlayıcı nesne) oluşturmanız ve Fragment'in görünümünü inflate etmeniz gerekir (bir Aktivite için setContentView() kullanmaya eşdeğerdir).
 
 1. TitleFragment.kt'deki onCreateView() yönteminde, bir binding(bağlama) değişkeni (val binding) oluşturun.
@@ -100,7 +103,7 @@ override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
    }
 ```
 
-5. es>layout'u açın ve placeholder_layout.xml'i silin.
+5. res>layout'u açın ve placeholder_layout.xml'i silin.
 
 ### 2.Adım: Main Layout Dosyasına Yeni Fragment Ekleyin.
 Bu adımda, uygulamanın Activity_main.xml layout dosyasına TitleFragment'i eklersiniz.
