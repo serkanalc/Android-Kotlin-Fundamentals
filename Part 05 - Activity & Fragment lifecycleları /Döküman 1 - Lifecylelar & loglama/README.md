@@ -304,4 +304,119 @@ Adına rağmen, devam ettirilecek bir şey olmasa bile başlangıçta `onResume(
 ![lifecyle diagram](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/160054d59f67519.png)
 
 ## <a name="c"></a>Aşama 3 : Lifecycle kullanım örneklerini keşfedin
+
+Artık DessertClicker uygulaması log'a kaydetme için ayarlandığına göre, uygulamayı çeşitli şekillerde kullanmaya ve bu kullanımlara yanıt olarak  lifecycle callbacklerin nasıl tetiklendiğini keşfetmeye hazırsınız.
+
+### Kullanım durumu 1: Activity'yi açma ve kapama
+
+Uygulamanızı ilk kez başlatmak ve ardından uygulamayı tamamen kapatmak olan en temel kullanım durumuyla başlayacaksınız.
+
+1. Zaten çalışmıyorsa, DessertClicker uygulamasını derleyin ve çalıştırın. Gördüğünüz gibi `onCreate()`, `onStart()` ve `onResume()` callbackleri, activity ilk kez başladığında çağrılır.
+
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/3b61071b3c4334a4.png)
+
+2. Cupcake'e birkaç kez tıklayın.
+3. Cihazdaki Geri düğmesine dokunun. Logcat'te `onPause()`, `onStop()` ve `onDestroy()`'un bu sırayla çağrıldığına dikkat edin.
+
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/524b1d0c9a584f37.png)
+
+Bu durumda, Geri düğmesinin kullanılması activity'nin (ve uygulamanın) tamamen kapanmasına neden olur. `onDestroy()` metodunun yürütülmesi, activity!nin tamamen kapatıldığı ve çöplerin toplanabileceği (garbage-collection) anlamına gelir. [Garbage collection](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)), artık kullanmayacağınız nesnelerin otomatik olarak temizlenmesini ifade eder. `onDestroy()` çağrıldıktan sonra, işletim sistemi bu kaynakların atılabilir olduğunu bilir ve bu belleği temizlemeye başlar.
+
+![activity diagram](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/2dcc4d9c6478a9f4.png)
+
+Ayrıca, kodunuz activity'nin [`finish()`](https://developer.android.com/reference/android/app/Activity.html#finish()) metodunu manuel olarak çağırırsa veya kullanıcı uygulamadan zorla çıkarsa, activity'niz tamamen kapatılabilir. (Örneğin, kullanıcı, pencerenin köşesindeki **X** işaretini tıklayarak recents ekranında uygulamadan çıkmaya zorlayabilir.) Uygulamanız uzun süredir ekranda değilse, Android sistemi activity'nizi kendi kendine kapatabilir. Android bunu pili korumak ve uygulamanızın kaynaklarının diğer uygulamalar tarafından kullanılmasına izin vermek için yapar.
+
+4. Uygulamaya geri dönmek için recents ekranını kullanın. İşte Logcat:
+
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/fb7d1239f699fba4.png)
+
+Activity önceki adımda yok edildi, bu nedenle uygulamaya döndüğünüzde Android yeni bir activity başlatır ve `onCreate()`, `onStart()` ve `onResume()` metotlarını çağırır. Önceki activity'den sipariş ettiğiniz tatlı öğelerinin sayısı ve toplam fiyatının korunmadığına dikkat edin. Sıfırlanırlar. Bu davranışı uygulamanızda istemeyebilirsiniz. Gelecekteki bir dökümanda bu sorunu çözeceğiz.
+
+Buradaki kilit nokta, `onCreate()` ve `onDestroy()`'un tek bir activity instance'ının ömrü boyunca yalnızca bir kez çağrılmasıdır: uygulamayı ilk kez başlatmak için `onCreate()` ve uygulamanız tarafından kullanılan kaynakları temizlemek için `onDestroy()`.
+
+`onCreate()` metodu önemli bir adımdır; Burası, tüm initialization'ınızın gittiği, düzeni ilk kez inflate ederek kurduğunuz ve değişkenlerinizi initialize ettiğiniz yerdir.
+
+### Kullanım durumu 2: Activity'den uzaklaşma ve activity'ye geri dönme
+
+Uygulamayı başlattığınıza ve tamamen kapattığınıza göre, activity'nin ilk kez oluşturulduğu zamana ilişkin lifecycle durumlarının çoğunu gördünüz. Ayrıca, activity'nin tamamen kapatılıp yok edildiğinde geçtiği tüm lifecycle durumlarını da gördünüz. Ancak kullanıcılar Android destekli cihazlarıyla etkileşime girdikçe, uygulamalar arasında geçiş yapma, home'a dönme, yeni uygulamalar başlatma ve telefon görüşmeleri gibi diğer harici etkinliklerin kesintilerini giderme gibi çeşitli eylemler gerçekleştirirler.
+
+Activity'niz, kullanıcı bu activity'den her uzaklaştığında tamamen kapanmaz:
+
+- Activity'niz artık ekranda görünmediğinde, bu, activity'yi arka plana (_background_) almak olarak bilinir. (Bunun tersi, activity'nin ön planda [`foreground`] veya ekranda olduğu zamandır.)
+- Kullanıcı uygulamanıza döndüğünde aynı activity yeniden başlatılır ve tekrar görünür hale gelir. Lifecycle'ın bu bölümüne, uygulamanın _visible_ (görünür) _lifecycle_ denir.
+
+Uygulamanız arka plandayken sistem kaynaklarını ve pil ömrünü korumak için aktif olarak çalışmamalıdır. Devam eden işlemleri duraklatabilmeniz için uygulamanızın ne zaman arka plana geçtiğini bilmek için `Activity` lifecycle'ı ve callbackleri kullanırsınız. Ardından uygulamanız ön plana çıkınca bu işlemleri yeniden başlatırsınız.
+
+Örneğin, büyük ölçüde bilgi işlem kaynaklarına bağımlı bir uygulama düşünün. Bu uygulama, cihazınızın CPU'sunu kullanarak birçok hesaplama yapabilir. İşlem gücü ve pil ömrü genellikle bir mobil cihazda sınırlıdır, bu nedenle Android runtime sisteminin kaynakları dengelemesi gerekir. Arka planda yapılan işlemler performansı yavaşlatabileceğinden veya telefonun pilini zamanından önce bitirebileceğinden, Android ön planda çalışmayan uygulamalar için kaynak kullanımını durdurabilir.
+
+Bu sonraki adımda, uygulama arka plana geçtiğinde ve tekrar ön plana döndüğünde activity lifecycle'a bakacaksınız.
+
+1. DessertClicker uygulaması çalışırken, cupcake'e birkaç kez tıklayın.
+2. Cihazınızdaki Home düğmesine basın ve Android Studio'da Logcat'i gözlemleyin. `onPause()` metodunun ve `onStop()` metotlarının çağrıldığına, ancak `onDestroy()`'un çağrılmadığına dikkat edin. Ana ekrana dönmek, uygulamayı tamamen kapatmak yerine uygulamanızı arka plana koyar.
+
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/38710e0d2c4d1910.png)
+
+`onPause()` çağrıldığında, uygulamanın artık odağı yoktur. `onStop()`'tan sonra uygulama artık ekranda görünmez. Activity durdurulmuş olsa da `Activity` nesnesi hala arka planda hafızadadır. Activity yok edilmedi. Kullanıcı uygulamaya geri dönebilir, bu nedenle Android, activity kaynaklarınızı etrafta tutar.
+
+![lifecycle diagram](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/b488b32801220b79.png)
+
+3. Uygulamaya geri dönmek için recents ekranını kullanın. Logcat'te activity'nin `onRestart()` ve `onStart()` ile yeniden başlatıldığına ve ardından `onResume()` ile devam ettirildiğine dikkat edin.
+
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/f6275abeaa53abe4.png)
+
+Activity ön plana döndüğünde `onCreate()` metodu tekrar çağrılmaz. Activity nesnesi yok edilmedi, dolayısıyla yeniden yaratılması gerekmiyor. `onCreate()` yerine `onRestart()` metodu çağrılır. Bu sefer activity ön plana döndüğünde **Satılan Tatlılar** numarasının korunduğuna dikkat edin.
+
+4. DessertClicker dışında en az bir uygulama başlatın, böylece cihazın recents ekranında birkaç uygulama bulunur.
+5. Recents ekranını açın ve başka bir son kullanılan etkinliği açın. Ardından en son uygulamalara geri dönün ve DessertClicker'ı ön plana geri getirin.
+
+Home düğmesine bastığınızda olduğu gibi burada Logcat'te aynı callbackleri gördüğünüze dikkat edin. uygulama arka plana geçtiğinde `onPause()` ve `onStop()`, geri geldiğinde `onRestart()`, `onStart()` ve `onResume()` çağrılır.
+
+Buradaki önemli nokta, kullanıcı activity'ye gidip gelirken `onStart()` ve `onStop()`'un birden çok kez çağrılmasıdır. Uygulamayı arka plana geçtiğinde durdurmak veya ön plana döndüğünde yeniden başlatmak için bu metotları override etmelisiniz.
+
+Peki ya `onRestart()`? `onRestart()` metodu, `onCreate()` metoduna çok benzer. Activity görünür hale gelmeden önce onCreate() veya `onRestart()` çağrılır. `onCreate()` metodu yalnızca ilk kez çağrılır ve bundan sonra `onRestart()` çağrılır. `onRestart()` metodu, yalnızca activity'bniz ilk kez başlatılmıyorsa çağırmak istediğiniz kodu koyabileceğiniz bir yerdir.
+
+### Kullanım durumu 3: Activity'yi kısmen gizleme
+
+Bir uygulama başlatıldığında ve `onStart()` çağrıldığında, uygulamanın ekranda görünür hale geldiğini öğrendiniz. Uygulama devam ettirildiğinde ve `onResume()` çağrıldığında, uygulama kullanıcı odağını kazanır. Uygulamanın tamamen ekranda olduğu ve kullanıcı odaklı olduğu lifecycle kısmına _interactive_ lifecycle denir.
+
+Uygulama arka plana geçtiğinde, `onPause()`'dan sonra odak kaybolur ve uygulama `onStop()`'tan sonra artık görünmez.
+
+Odak (focus) ve görünürlük (visiblity) arasındaki fark önemlidir, çünkü bir activity'nin ekranda `kısmen` görünmesi, ancak kullanıcının odağına sahip olmaması mümkündür. Bu adımda, bir activity'nin kısmen görünür olduğu ancak kullanıcı odaklı olmadığı bir duruma bakacaksınız.
+
+1. DessertClicker uygulaması çalışırken, ekranın sağ üst köşesindeki **Paylaş** düğmesine tıklayın.
+
+![app](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/9ddc8b1dc79b1bff.png)
+
+Paylaşım activity'si ekranın alt yarısında görünür, ancak activity üst yarıda görünmeye devam eder.
+
+2. Logcat'i inceleyin ve yalnızca `onPause()` öğesinin çağrıldığını unutmayın.
+
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/cf96ef14999a9a3c.png)
+
+Bu kullanım durumunda, activity hala kısmen görünür olduğundan `onStop()` çağrılmaz. Ancak activity'nin kullanıcı odaklılığı yoktur ve kullanıcı onunla etkileşime giremez. Ön planda olan "paylaş" activity'si, kullanıcı odaklıdır.
+
+Bu fark neden önemlidir? Hesaplama açısından yoğun uygulamamızı önceden düşünün. Uygulamanın arka plandayken durmasını, ancak uygulama kısmen gizlendiğinde çalışmaya devam etmesini isteyebilirsiniz. Bu durumda onu `onStop()` ile sonlandıracaksınız. Uygulamanın, activity kısmen gizlendiğinde de durmasını istiyorsanız, uygulamayı sonlandırmak için kodu `onPause()` içine koyarsınız.
+
+`onPause()` içinde çalışan kod ne olursa olsun, diğer şeylerin görüntülenmesini engeller, bu nedenle kodu `onPause()`'da hafif tutun. Örneğin, bir telefon araması gelirse, `onPause()` içindeki kod gelen arama bildirimini geciktirebilir.
+
+3. Uygulamaya geri dönmek için paylaşım iletişim kutusunun dışına tıklayın ve `onResume()` öğesinin çağrıldığına dikkat edin.
+
+Hem `onResume()` hem de `onPause()` odakla ilgilidir. `onResume()` metodu, activity'ye odaklanıldığında çağrılır ve activity odağı kaybettiğinde `onPause()` çağrılır.
+
 ## <a name="d"></a>Aşama 4 : Fragment lifecycle'ı keşfedin
+
+Android fragment lifecycle, activity lifecycle'a benzer ve ek oalrak fragment'a özgü birkaç metodu vardır.
+
+![fragment lifecycle diagram](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/8494ec955ce0c49d.png)
+
+Bu aşamada, önceki aşamalarda oluşturduğunuz AndroidTrivia uygulamasına bakacaksınız ve fragment lifecycle'ı keşfetmek için bazı loglar ekleyeceksiniz. AndroidTrivia uygulaması, Android geliştirmeyle ilgili soruları yanıtlamanıza olanak tanır; Eğer arka arkaya üç doğru cevap verirseniz oyunu kazanırsınız.
+
+AndroidTrivia uygulamasındaki her ekran bir `Fragment`'tır.
+
+İşleri basit tutmak için bu görevde Timber kütüphanesi yerine Android log kaydı API'ını kullanırsınız.
+
+
+
+
+
+
