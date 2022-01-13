@@ -77,32 +77,58 @@ class TitleFragment : Fragment() {
 }
 ```
 
+#### Binding Object Bağlayıcı Nesne) oluşturun.
+Fragment şimdi derlenmeyecek. Fragment'i derlemek için, bir binding object (bağlayıcı nesne) oluşturmanız ve Fragment'in görünümünü inflate etmeniz gerekir (bir Aktivite için setContentView() kullanmaya eşdeğerdir).
 
+1. TitleFragment.kt'deki onCreateView() yönteminde, bir binding(bağlama) değişkeni (val binding) oluşturun.
+2. Fragment'in görünümünü inflate etmek için, Fragment'in Binding nesnesindeki FragmentTitleBinding olan DataBindingUtil.inflate() yöntemini çağırın.
 
+DataBindingUtil.inflate yöntemine dört bağımsız değişken iletin:
+- Binding layout'u inflate etmek için kullanılan LayoutInflater olan inflater.
+- Inflate edilecek layoutun XML layout kaynağı. Sizin için önceden tanımlanmış olan layoutlardan birini kullanın, R.layout.fragment_title.
+- Ana ViewGroup için kapsayıcı. (Bu parametre isteğe bağlıdır.)
+- AttachToParent değeri için false.
+- DataBindingUtil.inflate tarafından döndürülen binding'i binding variable değişkenine atayın.
+- Inflate view'dan binding.root'u döndürün. onCreateView() yönteminiz şimdi aşağıdaki koda benziyor:
 
+```
+override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                         savedInstanceState: Bundle?): View? {
+   val binding = DataBindingUtil.inflate<FragmentTitleBinding>(inflater,
+           R.layout.fragment_title,container,false)
+   return binding.root
+   }
+```
 
+5. es>layout'u açın ve placeholder_layout.xml'i silin.
 
+### 2.Adım: Main Layout Dosyasına Yeni Fragment Ekleyin.
+Bu adımda, uygulamanın Activity_main.xml layout dosyasına TitleFragment'i eklersiniz.
 
+1. res > layout > aktivite_main.xml dosyasını açın ve layout XML kodunu görüntülemek için Kod sekmesini seçin.
+2. Mevcut LinearLayout öğesinin içine bir fragment öğesi ekleyin.
+3. Fragment'ın id'sini titleFragment olarak ayarlayın.
+4. Fragment'ın adını, burada com.example.android.navigation.TitleFragment olarak tüm Fragment class'ına uygulayon.
+5. Layout genişliğini ve yüksekliğini match_parent olarak ayarlayın.
 
+```
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <fragment
+                android:id="@+id/titleFragment"
+                android:name="com.example.android.navigation.TitleFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</layout>
+```
+6. Uygulamayı çalıştırın. Fragment ana ekranınıza eklendi.
+![image](https://user-images.githubusercontent.com/80598532/149423399-1af83c8a-4fd3-42f2-997d-b784fd814a69.png)
 
