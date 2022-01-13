@@ -2,7 +2,7 @@
 
 - [Genel Bakış](#0) 
 - [Başlangıç Uygulaması Projesini Keşfedin](#1) 
-
+- [Fragment Ekleyin](#2) 
 
 ## <a name="0"></a>Aşama Ø : Genel Bakış
 
@@ -24,4 +24,85 @@ Bu kod laboratuvarında, Trivia uygulamasını tamamlarken ihtiyaç duyduğunuz 
 
 1. AndroidTrivia-Starter Android Studio projesini indirin. Android-kotlin-fundamentals-starter-apps zip dosyasının tamamını indirmeniz gerekebilir.
 2. Projeyi Android Studio'da açın ve uygulamayı çalıştırın. Uygulama açıldığında, uygulama adını ve boş bir ekranı görüntülemekten başka bir şey yapmıyor.
+ ![image](https://user-images.githubusercontent.com/80598532/149355693-9e5fea2d-2606-4998-bc61-81e7fbc9508f.png)
  
+3. Android Studio Proje bölmesinde, proje dosyalarını keşfetmek için Proje: Android görünümünü açın. MainActivity sınıfını ve Fragment sınıflarını görmek için app > Java klasörünü açın.
+![image](https://user-images.githubusercontent.com/80598532/149355964-a45e3545-23a0-4931-9181-1b8de1177995.png)
+
+4. res > layout klasörünü açın ve Activity_main.xml'e çift tıklayın. Activity_main.xml dosyası, Layout Editor'de görünür.
+5. Design sekmesini açın. Activity_main.xml dosyası için Component Tree, root'u dikey(vertical) LinearLayout olarak gösterir.
+![image](https://user-images.githubusercontent.com/80598532/149356438-a9125758-cc9f-4260-ba21-28733974186c.png)
+
+- Vertical Linear Layout'ta, düzendeki tüm alt görünümler dikey olarak hizalanır.
+
+## <a name="2"></a>Aşama 2 : Fragment Ekleyin.
+
+Fragment, bir Activity'deki bir davranışı veya kullanıcı arayüzünün(UI) bir bölümünü temsil eder. Çok bölmeli bir kullanıcı arayüzü oluşturmak için birden çok Fragment'ı tek bir Activity'de birleştirebilir ve bir Fragment'ı birden çok Activity'de yeniden kullanabilirsiniz.
+
+Fragment'ı, diğer Activity'lerde de kullanabileceğiniz bir "sub-activity" gibi, bir Activity'nin modüler bir bölümü olarak düşünün:
+
+- Bir Fragment'ın kendi yaşam döngüsü (lifecycle'ı) vardır ve kendi girdi olaylarını alır.
+- Activity çalışırken Fragment ekleyebilir veya kaldırabilirsiniz.
+- Bir Kotlin sınıfında bir Fragment tanımlanır.
+- Bir Fragment'ın aullanıcı arayüzü, bir XML Layout dosyasında tanımlanır.
+
+AndroidTrivia uygulamasının bir "main activity" ve birkaç Fragment'ı vardır. Fragmentların çoğu ve bunların Layout dosyaları sizin için tanımlanmıştır. Bu görevde, bir fragment oluşturur ve bu fragment'ı uygulamanın main activity'sine eklersiniz.
+
+### 1.Adım: Bir Fragment Class'ı Ekleyin.
+Bu adımda boş bir TitleFragment classı oluşturacaksınız. Yeni bir Fragment için bir Kotlin classı oluşturarak başlayın:
+
+1. Android Studio'da, odağı proje dosyalarına geri getirmek için Proje bölmesinin içinde herhangi bir yeri tıklayın. Örneğin, com.example.android.navigation klasörüne tıklayın.
+2. File > New > Fragment > Fragment (Blank) seçin.
+3. Fragment adı için TitleFragment girin.
+4. Fragment layout adı için placeholder_layout girin (bu layout'u, TitleFragment için tasarlanmış layout'u zaten olduğundan uygulamamız için kullanmayacağız).
+5. Resource language için Kotlin'i seçin.
+6. Bitir'i tıklayın.
+7. Eğer açık değilse, TitleFragment.kt fragment dosyasını açın. Bir Fragment'in yaşam döngüsü sırasında çağrılan yöntemlerden biri olan onCreateView() metodunu içerir.
+8. onCreateView() içindeki kodu silin. onCreateView() işlevi yalnızca aşağıdaki kodla bırakılır:
+
+```
+override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                         savedInstanceState: Bundle?): View? {
+}
+```
+
+9. TitleFragment classında onCreate() yöntemini, fragment initialize(başlatma) parametrelerini ve companion object'i (tamamlayıcı nesneyi) silin. TitleFragment class'ınızın aşağıdaki gibi göründüğünden emin olun:
+
+```
+class TitleFragment : Fragment() {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
