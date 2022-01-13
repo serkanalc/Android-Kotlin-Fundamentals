@@ -197,3 +197,60 @@ Uygulama alanında olduğundan emin olun!
 4. `FontFamily` attribute'ünü **tittle** metin görünümünden kaldırın.
 
 ## <a name="d"></a>Aşama 4 : Stilleri Kullan
+
+Temalar, uygulamanıza varsayılan yazı tipi ve ana renkler gibi genel temalar uygulamak için harikadır. Attributes, belirli bir görünümü şekillendirmek ve her ekrana özgü olma eğiliminde olan margins, padding, ve constraints gibi düzen bilgileri eklemek için mükemmeldir.
+
+Style-hierarchy piramidinin ortasında stiller bulunur. Stiller, seçtiğiniz görünümlere uygulayabileceğiniz yeniden kullanılabilir nitelik "gruplarıdır". Bu görevde başlık ve alt başlık için bir stil kullanacaksınız.
+
+#### Aşama 1 : Bir Stil Yaratın
+
+1. res/values/styles.xml dosyasını açın.
+2. `<resources>` etiketinin içinde, aşağıda gösterildiği gibi `<style>` etiketini kullanarak yeni bir stil tanımlayın.
+
+```
+<style name="TextAppearance.Title" parent="TextAppearance.MaterialComponents.Headline6">
+</style>
+```
+Stil adlarını adlandırırken anlamsal olarak düşünmek önemlidir. Stilin etkilediği özelliklere göre değil, stilin ne için kullanılacağına göre bir stil adı seçin. Örneğin, bu stili **Title** olarak adlandırın, **LargeFontInGrey** gibi bir şey değil. Bu stil, uygulamanızın herhangi bir yerindeki herhangi bir başlık tarafından kullanılacaktır. Kural olarak, **TextAppearance** stillerine **TextAppearance.Name** adı verilir, bu nedenle bu durumda ad **TextAppearance.Title**'dır.
+
+Stilin bir parent'ı vardır, tıpkı bir temanın bir parent'ı olabileceği gibi. Ancak bu sefer, bir temayı genişletmek yerine, stil bir stili, **TextAppearance.MaterialComponents.Headline6**'yı genişletir. Bu stil, **MaterialComponents** teması için varsayılan bir metin stilidir, bu nedenle onu genişleterek sıfırdan başlamak yerine varsayılan stili değiştirirsiniz.
+
+3. Yeni stilin içinde iki öğe tanımlayın. Bir öğede, Boyut metnini `24sp` olarak ayarlayın. Diğer öğede, Renk metnini daha önce kullanılanla aynı koyu griye ayarlayın.
+
+```
+ <item name="android:textSize">24sp</item>
+ <item name="android:textColor">#555555</item>
+```
+
+4. Altyazılar için başka bir stil tanımlayın. **TextAppearance.Subtitle** olarak adlandırın.
+5. TextAppearance.Title öğesinden tek fark metin boyutunda olacağından, bu stili TextAppearance.Title öğesinin child'ı yapın.
+6. Altyazı stilinin içinde metin boyutunu `18sp` olarak ayarlayın. İşte tamamlanmış stil:
+
+```
+<style name="TextAppearance.Subtitle" parent="TextAppearance.Title" >
+   <item name="android:textSize">18sp</item>
+</style>
+```
+#### Aşama 2 : Oluşturduğunuz Stili Uygulayın
+
+1. `home_fragment.xml` dosyasında, title metni görünümüne `TextAppearance.Title` stilini ekleyin. **textSize** ve **textColor** attribute'lerini silin.
+
+Temalar, ayarladığınız herhangi bir TextAppearance stilini geçersiz kılar. (Codelab'ın başlangıcındaki piramit diyagramı, stilin uygulanma sırasını gösterir.) Stili TextAppearance olarak uygulamak için textAppearance özelliğini kullanın, böylece Tema'da ayarlanan yazı tipi burada ayarladığınızı geçersiz kılar.
+
+```
+<TextView
+       android:id="@+id/title"
+       android:textAppearance="@style/TextAppearance.Title"
+```
+
+2. Ayrıca altyazı metni görünümüne TextAppearance.Subtitle stilini ekleyin ve textSize ve textColor özniteliklerini silin. Bu stili textAppearance olarak da uygulamanız gerekir, böylece temada ayarlanan yazı tipi burada ayarladığınızı geçersiz kılar.
+
+```
+<TextView
+       android:id="@+id/subtitle"
+       android:textAppearance="@style/TextAppearance.Subtitle"
+```
+
+> Önemli: Metni işleyen hem temalarınız hem de stilleriniz olduğunda, temadaki metin özelliklerinin stilde ayarlanan ve devralınanları geçersiz kılmasını istiyorsanız, metin özelliklerini textAppearance özniteliği olarak uygulamanız gerekir.
+
+3. Uygulamayı çalıştırın ve metniniz artık tutarlı bir şekilde biçimlendirilir.
