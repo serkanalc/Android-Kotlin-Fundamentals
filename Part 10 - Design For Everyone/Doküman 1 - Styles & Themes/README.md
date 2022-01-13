@@ -26,10 +26,41 @@ Android, uygulamanızdaki tüm view'ların görünümünü kontrol etmenizi sağ
 
 ![image](https://user-images.githubusercontent.com/70329389/149216959-b6382115-efcb-410e-b206-d8494852758c.png)
 
-#### Nitelikleri görüntüle
+#### View Attributes
 
 - Her görünüm için öznitelikleri açıkça ayarlamak için görünüm özniteliklerini kullanın. (Stiller gibi görünüm nitelikleri yeniden kullanılamaz.)
 - Stiller veya temalar aracılığıyla ayarlanabilen her özelliği kullanabilirsiniz.
 
 margins, paddings veya constraints gibi özel veya tek seferlik tasarımlar için kullanın.
+
+#### Styles
+
+- Yazı tipi boyutu veya renkleri gibi yeniden kullanılabilir stil bilgilerinin bir koleksiyonunu oluşturmak için bir stil kullanın.
+- Uygulamanız genelinde kullanılan küçük ortak tasarım kümelerini bildirmek için idealdir.
+
+Varsayılan stili geçersiz kılarak birkaç görünüme bir stil uygulayın. Örneğin, stili tutarlı başlıklar veya bir dizi düğme oluşturmak için bir stil kullanın.
+
+#### Default Style
+
+- Bu, Android sistemi tarafından sağlanan varsayılan stildir.
+
+#### Themes
+
+- Tüm uygulamanız için renkleri tanımlamak üzere bir tema kullanın.
+- Tüm uygulama için varsayılan yazı tipini ayarlamak için bir tema kullanın.
+- Metin görünümleri veya radyo düğmeleri gibi tüm görünümlere uygulayın.
+- Tüm uygulama için tutarlı bir şekilde uygulayabileceğiniz özellikleri yapılandırmak için kullanın.
+
+#### TextAppearance
+
+- Yalnızca fontFamily gibi metin öznitelikleriyle stil oluşturmak için.
+
+Android bir görünüme stil verdiğinde, özelleştirebileceğiniz bir temalar, stiller ve nitelikler kombinasyonu uygular. Nitelikler her zaman bir stilde veya temada belirtilen her şeyin üzerine yazar. Ve stiller her zaman bir temada belirtilen her şeyin üzerine yazar.
+
+Aşağıdaki ekran görüntüleri, açık tema (solda) ve koyu tema (sağda) ile GDG bulucu uygulamasını ve ayrıca özel yazı tipi ve başlık boyutlarıyla gösterir. Bu, birkaç şekilde uygulanabilir ve bunlardan bazılarını bu kod laboratuvarında öğreneceksiniz.
+
+![Ekran Resmi 2022-01-13 03 35 32](https://user-images.githubusercontent.com/70329389/149244987-4295eb92-ee95-4fc2-8fe4-f97fd1dc79fc.png)
+
+
+
 
