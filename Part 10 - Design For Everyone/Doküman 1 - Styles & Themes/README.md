@@ -125,5 +125,75 @@ android:textColor="#555555"
 
 ## <a name="c"></a>Aşama 3 : Temaları ve İndirilebilir Yazı Tiplerini Kullanın
 
+Uygulamanızla yazı tiplerini kullanırken, gerekli yazı tipi dosyalarını APK'nızın bir parçası olarak gönderebilirsiniz. Basit olsa da, bu çözüm genellikle önerilmez, çünkü uygulamanızın indirilmesi ve yüklenmesi daha uzun sürer.
 
+Android, İndirilebilir Yazı Tipleri API'sini kullanarak uygulamaların yazı tiplerini çalışma zamanında indirmesine izin verir. Uygulamanız cihazdaki başka bir uygulamayla aynı yazı tipini kullanıyorsa Android, yazı tipini yalnızca bir kez indirerek cihazın depolama alanından tasarruf sağlar.
 
+Bu görevde, uygulamanızda temayı kullanan her görünümün yazı tipini ayarlamak için indirilebilir yazı tiplerini kullanırsınız.
+
+#### 1. Adım: İndirilebilir bir yazı tipi uygulayın.
+
+1. Tasarım sekmesinde `home_fragment.xml` dosyasını açın.
+2. `Component tree` bölmesinde, `title` text görünümünü seçin.
+3. Attributes bölmesinde, `fontFamily` niteliğini bulun. Tüm Attributes bölümünde bulabilir veya sadece arayabilirsiniz.
+4. Açılır oku tıklayın.
+5. `More Fonts`'a gidin ve onu seçin. Bir `Resources` penceresi açılır.
+
+![image](https://user-images.githubusercontent.com/70329389/149301566-5045a20b-8783-4de2-a8f1-a56c44ff24d6.png)
+
+6. `Resources` penceresinde `lobster` arayın.
+7. Sonuçlarda, Lobster Two'yu seçin.
+8. Sağ tarafta, yazı tipi adının altında **Create downloadable font** radyo düğmesini seçin. Tamam'a tıklayın.
+9. Android Manifest dosyasını açın.
+10. Bildirimin alt kısmına yakın bir yerde, ad ve kaynak attribute'leri `"preloaded_fonts"` olarak ayarlanmış yeni `<meta-data>` etiketini bulun. Bu etiket, Google Play Hizmetlerine bu uygulamanın indirilen yazı tiplerini kullanmak istediğini bildirir. Uygulamanız çalıştığında ve `Lobster Two` yazı tipini istediğinde, yazı tipi cihazda zaten mevcut değilse, yazı tipi sağlayıcısı yazı tipini internetten indirir.
+
+```
+<meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
+```
+11. `res/values` klasöründe, bu uygulama için indirilebilir tüm yazı tiplerini listeleyen diziyi tanımlayan `preloaded_fonts.xml` dosyasını bulun.
+12. Aynı şekilde `res/fonts/lobster_two.xml` dosyası da yazı tipi hakkında bilgi içerir.
+13. `home_fragment.xml` dosyasını açın ve kodda ve önizlemede `Lobster Two` yazı tipinin TextView başlığına ve böylece `title`'a uygulandığına dikkat edin.
+
+![image](https://user-images.githubusercontent.com/70329389/149304029-951fe1f7-83a9-4d0d-b3fa-9782e06ff57d.png)
+
+14. `res/values/styles.xml` dosyasını açın ve proje için oluşturulmuş varsayılan `AppTheme` temasını inceleyin. Şu anda aşağıda gösterildiği gibi görünüyor. Tüm metne yeni `Lobster Two` yazı tipini uygulamak için bu temayı güncellemeniz gerekecek.
+15. `<style>` etiketinde, parent niteliğine dikkat edin. Her stil etiketi bir ebeveyn belirtebilir ve parent'lerin tüm niteliklerini devralabilir. Kod, Android kitaplıkları tarafından tanımlanan Temayı belirtir. Düğmelerin nasıl çalıştığından araç çubuklarının nasıl çizileceğine kadar her şeyi belirten [MaterialComponents](https://material.io/develop/android/theming/theming-overview) teması. Temanın makul varsayılanları vardır, böylece yalnızca istediğiniz bölümleri özelleştirebilirsiniz. Uygulama, yukarıdaki ekran görüntüsünde görebileceğiniz gibi, bu temanın `Light` sürümünü eylem çubuğu (NoActionBar) olmadan kullanır.
+
+```
+<!-- Base application theme. -->
+<style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+   <!-- Customize your theme here. -->
+   <item name="colorPrimary">@color/colorPrimary</item>
+   <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+   <item name="colorAccent">@color/colorAccent</item>
+</style>
+```
+16. `AppTheme` stilinin içinde yazı tipi parent'ini `lobster_two` olarak ayarlayın. Ana tema her ikisini de kullandığından, hem Android:fontFamily hem de `fontFamily`'yi ayarlamanız gerekir. Değişikliklerinizi önizlemek için Tasarım sekmesinde `home_fragment.xml` dosyasını kontrol edebilirsiniz.
+
+```
+<style name="AppTheme"  
+...    
+        <item name="android:fontFamily">@font/lobster_two</item>
+        <item name="fontFamily">@font/lobster_two</item>
+```
+
+17. Uygulamayı tekrar çalıştırın. Yeni yazı tipi tüm metne uygulanır! navigation drawer açın ve diğer ekranlara geçin, yazı tipinin orada da uygulandığını görürsünüz.
+
+#### 2. Adım: Temayı başlığa uygulayın.
+
+1. `home_fragment.xml` içinde, `lobster_two` yazı tipi attribute'une sahip `title` metni görünümünü bulun. fontFamily attribute'unu silin ve uygulamayı çalıştırın. Tema aynı font family ayarladığından herhangi bir değişiklik olmaz.
+2. Başlık metni görünümüne farklı bir fontFamily attribute'u koyun:
+`app:fontFamily="serif-monospace"`
+Uygulama alanında olduğundan emin olun!
+
+```
+<TextView
+       android:id="@+id/title"
+       ...
+       app:fontFamily="serif-monospace"
+```
+
+3. Uygulamayı çalıştırın ve görünümün yerel attribute'ünün temayı geçersiz kıldığını görürün.
+4. `FontFamily` attribute'ünü **tittle** metin görünümünden kaldırın.
+
+## <a name="d"></a>Aşama 4 : Stilleri Kullan
