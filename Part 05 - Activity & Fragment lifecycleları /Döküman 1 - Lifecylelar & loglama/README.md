@@ -41,7 +41,7 @@ Bunu yapmanın basit bir yolu, Android logging API'sini kullanmaktır. Loglama, 
 2. Uygulamayı derleyin ve çalıştırın ve tatlı resmine birkaç kez dokunun. **Satılan Tatlılar**ın değerinin ve toplam dolar tutarının nasıl değiştiğine dikkat edin.
 3.` MainActivity.kt`'yi açın ve bu activity için `onCreate()` metodunu inceleyin
 
-```
+```kotlin
 
 override fun onCreate(savedInstanceState: Bundle?) {
 ...
@@ -59,7 +59,7 @@ Activity lifecycle diyagramında, bu callback'i daha önce kullandığınız iç
 
 4. `onCreate()` metodunda, `super.onCreate()` çağrısından hemen sonra aşağıdaki satırı ekleyin. Gerekirse `Log` class'ını içe aktarın. (Mac'te `Alt+Enter` veya `Option+Enter` tuşlarına basın ve **Import**'u seçin.)
 
-```
+```kotlin
 
 Log.i("MainActivity", "onCreate çağrıldı")
 
@@ -99,7 +99,7 @@ onStart() öğesinin karşılık gelen bir onStop() lifecycle metoduyla eşleşt
 
 2. Doğru metodu aramak için `onStart`'a girmeye başlayın. Bir sonraki eşleşen öğeye gitmek için aşağı oku kullanın. Listeden `onStart()` öğesini seçin ve boilerplate override kodunu eklemek için **OK**'a tıklayın. Kod şöyle görünür:
 
-```
+```kotlin
 
 override fun onStart() {
    super.onStart()
@@ -111,7 +111,7 @@ override fun onStart() {
 
 3. `onStart()` metodunun içine bir log mesajı ekleyin:
 
-```
+```kotlin
 
 override fun onStart() {
    super.onStart()
@@ -127,5 +127,181 @@ override fun onStart() {
 >**Not:** Cihazınızla denemeler yaparken ve lifecycle callbacklerini gözlemlerken, cihazınızı döndürdüğünüzde olağandışı davranışlar fark edebilirsiniz. Bir sonraki dökümanda bu davranış hakkında bilgi edineceksiniz.
 
 ## <a name="b"></a>Aşama 2 : Log kaydı için Timber kullanın
+
+Bu aşamada, uygulamanızı `Timber` adlı popüler bir log kütüphanesi kullanacak şekilde değiştirirsiniz. `Timber`, yerleşik Android `Log` class'ına göre çeşitli avantajlara sahiptir. Özellikle, `Timber` kütüphanesi:
+
+- Class adına göre sizin için log tag'i oluşturur.
+- Android uygulamanızın yayınlanmış bir sürümünde logların gösterilmesini önlemenize yardımcı olur.
+- Crash raporlama kütüphaneleri ile entegrasyona izin verir.
+
+İlk faydayı hemen göreceksiniz; diğerlerini, daha büyük uygulamalar hazırlarken ve gönderirken takdir edeceksiniz.
+
+### Adım 1: Gradle'a Timber'ı ekleyin
+
+1. GitHub'daki [Timber projesi](https://github.com/JakeWharton/timber#download)ne giden bu bağlantıyı ziyaret edin ve `implementation` kelimesiyle başlayan **Download** başlığı altındaki kod satırını kopyalayın. Versiyon numarası farklı olsa da, kod satırı şöyle görünecektir.
+
+```kotlin   
+
+implementation 'com.jakewharton.timber:timber:4.7.1'
+
+```   
+
+2. Android Studio'da, Proje: Android görünümünde **Gradle Scripts**'i genişletin ve **build.gradle (Module: app)** dosyasını açın.
+3. Dependencies bölümünün içine kopyaladığınız kod satırını yapıştırın.
+
+```kotlin   
+
+dependencies {
+   ...
+   implementation 'com.jakewharton.timber:timber:4.7.1'
+}
+
+```   
+
+4. Gradle'ı rebuild etmek için Android Studio'nun sağ üst köşesindeki **Sync Now** bağlantısını tıklayın. Derleme hatasız yürütülmelidir.
+
+### Adım 1: Bir Application class'ı oluşturun ve Timber'ı initialize edin
+
+Bu adımda, bir `Application` class'ı oluşturacaksınız. `Application`, uygulamanızın tamamı için genel uygulama durumunu içeren bir temel class'tır. Ayrıca, işletim sisteminin uygulamanızla etkileşim kurmak için kullandığı ana nesnedir. Bir tane belirtmezseniz Android'in kullandığı varsayılan bir `Application` class'ı vardır, bu nedenle uygulamanız için her zaman, onu oluşturmak için özel bir şey yapmanıza gerek kalmadan oluşturulan bir `Application` nesnesi vardır.
+
+`Timber`, `Application` class'ını kullanır çünkü tüm uygulama bu log kütüphanesini kullanacaktır ve diğer her şey ayarlanmadan önce kütüphanenin bir kez initialize edilmesi gerekir. Bu gibi durumlarda, `Application` class'ını ssubclass haline getirebilir ve kendi özel implementation'ınızla varsayılanları override edebilirsiniz.
+
+>**Uyarı:** `Application` class'ına kendi kodunuzu eklemek cazip gelebilir, çünkü class tüm activitylerinizden önce oluşturulur ve global duruma sahip olabilir. Ancak, küresel olarak kullanılabilen okunabilir ve yazılabilir statik değişkenler yapmanın hataya açık olması gibi, `Application` class'ını kötüye kullanmak da kolaydır. Kod gerçekten gerekli olmadıkça, `Application` class'ına herhangi bir activity kodu koymaktan kaçının.
+
+`Application` class'ınızı oluşturduktan sonra, Android manifest'te class'ı belirtmeniz gerekir.
+
+1. `dessertclicker` paketinde `ClickerApplication` adında yeni bir Kotlin class'ı oluşturun. Bunu yapmak için **app > java**'yı genişletin ve **com.example.android.dessertclicker**'a sağ tıklayın. **New > Kotlin File/Class**'ı seçin.
+2. Class'a **ClickerApplication** adını verin ve **Kind**'ını **Class** olarak verin. **OK**'a tıklayın.
+
+Android Studio, yeni bir `ClickerApplication` class'ı oluşturur ve onu kod editörde açar. Kod şöyle görünür:
+
+```kotlin   
+
+package com.example.android.dessertclicker
+
+class ClickerApplication {
+}
+
+```   
+
+3. Class tanımını `Application`'ın bir subclass'ı olacak şekilde değiştirin ve gerekirse `Application` class'ını import edin.
+
+```kotlin  
+
+class ClickerApplication : Application() {
+
+```   
+
+4. `onCreate()` metodunu override etmek için, **Code > Override Methods**'ı seçin veya `Control+o`'ya basın.
+
+```kotlin   
+
+class ClickerApplication : Application() {
+   override fun onCreate() {
+       super.onCreate()
+   }
+}
+
+```   
+
+5. `onCreate()` metodunun içinde, `Timber` kütüphanesini initialize edin:
+
+```kotlin
+
+override fun onCreate() {
+    super.onCreate()
+
+    Timber.plant(Timber.DebugTree())
+}
+
+```
+
+Bu kod satırı, kütüphaneyi activitylerinizdde kullanabilmeniz için, uygulamanız için `Timber` kütüphanesini başlatır.
+
+6. **AndroidManifest.xml**'i açın.
+7. `<application>` öğesinin üstüne, `ClickerApplication` class'ı için yeni bir özellik ekleyin, böylece Android, varsayılan class yerine `Application` class'ınızı kullanmayı bilsin.
+
+```kotlin
+
+<application
+   android:name=".ClickerApplication"
+...
+
+```
+
+>**Not:** Özel (Custom) `Application` class'ınızı Android manifest'e eklemezseniz uygulamanız hatasız çalışır. Ancak, uygulama class'ınızı kullanmaz ve `Timber`'dan hiçbir log bilgisi görmezsiniz.
+
+### Adım 3: Timber log ifadelerini ekleyin
+
+Bu adımda, `Log.i()` çağrılarınızı `Timber` kullanacak şekilde değiştireceksiniz, ardından diğer tüm lifecycle metotları için log'a kaydetmeyi uygulayacaksınız.
+
+1. `MainActivity`'yi açın ve `onCreate()`'e gidin. `Log.i()`'yi `Timber.i()` ile değiştirin ve log tag'ini kaldırın.
+
+```kotlin
+
+Timber.i("onCreate called")
+
+```
+
+`Log` class'ı gibi, `Timber` da bilgi mesajları için `i()` metodunu kullanır. `Timber` ile bir log tag'i eklemeniz gerekmediğine dikkat edin; `Timber`, log tag'i olarak class'ın adını otomatik olarak kullanır.
+
+2. Benzer şekilde, `Log` çağrısını `onStart()` içinde de değiştirin:
+
+```kotlin
+
+override fun onStart() {
+   super.onStart()
+
+   Timber.i("onStart Called")
+}
+
+```
+
+3. DessertClicker uygulamasını derleyin ve çalıştırın ve Logcat'i açın. `onCreate()` ve `onStart()` için hala aynı log mesajlarını gördüğünüze dikkat edin, ancak şimdi bu mesajları `Log` class'ı değil, `Timber` oluşturuyor.
+3. MainActivity'nizdeki lifecycle metotlarının geri kalanını override edin ve her biri için Timber log ifadeleri ekleyin. İşte kod:
+
+```kotlin
+
+override fun onResume() {
+   super.onResume()
+   Timber.i("onResume Called")
+}
+
+override fun onPause() {
+   super.onPause()
+   Timber.i("onPause Called")
+}
+
+override fun onStop() {
+   super.onStop()
+   Timber.i("onStop Called")
+}
+
+override fun onDestroy() {
+   super.onDestroy()
+   Timber.i("onDestroy Called")
+}
+
+override fun onRestart() {
+   super.onRestart()
+   Timber.i("onRestart Called")
+}
+
+```
+
+5. DessertClicker'ı tekrar derleyin ve çalıştırın ve Logcat'i inceleyin. Bu sefer `onCreate()` ve `onStart()`'a ek olarak, `onResume()` lifecycle callback'i için bir log mesajı olduğuna dikkat edin.
+
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/3b61071b3c4334a4.png)
+
+Bir activity sıfırdan başladığında, bu lifecycle callbacklerinin üçünün de sırayla çağrıldığını görürsünüz:
+
+- Uygulamayı oluşturmak için `onCreate()`
+- Uygulamayı başlatmak ve ekranda görünür yapmak için `onStart()`
+- Activity'ye odaklanmak ve onu kullanıcının onunla etkileşime girmesi için hazır hale getirmek için `onResume()`
+
+Adına rağmen, devam ettirilecek bir şey olmasa bile başlangıçta `onResume()` metodu çağrılır.
+
+![lifecyle diagram](https://developer.android.com/codelabs/kotlin-android-training-lifecycles-logging/img/160054d59f67519.png)
+
 ## <a name="c"></a>Aşama 3 : Lifecycle kullanım örneklerini keşfedin
 ## <a name="d"></a>Aşama 4 : Fragment lifecycle'ı keşfedin
