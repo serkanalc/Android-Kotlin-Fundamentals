@@ -7,7 +7,7 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
 
 ## İşte Konu başlıkları:
 
-- [Bir Room Database Oluşturun](https://github.com/bgmylc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Dok%C3%BCman%201%20-%20Bir%20Room%20Database%20Olu%C5%9Fturun)
+- [Bir Room Database Oluşturun](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Dok%C3%BCman%201%20-%20Bir%20Room%20Database%20Olu%C5%9Fturun)
   - Başlangıç uygulamasını indirin & inceleyin
   - SleepNight entity'sini oluşturun
   - DAO'yu oluşturun
@@ -19,34 +19,34 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
   - Coroutineler
   - Data toplayın & görüntüleyin
   
-- [Button Statelerini(Durumlarını) Kontrol Etmek İçin LiveData Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Döküman%203%20-%20Button%20Statelerini%20Kontrol%20Etmek%20İçin%20LiveData%20Kullanın%20)
+- [Button Statelerini(Durumlarını) Kontrol Etmek İçin LiveData Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Dok%C3%BCman%203%20-%20Button%20Statelerini%20Kontrol%20Etmek%20%C4%B0%C3%A7in%20LiveData%20Kullan%C4%B1n%20)
   - Navigation ekleyin
   - Uyku kalitesini kaydedin
   - Button görünürlüğünü kontrol edin & bir Snackbar ekleyin
  
-- [RecyclerView Temelleri](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Döküman%204%20-%20RecyclerView%20Temelleri)
+- [RecyclerView Temelleri](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Dok%C3%BCman%204%20-%20RecyclerView%20Temelleri)
   - RecyclerView
   - RecyclerView ve bir Adapter uygulayın
   - Tüm uyku datası için bir ViewHolder oluşturun
   - Kodunuzu geliştirin
   
-- [RecyclerView ile DiffUtil & Data Binding](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/D%C3%B6k%C3%BCman%205%20-%20RecyclerView%20ile%20DiffUtil%20%26%20Data%20Binding)
+- [RecyclerView ile DiffUtil & Data Binding](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Dok%C3%BCman%205%20-%20RecyclerView%20ile%20DiffUtil%20%26%20Data%20Binding)
   - Şimdiye kadar neler yaptığınızı gözden geçirin & başlayın
   - DiffUtil ile listenin içeriğini yenileyin
   - Listenizi yönetmek için ListAdapter kullanın
   - RecyclerView ile DataBinding kullanın
   - Binding adapterlar yaratın
 
-- [RecyclerView'da Grid Layout](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/D%C3%B6k%C3%BCman%206%20-%20RecyclerView'da%20Grid%20Layout%20)
+- [RecyclerView'da Grid Layout](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Dok%C3%BCman%206%20-%20RecyclerView'da%20Grid%20Layout%20)
   - Layoutlar & LayoutManagerlar
   - GridLayout uygulayın
 
-- [RecyclerView Öğeleri ile Etkileşime Geçin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/D%C3%B6k%C3%BCman%207%20-%20RecyclerView%20%C3%96%C4%9Feleri%20ile%20Etkile%C5%9Fime%20Ge%C3%A7in)
+- [RecyclerView Öğeleri ile Etkileşime Geçin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Dok%C3%BCman%207%20-%20RecyclerView%20%C3%96%C4%9Feleri%20ile%20Etkile%C5%9Fime%20Ge%C3%A7in
   - Başlangıç kodunu alın & uygulamadaki değişiklikleri inceleyin
   - Öğeleri tıklanabilir yapın
   - Öğe tıklamalarını yönetin
 
-- [RecyclerView'da Headerlar (Başlıklar) ekleyin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/D%C3%B6k%C3%BCman%208%20-%20RecyclerView'da%20Headerlar%20ekleyin) 
+- [RecyclerView'da Headerlar (Başlıklar) ekleyin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Dok%C3%BCman%208%20-%20RecyclerView'da%20Headerlar%20ekleyin) 
   - RecyclerView'da Headerlar
   - RecyclerView'unuza bir header ekleyin
   - Liste manipülasyonları için coroutineleri kullanın
