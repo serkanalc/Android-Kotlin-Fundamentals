@@ -3,6 +3,8 @@
 - [Projeye navigation components ekleyin](#0) 
 - [NavHostFragment oluşturun.](#1) 
 - [Navigation Grafiğine Fragment Ekleyin](#2) 
+- [Koşullu (Conditional) Navigation Ekleyin](#3) 
+- [Geri Butonunun Hedefini Değiştirin](#4) 
 
 ## <a name="0"></a>Aşama Ø : Projeye Navigation Components Ekleyin
 
@@ -172,15 +174,181 @@ Başlangıç kodu, koşullu navigation'da kullanmanız için iki fragment içeri
 
 ![image](https://user-images.githubusercontent.com/80598532/149434578-e52e2877-6708-4349-9e5b-06ab08c61288.png)
 
+### 2.Adım: Game Fragment'ı Game-Result Fragment'ına Bağlayın.
+Bu adımda, game fragment'ını hem game-won Fragment'a hem de game-over Fragmentin'a bağlarsınız.
+
+1. Layout editor'un önizleme alanında, dairesel bağlantı noktası görünene kadar işaretçiyi game fragment üzerinde tutun.
+2. Bağlantı noktasına tıklayın ve game-over fragmenta'a doğru sürükleyin. Artık game Fragment'ı game-over fragment'a bağlayan bir action temsil eden mavi bir bağlantı oku görünür.
+3. Aynı şekilde, game Fragment'ını game-won Fragment'a bağlayan bir action oluşturun. Layout editor şimdi aşağıdaki ekran görüntüsüne benziyor:
+
+![image](https://user-images.githubusercontent.com/80598532/149541016-d43f8cc0-e222-441d-b6c7-4a2fc7bc55af.png)
+
+4. Önizlemede, imleci game Fragmentini game-won Fragment'a bağlayan çizginin üzerinde tutun. Action ID'nin otomatik olarak atandığına dikkat edin.
+
+### 3.Adım: Bir Fragment'tan Diğerine Geçmek (Navigate etmek) İçin Kod Ekleyin.
+GameFragment, oyunla ilgili soruları ve cevapları içeren bir Fragment class'ıdır. Class ayrıca kullanıcının oyunu kazanıp kazanmadığını belirleyen mantığı da içerir. Oyuncunun kazanmasına veya kaybetmesine bağlı olarak GameFragment classına conditional navigation eklemeniz gerekir.
+
+1. GameFragment.kt dosyasını açın. onCreateView() yöntemi, oyuncunun kazanıp kazanmadığını belirleyen bir if/else koşulunu tanımlar:
+
+```
+binding.submitButton.setOnClickListener @Suppress("UNUSED_ANONYMOUS_PARAMETER")
+        { 
+              ...
+                // answer matches, we have the correct answer.
+                if (answers[answerIndex] == currentQuestion.answers[0]) {
+                    questionIndex++
+                    // Advance to the next question
+                    if (questionIndex < numQuestions) {
+                        currentQuestion = questions[questionIndex]
+                        setQuestion()
+                        binding.invalidateAll()
+                    } else {
+                        // We've won!  Navigate to the gameWonFragment.
+                    }
+                } else {
+                    // Game over! A wrong answer sends us to the gameOverFragment.
+                }
+            }
+        }
+```
+
+2. Oyunu kazanmak için else koşulunun içine, gameWonFragment'e giden aşağıdaki kodu ekleyin. Action adının (bu örnekte action_gameFragment_to_gameWonFragment) navigation.xml dosyasında ayarlananla tam olarak eşleştiğinden emin olun.
+
+``` 
+// We've won!  Navigate to the gameWonFragment.
+view.findNavController()
+   .navigate(R.id.action_gameFragment_to_gameWonFragment)
+```
+
+3. Oyunu kaybetmek için else koşulunun içine, gameOverFragment'e giden aşağıdaki kodu ekleyin:
+
+```
+// Game over! A wrong answer sends us to the gameOverFragment.
+view.findNavController().
+   navigate(R.id.action_gameFragment_to_gameOverFragment)
+```
+
+4. Uygulamayı çalıştırın ve soruları cevaplayarak oyunu oynayın. Üç soruyu da doğru cevaplarsanız, uygulama GameWonFragment'e gider.
+
+![image](https://user-images.githubusercontent.com/80598532/149541977-01e8146d-adff-4993-a4e7-4fadec4bd2fb.png)
+
+Herhangi bir soruyu yanlış anlarsanız, uygulama hemen GameOverFragment'e gider.
+
+![image](https://user-images.githubusercontent.com/80598532/149542058-94d5efae-5c4d-48e2-abbc-aa69d745aec1.png)
+
+Android sisteminin Geri butonu yukarıdaki ekran görüntüsünde 1 olarak gösterilmiştir. Kullanıcı, oyunun kazanıldığı fragment'ta veya oyunun bittiği fragment'ta Geri butonuna basarsa, uygulama soru ekranına gider. İdeal olarak, Geri butonu uygulamanın başlık ekranına geri dönmelidir. Sonraki görevde Geri butonunun hedefini değiştirirsiniz.
+
+
+## <a name="4"></a>Aşama 4: Geri Butonunun Hedefini Değiştirin.
+Android sistemi, kullanıcıların Android destekli bir cihazda nereye gittiklerini takip eder. Kullanıcı cihazda yeni bir hedefe her gittiğinde, Android bu hedefi back stack'e ekler.
+
+Kullanıcı Geri butonuna bastığında uygulama, back stack'in en üstündeki hedefe gider. Default olarak, back stack'in üst kısmı, kullanıcının en son görüntülediği ekrandır. Geri butonu, aşağıda gösterildiği gibi, genellikle ekranın alt kısmındaki en soldaki butondur. (Geri butonunun tam görünümü farklı cihazlarda farklıdır.)
+
+![image](https://user-images.githubusercontent.com/80598532/149542853-0810a900-15f8-457b-a595-834ddddd7f13.png)
+
+Şimdiye kadar, back stack'i sizin için navigation controller'a bıraktınız. Kullanıcı uygulamanızda bir hedefe gittiğinde, Android bu hedefi back stack'e ekler.
+
+AndroidTrivia uygulamasında, kullanıcı GameOverFragment veya GameWonFragment ekranından Geri butonuna bastığında GameFragment'e geri döner. Ancak oyun bittiği için kullanıcıyı GameFragment'e göndermek istemezsiniz. Kullanıcı oyunu yeniden başlatabilir, ancak kendilerini tekrar başlık ekranında bulması daha iyi bir deneyim olacaktır.
+
+Bir navigation action back stack'i değiştirebilir. Bu görevde, Game Fragment'a navigate eden action'u, GameFragment'i back stack'ten kaldıracak şekilde değiştirirsiniz. Kullanıcı oyunu kazandığında veya kaybettiğinde, Geri butonuna basarsa, uygulama GameFragment'i atlar ve TitleFragment'e geri döner.
+
+### 1.Adım: Navigation Actions İçin Pop Davranışını Ayarlayın.
+
+Bu adımda, kullanıcı GameWon veya GameOver ekranındayken Geri butonuna basıldığında onları başlık ekranına döndürecek şekilde back stack'i yönetirsiniz. Fragmentları birbirine bağlayan actionlar için "pop" davranışını ayarlayarak back stack'i yönetirsiniz:
+
+- Bir actionun "popUpTo" attribute'u, navigation'dan önce back stack'ı belirli bir hedefe açar. (Hedefler back stack'ten kaldırılır.)
+- popUpToInclusive attribute'u false ise veya ayarlanmazsa, popUpTo belirtilen hedefe kadar olan hedefleri kaldırır, ancak belirtilen hedefi back stack'te bırakır.
+- popUpToInclusive true olarak ayarlanırsa, popUpTo attribute'u, back stack'ten verilen hedef de dahil olmak üzere tüm hedefleri kaldırır.
+- popUpToInclusive true ise ve popUpTo uygulamanın başlangıç konumuna ayarlanmışsa, action tüm uygulama hedeflerini back stack'ten kaldırır. Geri butonu, kullanıcıyı uygulamadan tamamen çıkarır.
+
+Bu adımda, önceki görevde oluşturduğunuz iki action için popUpTo attribute'u ayarlarsınız. Bunu, Layout Editor'un Attributes bölmesindeki Pop To alanını kullanarak yaparsınız.
+
+1.  res > navigation klasöründe navigasyon.xml'i açın. Navigation grafiği, layout editor'de görüntülenmezse, Design sekmesine tıklayın.
+2.  gameFragment'ten gameOverFragment'e gitmek için action'u seçin. (Önizleme alanında action, iki fragment'ı birbirine bağlayan mavi bir çizgiyle temsil edilir.)
+3.  Attributes bölmesinde, popUpTo'yu gameFragment olarak ayarlayın. popUpToInclusive onay kutusunu seçin.
+
+![image](https://user-images.githubusercontent.com/80598532/149545218-12dc7c5a-c451-4071-a1f6-ca036932b7a9.png)
+
+Bu, XML'deki popUpTo ve popUpToInclusive attributelerini ayarlar. Attributeler, navigation components'e, GameFragment dahil olmak üzere back stack'den fragmentları kaldırmasını söyler. (Bu, popUpTo alanını titleFragment olarak ayarlamak ve popUpToInclusive onay kutusunu temizlemekle aynı etkiye sahiptir.)
+
+4. gameFragment'ten gameWonFragment'e gitmek için action'u seçin. Yine, Attributes bölmesinde popUpTo'yu gameFragment olarak ayarlayın ve popUpToInclusive onay kutusunu seçin.
+
+![image](https://user-images.githubusercontent.com/80598532/149546134-d61820ac-45cf-4ba3-b778-5222411922b0.png)
+
+5. Uygulamayı çalıştırın ve oyunu oynayın, ardından Geri butonuna basın. Kazansanız da kaybetseniz de Geri butonu sizi TitleFragment'e geri götürür.
+
+### 2.Adım: Daha fazla Navigation Actions ve onClick handlers Ekleyin.
+Uygulamanız şu anda aşağıdaki kullanıcı akışına sahip:
+- Kullanıcı oyunu oynar ve kazanır veya kaybeder ve uygulama GameWon veya GameOver ekranına gider.
+- Kullanıcı bu noktada sistem Geri butonuna basarsa, uygulama TitleFragment'e gider. (Bu davranışı, yukarıdaki görevin 1. Adımında uyguladınız.)
+
+Bu adımda, kullanıcı akışının iki adımını daha uygularsınız:
+- Kullanıcı Next Match veya Try Again butonuna dokunursa uygulama GameFragment ekranına gider.
+- Kullanıcı bu noktada sistem Geri butonuna basarsa, uygulama TitleFragment ekranına gider (GameWon veya GameOver ekranına geri dönmek yerine).
+
+Bu kullanıcı akışını oluşturmak için back stack'i yönetmek için popUpTo attribute'unu kullanın:
+1. Navigasyon.xml dosyasının içine gameOverFragment'ı gameFragment'e bağlayan bir navigation action ekleyin. Action ID'deki fragment adlarının, XML'deki fragment adlarıyla eşleştiğinden emin olun. Örneğin, action ID action_gameOverFragment_to_gameFragment olabilir.
+
+![image](https://user-images.githubusercontent.com/80598532/149548141-09cbbc5f-7473-4a79-882b-4f9ad05722f7.png)
+
+2. Attribute bölmesinde, action'un popUpTo attribute'unu titleFragment olarak ayarlayın.
+3. TitleFragment öğesinin back stack'ten kaldırılan hedeflere dahil edilmesini istemediğiniz için popUpToInclusive onay kutusunu temizleyin. Bunun yerine, back stack'ten titleFragment'e (ancak buna dahil değil) kadar olan her şeyin kaldırılmasını istiyorsunuz.
+
+![image](https://user-images.githubusercontent.com/80598532/149548478-d032b9ab-c1d4-424f-a9a3-621793a90040.png)
+
+4. Navigation.xml dosyasının içine gameWonFragment'ı gameFragment'e bağlayan bir navigation action ekleyin.
+
+![image](https://user-images.githubusercontent.com/80598532/149548626-d748dddb-3640-4149-af57-590e2bd70b64.png)
+
+5. Az önce oluşturduğunuz action için popUpTo attribute'unu titleFragment olarak ayarlayın ve popUpToInclusive onay kutusunu temizleyin.
+
+![image](https://user-images.githubusercontent.com/80598532/149548716-0444c556-7c60-461a-864e-a4409d062d44.png)
+
+Şimdi Try Again ve SNext Mtch butonlarına işlevsellik ekleyin. Kullanıcı herhangi bir butona dokunduğunda, kullanıcının oyunu tekrar deneyebilmesi için uygulamanın GameFragment ekranına gitmesini istersiniz.
+
+1. GameOverFragment.kt Kotlin dosyasını açın. onCreateView() yönteminin sonunda, return ifadesinden önce aşağıdaki kodu ekleyin. Kod, Try Again butonuna bir click listener ekler. Kullanıcı butona dokunduğunda, uygulama Fragment oyununa gider.
+
+```
+// Add OnClick Handler for Try Again button
+        binding.tryAgainButton.setOnClickListener{view: View->
+        view.findNavController()
+                .navigate(R.id.action_gameOverFragment_to_gameFragment)}
+```
+
+2. GameWonFragment.kt Kotlin dosyasını açın. onCreateView() yönteminin sonunda, return ifadesinden önce aşağıdaki kodu ekleyin:
+
+```
+// Add OnClick Handler for Next Match button
+        binding.nextMatchButton.setOnClickListener{view: View->
+            view.findNavController()
+                    .navigate(R.id.action_gameWonFragment_to_gameFragment)}
+```
+
+3. Uygulamanızı çalıştırın, oyunu oynayın ve Next Match ve Try Again buutonlarınıtest edin. Oyunu tekrar deneyebilmeniz için her iki buton da sizi oyun ekranına geri götürmelidir.
+4. Oyunu kazandıktan veya kaybettikten sonra Next Match veya Try Again'e dokunun. Şimdi sistem Geri butonuna basın. Uygulama, az önce geldiğiniz ekrana geri dönmek yerine başlık ekranına gitmelidir.
 
 
 
+## <a name="5"></a>Aşama 5: App Bar'ına Up Butonu Ekleyin.
 
+### App Bar
+Bazen action bar olarak da adlandırılan app bar, uygulama markası ve kimliği için ayrılmış bir alandır. Örneğin, app barın rengini ayarlayabilirsiniz.App bar, kullanıcının seçenekler menüsü gibi tanıdık navigation özelliklerine erişmesini sağlar. App bar'dan seçenekler menüsüne erişmek için kullanıcı, ![image](https://user-images.githubusercontent.com/80598532/149550058-3abe1791-7dbe-4455-b953-ccaeb3b0832c.png) dikey üç noktalı simgeye dokunur.
 
+App bar, her ekranda değişebilen bir başlık dizesi görüntüler. AndroidTrivia uygulamasının başlık ekranı için app bar'da "Android Trivia" görüntülenir. Soru ekranında, başlık dizesi, kullanıcının hangi soruyu sorduğunu da gösterir ("1/3", "2/3" veya "3/3.")
 
+#### Up Butonu
+Şu anda uygulamanızda, kullanıcı önceki ekranlara gitmek için sistem Geri butonunu kullanır. Bununla birlikte, Android uygulamalarında, app barın sol üst kısmında görünen bir ekran Up(Yukarı) butonu da olabilir.
 
+AndroidTrivia uygulamasında,Up butonunun başlık ekranı dışında her ekranda görünmesini istiyorsunuz. Başlık ekranı, uygulamanın ekran hiyerarşisinin en üstünde olduğundan, kullanıcı başlık ekranına ulaştığında Up butonu kaybolmalıdır.
 
+#### Up(Yukarı) Butonu vs Back(Geri) Butonu
 
+- Aşağıdaki ekran görüntüsünde 1 olarak gösterilen Up butonu, app bar'da görünür.
+- Up butonu, ekranlar arasındaki hiyerarşik ilişkilere dayalı olarak uygulama içinde gezinir. Up butonu, kullanıcıyı asla uygulamadan çıkarmaz.
+- Aşağıdaki ekran görüntüsünde 2 olarak gösterilen Back(Geri) butonu, hangi uygulama açık olursa olsun sistem gezinme çubuğunda veya cihazın kendisinde mekanik bir buton olarak görünür.
+- Geri(Back) butonu, kullanıcının yakın zamanda çalıştığı ekranlarda (back stack'de) geriye doğru gider.
+
+![image](https://user-images.githubusercontent.com/80598532/149551161-ea21c8e5-13ac-487e-a8c4-d524387e028a.png)
 
 
 
