@@ -146,6 +146,43 @@ import androidx.navigation.findNavController
 ![image](https://user-images.githubusercontent.com/80598532/149430832-72ddc0a8-6476-46ad-9261-7e6c05a49d55.png)
 
 
+## <a name="3"></a>Aşama 3: Koşullu (Conditional) Navigation Ekleyin.
+
+Bu adımda, yalnızca belirli bağlamlarda kullanıcı tarafından kullanılabilen navigation olan koşullu navigation'u eklersiniz. Koşullu navigation için yaygın bir kullanım durumu, kullanıcının oturum açıp açmamasına bağlı olarak bir uygulamanın farklı bir akışa sahip olmasıdır.
+
+Uygulamanız farklı bir case: Uygulamanız, kullanıcının tüm soruları doğru yanıtlayıp yanıtlamadığına bağlı olarak farklı bir Fragmenta gidecektir.
+
+Başlangıç kodu, koşullu navigation'da kullanmanız için iki fragment içerir:
+- GameWonFragment, kullanıcıyı "Tebrikler!" yazan bir ekrana götürür.
+- GameOverFragment, kullanıcıyı "Yeniden Dene" mesajı gösteren bir ekrana götürür.
+
+### 1.Adım: Navigation Grafiğine GameWonFragment ve GameOverFragment Ekleyin.
+
+1. Navigation klasöründe bulunan navigation.xml dosyasını açın.
+2. Game-over Fragmentini navigation grafiğine eklemek için, Navigation editor'ünde New Destination Butonuna ![image](https://user-images.githubusercontent.com/80598532/149434187-eca7b8b8-bb67-4012-b874-512d3bfd05f1.png) tıklayın ve fragment_game_over'ı seçin.
+
+![image](https://user-images.githubusercontent.com/80598532/149434197-0e8d726b-0182-4090-94bf-a92eb0271f05.png)
+
+3. Layout editor'un önizleme alanında, game-over fragmentı, ikisi örtüşmeyecek şekilde game Fragmanı'nın sağına sürükleyin. Game-over Fragment'in ID attribute'unu gameOverFragment olarak değiştirdiğinizden emin olun.
+4. game-won fragment'ı navigation grafiğine eklemek için New destination butonuna ![image](https://user-images.githubusercontent.com/80598532/149434394-1cd9c30a-6621-409b-b623-21ab85c72cdb.png) tıklayın ve fragment_game_won öğesini seçin.
+
+![image](https://user-images.githubusercontent.com/80598532/149434410-5d085278-a009-4f4c-b85f-7437adab95b6.png)
+
+5. game-won fragment'ı üst üste gelmemesi için game-over fragmentının altına sürükleyin. game-won fragmentının ID attribute'unu gameWonFragment olarak adlandırdığınızdan emin olun.
+
+![image](https://user-images.githubusercontent.com/80598532/149434578-e52e2877-6708-4349-9e5b-06ab08c61288.png)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
