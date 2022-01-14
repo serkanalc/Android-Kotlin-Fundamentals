@@ -1,10 +1,11 @@
 # Navigation Paths'i tanımlayın
 
-- [Projeye navigation components ekleyin](#0) 
-- [NavHostFragment oluşturun.](#1) 
+- [Projeye Navigation Components Ekleyin](#0) 
+- [NavHostFragment Oluşturun.](#1) 
 - [Navigation Grafiğine Fragment Ekleyin](#2) 
 - [Koşullu (Conditional) Navigation Ekleyin](#3) 
 - [Geri Butonunun Hedefini Değiştirin](#4) 
+- [App Bar'ına Up Butonu Ekleyin](#5)
 
 ## <a name="0"></a>Aşama Ø : Projeye Navigation Components Ekleyin
 
@@ -349,6 +350,45 @@ AndroidTrivia uygulamasında,Up butonunun başlık ekranı dışında her ekrand
 - Geri(Back) butonu, kullanıcının yakın zamanda çalıştığı ekranlarda (back stack'de) geriye doğru gider.
 
 ![image](https://user-images.githubusercontent.com/80598532/149551161-ea21c8e5-13ac-487e-a8c4-d524387e028a.png)
+
+#### Up Butonu için Destek Ekleyin
+Navigation components, NavigationUI adlı bir UI kitaplığı içerir. navigation components, bir NavigationUI classı içerir. Bu class, üst app bar, navigation drawer vebottom navigation ile navigation'u yöneten statik yöntemler içerir. Navigation controller, Up butonun davranışını uygulamak içinapp bar ile bütünleşir, böylece bunu kendiniz yapmanız gerekmez.
+
+Aşağıdaki adımlarda, uygulamanıza bir Up butonu eklemek için navigation controller kullanırsınız:
+
+1. MainActivity.kt kotlin dosyasını açın. onCreate() yönteminin içine, navigation controller object'i bulmak için kod ekleyin:
+
+```
+val navController = this.findNavController(R.id.myNavHostFragment)
+```
+
+2. Ayrıca onCreate() yönteminin içinde, navigation controller'ı app bar'a bağlamak için kod ekleyin:
+
+```
+NavigationUI.setupActionBarWithNavController(this,navController)
+```
+
+3. onCreate() yönteminden sonra, navigation controller'de navigationUp() öğesini çağırmak için onSupportNavigateUp() yöntemini geçersiz kılın:
+
+```
+override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        return navController.navigateUp()
+    }
+```
+
+4. Uygulamayı çalıştırın. Up butonu, başlık ekranı dışındaki her ekranda app bar'da görünür. Uygulamanın neresinde olursanız olun, Up butonuna dokunmak sizi başlık ekranına götürür.
+
+Sol üst köşede "fragment_title" ifadesini görebilirsiniz. res>navigation>navigation.xml dosyasını düzenleyin ve com.example.android.navigation.TitleFragment etiketini "fragment_title" yerine @string/app_name olarak değiştirin. Ardından res>values>strings.xml içindeki bu kaynağı "Android Trivia" olarak tanımlayın ve uygulamayı yeniden çalıştırın.
+
+![image](https://user-images.githubusercontent.com/80598532/149590699-e66bfdd4-f1ba-4d24-9112-697873c34ef8.png)
+
+
+
+
+
+
+
 
 
 
