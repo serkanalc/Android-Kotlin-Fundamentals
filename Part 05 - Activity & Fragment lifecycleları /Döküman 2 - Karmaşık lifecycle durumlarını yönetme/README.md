@@ -105,5 +105,87 @@ Hatırlanması gereken önemli noktalar:
 ![lifecycle diagram](https://developer.android.com/codelabs/kotlin-android-training-complex-lifecycle/img/f6b25a71cec4e401.png)
 
 ## <a name="b"></a>Aşama 2 : Android lifecycle kütüphanesini kullanın
+
+DessertClicker uygulamasında, zamanlayıcıyı `onStart()` içinde başlattıysanız, zamanlayıcıyı `onStop()` içinde durdurmanız gerektiğini görmek oldukça kolaydır. Yalnızca bir zamanlayıcı vardır, bu nedenle zamanlayıcıyı durdurmayı hatırlamak zor değildir.
+
+Daha karmaşık bir Android uygulamasında, `onStart()` veya `onCreate()` içinde birçok şey ayarlayabilir, ardından hepsini `onStop()` veya `onDestroy()` içinde parçalayabilirsiniz. Örneğin, hem set up etmeniz hem de tear down etmeniz ve başlatmanız ve durdurmanız gereken animasyonlar, müzik, sensörler veya zamanlayıcılar olabilir. Birini unutursanız, bu hatalara ve baş ağrılarına yol açar.
+
+[Android Jetpack](https://developer.android.com/jetpack)'in bir parçası olan _lifecycle kütüphanesi_ bu görevi basitleştirir. Kütüphane, bazıları farklı lifecycle durumlarında olan birçok hareketli parçayı izlemeniz gereken durumlarda özellikle yararlıdır. Kütüphane, lifecycleların çalışma şeklini değiştirir: Genellikle activity veya fragment, bir component'a (`DessertTimer` gibi) bir lifecycle callback'i gerçekleştiğinde ne yapacağını söyler. Ancak lifecycle kütüphanesini kullandığınızda, component'ın kendisi lifecycle değişikliklerini izler ve bu değişiklikler gerçekleştiğinde gerekeni yapar.
+
+Lifecyle kütüphanesinin üç ana bölümü vardır:
+
+- Bir lifecyle sahip olan componentlar olan lifecycle _ownerları_. `Activity` ve `Fragment`, lifecycle ownerlarıdır. Lifecycle ownerları, `LifecycleOwner` interface'ini uygular.
+- Bir lifecycle ownerının gerçek durumunu tutan ve lifecycle değişiklikleri gerçekleştiğinde olayları tetikleyen `Lifecycle` class'ı.
+- Lifecycle state'ini gözlemleyen ve lifecycle değiştiğinde görevleri gerçekleştiren lifecycle _observerları_. Lifecycle observerları, `LifecycleObserver` interface'ini uygular.
+ 
+Bu aşamada, Android lifecyle kütüphanesini kullanmak için DessertClicker uygulamasını dönüştürecek ve kütüphanenin Android activity ve fragment lifecylelarıyla çalışmayı ve yönetmeyi nasıl kolaylaştırdığını öğreneceksiniz.
+ 
+### Adım 1: DessertTimer'ı LifecycleObserver'a dönüştürün
+ 
+Lifecyle kütüphanesinin önemli bir parçası, lifecyle gözlemi (observation) kavramıdır. Observation, classların (`DessertTimer` gibi) activity veya fragment lifecyle'ı hakkında bilgi sahibi olmasını ve bu lifecyle statelerindeki değişikliklere yanıt olarak kendilerini başlatıp durdurmasını sağlar. Bir lifecyle observer ile, activity ve fragment metotlarından nesneleri başlatma ve durdurma sorumluluğunu kaldırabilirsiniz.
+ 
+1. `DesertTimer.kt` sınıfını açın.
+2. `DessertTimer` class sınıf imzasını şöyle görünecek şekilde değiştirin:
+ 
+```kotlin
+
+class DessertTimer(lifecycle: Lifecycle) : LifecycleObserver {
+
+``` 
+ 
+Bu yeni class tanımı iki şey yapar:
+
+- Constructor, zamanlayıcının gözlemlediği lifecycle olan bir `Lifecycle` nesnesi alır.
+- Class tanımı, `LifecycleObserver` interface'ini uygular.
+
+3. `DessertTimer` classındaki `runnable` değişkenin bildiriminin altına, class tanımına bir `init` bloğu ekleyin. `init` bloğunda, owner'ından (activity) geçirilen lifecycle nesnesini bu class'a (observer) bağlamak için `addObserver()` metodunu kullanın.
+
+```kotlin
+
+init {
+   lifecycle.addObserver(this)
+}
+
+``` 
+
+4. `@OnLifecycleEvent` ile `startTimer()`'a annotation ekleyin ve `ON_START` lifecycle event'ini kullanın. Lifecycle observer'ınızın gözlemleyebileceği tüm lifecyle eventleri [`Lifecycle.Event`](https://developer.android.com/reference/android/arch/lifecycle/Lifecycle.Event.html) class'ındadır. Örneğin, `@OnLifecycleEvent(Lifecycle.Event.ON_START)` annotation'ı, aşağıdaki metodun `onStart` lifecyle eventlerini izlediğini belirtir.
+
+```kotlin
+
+@OnLifecycleEvent(Lifecycle.Event.ON_START)
+fun startTimer() {
+
+``` 
+
+5. `ON_STOP` event'ini kullanarak `stopTimer()` için aynı şeyi yapın:
+
+```kotlin
+
+@OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+fun stopTimer()
+
+``` 
+
+### Adım 2: MainActivity'yi değiştir
+
+`MainActivity` class'ınız, object-oriented inheritance yoluyla zaten bir lifecycle sahibidir. `AppCompatActivity`'den `MainActivity` subclasslarına dikkat edin, bu da `FragmentActivity`'den subclasslar oluşturur. `FragmentActivity` superclass'ı `LifecycleOwner`'ı uyguladığından, activity'nizin lifecycle'ından haberdar olmasını sağlamak için yapmanız gereken başka bir şey yoktur. Tek yapmanız gereken activity'nin lifecycle nesnesini `DessertTimer` constructor'a iletmektir.
+
+1. `MainActivity`'yi açın. `onCreate()` metodunda, `DessertTimer`'ın initialization'ını `this.lifecycle`'ı içerecek şekilde değiştirin:
+ 
+```kotlin
+
+dessertTimer = DessertTimer(this.lifecycle)
+
+```  
+ 
+Activity'nin `lifecycle` özelliği, bu activity'nin sahip olduğu `Lifecycle` nesnesini tutar.
+
+2. `onCreate()` içindeki `startTimer()` çağrısını ve `onStop()` içindeki `stopTimer()` çağrısını kaldırın. Artık activity'de ne yapacağını `DessertTimer`'a söylemenize gerek yok, çünkü `DessertTimer` artık lifecycle'ı gözlemliyor ve lifecycle state'i değiştiğinde otomatik olarak bilgilendiriliyor. Bu callbacklerde artık tek yaptığınız bir mesaj kaydetmek.
+3. Uygulamayı derleyin ve çalıştırın ve Logcat'i açın. Zamanlayıcının beklendiği gibi çalışmaya başladığına dikkat edin.
+ 
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-complex-lifecycle/img/a399e0fea061361e.png)
+ 
+4. Uygulamayı arka plana koymak için home düğmesini tıklayın. Zamanlayıcının beklendiği gibi çalışmayı durdurduğuna dikkat edin.
+ 
 ## <a name="c"></a>Aşama 3 : Uygulama kapanması simülasyonu yapın ve onSaveInstanceState() kullanın
 ## <a name="d"></a>Aşama 4 : Konfigürasyon değişikliklerini keşfedin
