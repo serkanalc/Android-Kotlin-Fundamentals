@@ -137,3 +137,4 @@ Bu adımda, uygulamanın Activity_main.xml layout dosyasına TitleFragment'i ekl
 
 ![image](https://user-images.githubusercontent.com/80598532/149423399-1af83c8a-4fd3-42f2-997d-b784fd814a69.png)
 
+
