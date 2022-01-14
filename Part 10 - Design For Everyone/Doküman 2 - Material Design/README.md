@@ -77,3 +77,28 @@ androidx.core.widget.NestedScrollView
 9. Sayfayı kaydırın. Düğmenin yerinde kaldığına dikkat edin.
 
 #### Adım 2 : FAB Button'unu Stillendirin
+
+Bu adımda, FAB'i sağ alt köşeye taşır ve FAB'nin eylemini gösteren bir görüntü eklersiniz.
+
+Yine **home_fragment.xml**'de, **layout_gravity** niteliğini FAB'a ekleyin ve düğmeyi ekranın altına ve sonuna taşıyın. layout_gravity niteliği, bir görünüme ekranın üst, alt, başlangıç, bitiş veya ortasına yerleştirilmesini söyler. Dikey bir çubuk kullanarak konumları birleştirebilirsiniz.
+
+```
+ android:layout_gravity="bottom|end"
+```
+
+1. Düğmenin taşındığını Önizleme bölmesinde kontrol edin.
+2. FAB'e ekranın kenarından kaydırmak için 16dp'lik bir **layout_margin** ekleyin.
+
+```
+android:layout_margin="16dp"
+```
+3. FAB için görüntü olarak sağlanan **ic_gdg** simgesini kullanın. Aşağıdaki kodu ekledikten sonra FAB'nin içinde bir şerit göreceksiniz.
+
+```
+app:srcCompat="@drawable/ic_gdg"
+```
+
+4. Uygulamayı çalıştırın ve aşağıdaki ekran görüntüsü gibi görünmelidir.
+
+![image](https://user-images.githubusercontent.com/70329389/149544488-89a136ee-235c-4601-8b23-f29a0df27543.png)
+
