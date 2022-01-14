@@ -6,6 +6,8 @@
 - [Koşullu (Conditional) Navigation Ekleyin](#3) 
 - [Geri Butonunun Hedefini Değiştirin](#4) 
 - [App Bar'ına Up Butonu Ekleyin](#5)
+- [Option Menusu Ekleyin](#5)
+- [Navigation Drawer Ekleyin](#7)
 
 ## <a name="0"></a>Aşama Ø : Projeye Navigation Components Ekleyin
 
