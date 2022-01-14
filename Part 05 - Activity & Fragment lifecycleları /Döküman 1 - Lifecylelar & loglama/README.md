@@ -415,8 +415,126 @@ AndroidTrivia uygulamasındaki her ekran bir `Fragment`'tır.
 
 İşleri basit tutmak için bu görevde Timber kütüphanesi yerine Android log kaydı API'ını kullanırsınız.
 
+1. Önceki dökümanlarımızın birinden AndroidTriviaNavigation uygulamasını açın veya GitHub'dan AndroidTriviaNavigation çözüm kodunu indirin.
+2. `TitleFragment.kt` dosyasını açın. Siz uygulamayı yeniden oluşturana kadar Android Studio'nun binding hataları ve unresolved-reference hataları gösterebileceğini unutmayın.
+3. `onCreateView()` metoduna ilerleyin. Fragment'ın layout'unun inflate edildiğine ve data binding'in burada gerçekleştiğine dikkat edin.
+4. `onCreateView()` metoduna, `setHasOptionsMenu()` satırı ile döndürülecek son çağrı arasına bir log ifadesi ekleyin:
 
+```kotlin
 
+setHasOptionsMenu(true)
 
+Log.i("TitleFragment", "onCreateView called")
 
+return binding.root
 
+```
+
+5. onCreateView() metodunun hemen altına, kalan fragment lifecycle metotlarının her biri için log ifadeleri ekleyin. İşte kod:
+
+```kotlin
+
+override fun onAttach(context: Context) {
+   super.onAttach(context)
+   Log.i("TitleFragment", "onAttach called")
+}
+override fun onCreate(savedInstanceState: Bundle?) {
+   super.onCreate(savedInstanceState)
+   Log.i("TitleFragment", "onCreate called")
+}
+
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    Log.i("TitleFragment", "onViewCreated called")
+}
+
+override fun onStart() {
+   super.onStart()
+   Log.i("TitleFragment", "onStart called")
+}
+override fun onResume() {
+   super.onResume()
+   Log.i("TitleFragment", "onResume called")
+}
+override fun onPause() {
+   super.onPause()
+   Log.i("TitleFragment", "onPause called")
+}
+override fun onStop() {
+   super.onStop()
+   Log.i("TitleFragment", "onStop called")
+}
+override fun onDestroyView() {
+   super.onDestroyView()
+   Log.i("TitleFragment", "onDestroyView called")
+}
+override fun onDetach() {
+   super.onDetach()
+   Log.i("TitleFragment", "onDetach called")
+}
+
+```
+
+6. Uygulamayı derleyin ve çalıştırın ve Logcat'i açın.
+7. Log'u filtrelemek için arama alanına `I/TitleFragment` yazın. Uygulama başladığında, Logcat aşağıdaki gibi görünecektir:
+
+```
+
+21933-21933/com.example.android.navigation I/TitleFragment: onAttach called
+21933-21933/com.example.android.navigation I/TitleFragment: onCreate called
+21933-21933/com.example.android.navigation I/TitleFragment: onCreateView called
+21933-21933/com.example.android.navigation I/TitleFragment: onViewCreated called
+21933-21933/com.example.android.navigation I/TitleFragment: onStart called
+21933-21933/com.example.android.navigation I/TitleFragment: onResume called
+
+```
+
+Burada, bu callbackler dahil, fragment'ın tüm başlangıç lifecycle'ını görebilirsiniz:
+
+- `onAttach()`: Fragment, sahip activity'si ile ilişkilendirildiğinde çağrılır.
+- `onCreate()`: Activity için `onCreate()`'e benzer şekilde, fragment için `onCreate()` ilk fragment oluşturmayı (layout dışında) yapmak üzere çağrılır.
+- `onCreateView()`: Fragment'ın layout'ını inflate etmek için çağrılır.
+- `onViewCreated()`: `onCreateView()` döndürüldükten hemen sonra, ancak kaydedilen herhangi bir state view'a geri yüklenmeden önce çağrılır.
+- `onStart()`: Fragment görünür hale geldiğinde çağrılır; activity'nin `onStart()` metoduna paralel.
+- `onResume()`: Fragment kullanıcı odağını kazandığında çağrılır; activity'nin `onResume()` metoduna paralel.
+
+8. Trivia oyununa devam etmek için **Oyna** butonuna dokunun ve Logcat'i şimdi fark edin.
+
+```
+
+21933-21933/com.example.android.navigation I/TitleFragment: onAttach called
+21933-21933/com.example.android.navigation I/TitleFragment: onCreate called
+21933-21933/com.example.android.navigation I/TitleFragment: onCreateView called
+21933-21933/com.example.android.navigation I/TitleFragment: onViewCreated called
+21933-21933/com.example.android.navigation I/TitleFragment: onStart called
+21933-21933/com.example.android.navigation I/TitleFragment: onResume called
+21933-21933/com.example.android.navigation I/TitleFragment: onPause called
+21933-21933/com.example.android.navigation I/TitleFragment: onStop called
+21933-21933/com.example.android.navigation I/TitleFragment: onDestroyView called
+
+```
+
+Sonraki fragment'ın açılması, başlık (title) fragment'ının kapanmasına ve bu lifecycle metotlarının çağrılmasına neden olur:
+
+- `onPause()`: Fragment kullanıcı odağını kaybettiğinde çağrılır; activity'nin `onPause()` metoduna paralel.
+- `onStop()`: Fragment artık ekranda görünmediğinde çağrılır; activity'nin `onStop()` metoduna paralel.
+- `onDestroyView()`: Fragment'ın view'una artık ihtiyaç duyulmadığında, o view ile ilişkili kaynakları temizlemek için çağrılır.
+
+9. Uygulamada, başlık (title) fragment'ına dönmek için Up butonuna (ekranın sol üst köşesindeki ok) dokunun.
+
+```
+
+21933-21933/com.example.android.navigation I/TitleFragment: onPause called
+21933-21933/com.example.android.navigation I/TitleFragment: onStop called
+21933-21933/com.example.android.navigation I/TitleFragment: onDestroyView called
+21933-21933/com.example.android.navigation I/TitleFragment: onCreateView called
+21933-21933/com.example.android.navigation I/TitleFragment: onViewCreated called
+21933-21933/com.example.android.navigation I/TitleFragment: onStart called
+21933-21933/com.example.android.navigation I/TitleFragment: onResume called
+
+```
+
+Bu sefer, fragment'ı başlatmak için muhtemelen `onAttach()` ve `onCreate()` çağrılmadı. Fragment nesnesi hala var ve hala sahip activity'sine bağlı, bu nedenle lifecycle `onCreateView()` ile yeniden başlıyor.
+
+10. Cihazın Ana Ekran (Home) butonuna basın. Logcat'te yalnızca `onPause()` ve `onStop()`'un çağrıldığına dikkat edin. Bu, activity ile aynı davranıştır: ana ekrana dönmek, activity'yi ve fragment'ı arka plana koyar.
+11. Uygulamaya geri dönmek için recents ekranını kullanın. Activity'de olduğu gibi, fragment'ı ön plana döndürmek için `onStart()` ve `onResume()` metotları çağrılır.
