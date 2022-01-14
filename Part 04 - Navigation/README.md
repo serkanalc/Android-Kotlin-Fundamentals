@@ -16,4 +16,5 @@ Bir fragment oluşturun, navigation yollarını tanımlayın ve harici bir activ
    - Navigation Grafiğine Fragment Ekleyin
    - Koşullu (Conditional) Navigation Ekleyin
    - Geri Butonunun Hedefini Değiştirin
+   - App Bar'a Up Butonu Ekleyin
   
