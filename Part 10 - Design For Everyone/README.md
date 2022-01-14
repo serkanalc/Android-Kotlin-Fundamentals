@@ -12,6 +12,11 @@ Android'in stil sisteminin temellerini, Materyal Tasarımı ilkelerini uygulaman
    - Stilleri Kullan
 
  - [Material Design](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2010%20-%20Design%20For%20Everyone/Dok%C3%BCman%202%20-%20Material%20Design)
+   - Floating Action Button (FAB) Ekleyin
+   - Material Design Dünyasında Stil Kullanın
+   - Toolbar Temasını Değiştirin
+   - Dimension'ları Kullanın
+   - Renkleri Kullanın 
 
  - [Design For Everyone](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2010%20-%20Design%20For%20Everyone/Dok%C3%BCman%203%20-%20Design%20for%20Everyone)
 
