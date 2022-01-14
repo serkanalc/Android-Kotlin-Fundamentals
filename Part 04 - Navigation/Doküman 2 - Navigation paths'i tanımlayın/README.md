@@ -384,25 +384,239 @@ Sol üst köşede "fragment_title" ifadesini görebilirsiniz. res>navigation>nav
 ![image](https://user-images.githubusercontent.com/80598532/149590699-e66bfdd4-f1ba-4d24-9112-697873c34ef8.png)
 
 
+## <a name="6"></a>Aşama 6: Option Menusu Ekleyin.
+Android, options menüsü de dahil olmak üzere farklı türde menülere sahiptir. Modern Android cihazlarda kullanıcı, app bar'da görünen üç dikey noktaya ![image](https://user-images.githubusercontent.com/80598532/149591094-9038b25a-ce87-46a2-97d3-6ff7cae700e6.png) dokunarak options menüsüne erişir.
+
+Bu görevde, options menüsüne bir About menü öğesi eklersiniz. Kullanıcı About menü öğesine dokunduğunda, uygulama AboutFragment'e gider ve kullanıcı, uygulamanın nasıl kullanılacağına ilişkin bilgileri görür.
+
+### 1.Adım: Navigation Grafiğine AboutFragment Ekleyin.
+
+1. Navigasyon.xml dosyasını açın ve navigation grafiğini görmek için Design sekmesine tıklayın.
+2. New Destination butonuna tıklayın ve fragman_about'u seçin.
+
+![image](https://user-images.githubusercontent.com/80598532/149591436-827465f0-7d8d-497a-a84c-b265c96fbc93.png)
+
+3. Layout Editor'de, "about" fragmentını sola sürükleyin, böylece diğer fragmentlarla örtüşmez. Fragment ID'sinin aboutFragment olduğundan emin olun.
+
+![image](https://user-images.githubusercontent.com/80598532/149591534-fbde3965-295e-420c-acd9-8aae07297880.png)
+
+### 2.Adım: Options-menu Kaynağını Ekleyin.
+1. Android Studio Projes bölmesinde, res klasörüne sağ tıklayın ve New > Android Resource File'ı seçin.
+2. New Resource File kutusunda, dosyayı options_menu olarak adlandırın.
+3. Kaynak türü olarak Menu'yu seçin ve Tamam'a tıklayın.
+
+![image](https://user-images.githubusercontent.com/80598532/149591746-a67723c3-e6e3-4432-bd38-b72ce25f865f.png)
+
+4. res > menu klasöründen options_menu.xml dosyasını açın ve Layout Editor'u görmek için Design sekmesine tıklayın.
+5. Palet bölmesinden bir Menü Öğesini (aşağıdaki ekran görüntüsünde 1 olarak gösterilir) sürükleyin ve design editor bölmesinde (2) herhangi bir yere bırakın. Önizlemede (3) ve Component Tree'de(4) bir menü öğesi belirir.
+
+![image](https://user-images.githubusercontent.com/80598532/149591868-f521e3c6-bfd3-4e6f-b67c-8e325b99abc7.png)
+
+6. Önizlemede veya Component Tree'de, Attributes bölmesinde niteliklerini göstermek için menü öğesine tıklayın.
+7. Menu öğesinin ID'sini aboutFragment olarak ayarlayın. Başlığı @string/about olarak ayarlayın.
+
+![image](https://user-images.githubusercontent.com/80598532/149591939-6966639f-c6c8-449a-b0c9-ed670f2fc92d.png)
+
+İpucu: Yeni eklediğiniz menu öğesinin ID'sinin, navigation grafiğine eklediğiniz AboutFragment'in ID'si ile tam olarak aynı olduğundan emin olun. Bu, onClick handler kodunu çok daha basit hale getirecektir.
+
+### 3.Adım: 
+Bu adımda, kullanıcı About  menü öğesine dokunduğunda davranışı uygulamak için kod eklersiniz.
+
+1. TitleFragment.kt Kotlin dosyasını açın. onCreateView() yönteminin içinde, return'den önce setHasOptionsMenu() yöntemini çağırın ve true olarak iletin.
+
+```
+override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                         savedInstanceState: Bundle?): View? {
+   ...
+   setHasOptionsMenu(true)
+   return binding.root
+}
+```
+
+2. onCreateView() yönteminden sonra onCreateOptionsMenu() yöntemini geçersiz kılın. Yöntemde, options menüsünü ekleyin ve menü kaynak dosyasını inflate edin.
+
+```
+override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.options_menu, menu)
+}
+```
+
+3. Menü öğesine dokunulduğunda uygun action'u gerçekleştirmek için onOptionsItemSelected() yöntemini geçersiz kılın. Bu durumda action, seçilen menü öğesiyle aynı ID'ye sahip fragmenta gitmektir.
+
+```
+override fun onOptionsItemSelected(item: MenuItem): Boolean {
+     return NavigationUI.
+            onNavDestinationSelected(item,requireView().findNavController())
+            || super.onOptionsItemSelected(item)
+}
+```
+
+4. Uygulama oluşturulmazsa, koddaki çözülmemiş referansları düzeltmek için paketleri import etmeniz gerekip gerekmediğini kontrol edin. Örneğin, birkaç referansı çözümlemek için import android.view.* ekleyebilir (ve import android.view.ViewGroup gibi daha spesifik importları değiştirebilirsiniz).
+5. Uygulamayı çalıştırın ve options menüsündeki About menü öğesini test edin. Menü öğesine dokunduğunuzda, uygulama "about" ekranına gitmelidir.
+
+![image](https://user-images.githubusercontent.com/80598532/149592701-cd867afd-954a-4530-82d2-8798fe980778.png)
 
 
+## <a name="7"></a>Aşama 7: Navigation Drawer Ekleyin.
+Bu görevde, AndroidTrivia uygulamasına bir Navigation Drawer eklersiniz. Navigation Drawer, ekranın kenarından dışarı kayan bir paneldir. Drawer tipik olarak bir başlık ve bir menü içerir.
+
+Telefon boyutundaki cihazlarda navigation drawer kullanılmadığında gizlenir. İki tür kullanıcı eylemi, navigation drawerın görünmesini sağlayabilir:
+
+- Drawer, kullanıcı ekranın başlangıç kenarından bitiş kenarına doğru kaydırdığında görünür. AndroidTrivia uygulamasında, kullanıcı soldan sağa kaydırdığında navigation drawer görünür.
+- Drwaer, kullanıcı uygulamanın başlangıç noktasındayken görünür ve app bar'daki drawer simgesine dokunur. (drawer simgesine bazen navigation drawer butonu veya hamburger simgesi ![image](https://user-images.githubusercontent.com/80598532/149593085-57bd17ae-4860-4809-b771-122bcbbabaf0.png) adı verilir.)
+
+Aşağıdaki ekran görüntüsü açık bir navigation drawer göstermektedir.
+
+![image](https://user-images.githubusercontent.com/80598532/149593141-b9f14e43-37f7-4b41-bee4-6ec0fe7222d8.png)
+
+Navigation drawer, Android için  Material Components kütüphanesi veya Material kütüphanesinin bir parçasıdır. Google'ınMaterial Design yönergelerinin parçası olan kalıpları uygulamak için Material kütüphanesini kullanırsınız.
+
+AndroidTrivia uygulamanızda, navigation drawer iki menü öğesi içerecektir. İlk öğe mevcut "about" fragmentı işaret eder ve ikinci öğe yeni bir "rules" fragmentini işaret eder.
+
+![image](https://user-images.githubusercontent.com/80598532/149593420-1885b3ad-c799-41ef-8e13-335372e7bc2f.png)
+
+### 1.Adım:  Material Kütüphanesini Projenize Ekleyin.
+
+App-level Gradle derleme dosyasında, Malzeme kütüphaneisi dependency'lerini ekleyin:
+
+```
+dependencies {
+    ...
+    implementation "com.google.android.material:material:$version"
+    ...
+}
+```
+
+2. Projenizi senkronize edin.
+
+Not: Projenizin File>ProjectStructure>Variables ayarlarında $version değişkenini en son sürümle eşleşecek şekilde oluşturmanız veya güncellemeniz gerekebilir.
+
+### 2.Adım: Destination Fragmentların ID'leri Olduğundan Emin Olun.
+Navigation drawer'da, her biri Navigation drawer'dan erişilebilen bir fragmentı temsil eden iki menü öğesi bulunur. Her iki destinationun da (varış noktasının da) navigation grafiğinde bir ID'si olmalıdır.
+
+AboutFragment'in Navigation grafiğinde zaten bir ID'si var, ancak RulesFragment'te yok, bu yüzden şimdi ekleyin:
+
+1. Nasıl göründüğünü görmek için fragman_rules.xml layout dosyasını açın. Design editor'de önizlemeye bakmak için Design sekmesine tıklayın.
+2. Navigation Editor'de navigation.xml dosyasını açın. New Destination Butonuna tıklayın ve Fragment kurallarını ekleyin. ID'sini RulesFragment olarak ayarlayın.
+
+![image](https://user-images.githubusercontent.com/80598532/149594614-355f9fb4-5ad0-4ab0-a707-203def4fddb8.png)
+
+![image](https://user-images.githubusercontent.com/80598532/149594627-36723f72-c9a7-414c-b6c3-574ea1f39cd9.png)
 
 
+### 3.Adım: Drawe Menüsünü ve Drawer Layout'unu Oluşturun
+Bir Navigation drawer oluşturmak için Navigation menüsünü oluşturursunuz. Ayrıca, viewlarınızı layout dosyasındaki bir DrawerLayout içine koymanız gerekir.
 
+1. Drawer için menüyü oluşturun. Proje bölmesinde, res klasörüne sağ tıklayın ve New Resource File'ı seçin. Dosyayı navdrawer_menu olarak adlandırın, kaynak türünü Menü olarak ayarlayın ve Tamam'a tıklayın.
 
+![image](https://user-images.githubusercontent.com/80598532/149594864-fd0c6fe2-3883-44cf-a337-a0f63c2fe4d6.png)
 
+2. res > menu klasöründen navdrawer_menu.xml dosyasını açın, ardından Design sekmesine tıklayın. Palet bölmesinden Component Tree bölmesine sürükleyerek iki menü öğesi ekleyin.
+3. İlk menü öğesi için ID'yi RulesFragment olarak ayarlayın. (Bir menü öğesinin ID'si, Fragment'ın ID'si ile aynı olmalıdır.) Başlığı @string/rules ve iconu @drawable/rules olarak ayarlayın.
 
+![image](https://user-images.githubusercontent.com/80598532/149595746-dc7b7c5a-0ffa-45f0-8efd-9f06287efaa6.png)
 
+4. İkinci menü öğesi için ID'yi aboutFragment, başlık dizesini @string/about ve iconu @drawable/about_android_trivia olarak ayarlayın.
 
+![image](https://user-images.githubusercontent.com/80598532/149595821-921cc438-9572-4079-b533-ddfe70052db2.png)
 
+Not:Menü öğesi için destination Fragment ile aynı ID'yi kullanırsanız, onClick Listenerı uygulamak için herhangi bir kod yazmanız gerekmez!
 
+5. Activity_main.xml layout dosyasını açın. Tüm drawer işlevlerini free olarak elde etmek için viewkarınızı bir DrawerLayout içine yerleştirin. <LinearLayout> öğesinin tamamını bir <DrawerLayout> içine alın. (Başka bir deyişle, root görünüm olarak bir DrawerLayout ekleyin.)
 
+```
+ <layout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto">
+   <androidx.drawerlayout.widget.DrawerLayout
+       android:id="@+id/drawerLayout"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
 
+   <LinearLayout
+       . . . 
+       </LinearLayout>
+   </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
+```
 
+ 6. Şimdi, az önce tanımladığınız navdrawer_menu'yu kullanan bir NavigationView olan drawer'ı ekleyin. </LinearLayout> öğesinden sonra DrawerLayout'a aşağıdaki kodu ekleyin:
 
+```
+<com.google.android.material.navigation.NavigationView
+   android:id="@+id/navView"
+   android:layout_width="wrap_content"
+   android:layout_height="match_parent"
+   android:layout_gravity="start"
+   app:headerLayout="@layout/nav_header"
+   app:menu="@menu/navdrawer_menu" />
+ ```
 
+### 4.Adım: Navigation Drawer'ı Gösterin
 
+Navigation drawer ve Navigation drawer layout'u için menü öğeleri oluşturdunuz. Artık kullanıcılar Navigation drawerdaki öğeleri seçtiğinde uygulamanın uygun fragmenta gitmesi için Navigation drawerı Navigation controllera bağlamanız gerekir.
 
+1. MainActivity.kt Kotlin dosyasını açın. onCreate() içinde, kullanıcının navigation drawer görüntülemesine izin veren kodu ekleyin. Bunu setupWithNavController() öğesini çağırarak yapın. onCreate() öğesinin altına aşağıdaki kodu ekleyin:
+ 
+ ```
+ NavigationUI.setupWithNavController(binding.navView, navController)
+ ``` 
 
+2. Uygulamanızı çalıştırın.Navigation drawer'ı görüntülemek için sol kenardan kaydırın ve drawerdaki menü öğelerinin her birinin doğru yere gittiğinden emin olun.
+
+Navigation drawer çalışıyor olsa da, bir şeyi daha düzeltmeniz gerekiyor. Genellikle uygulamalar, kullanıcıların ana ekrandaki app bar'da drawer butonuna(üç satır) ![image](https://user-images.githubusercontent.com/80598532/149596456-d34ee7c6-3ae6-4ea4-8f48-8c9476238a71.png) dokunarak Navigation drawerı görüntülemelerine de olanak tanır. Uygulamanız henüz ana ekranda Navigation drawerı göstermiyor.
+
+### 5.Adım: Drawer Butonundan Navigation Drawerı Görüntüleyin.
+ 
+ 1. MainActivity.kt Kotlin dosyasında, drawer düzenini temsil etmek için lateinit drawerLayout üye değişkenini ekleyin:
+ 
+ ```
+    private lateinit var drawerLayout: DrawerLayout
+ ```
+ 
+ Not: Kotlin bir "null safety" dilidir. Boş güvenlik sağlama yollarından biri, herhangi bir boş referans döndürme tehlikesi olmadan değişkenin başlatılmasını geciktirmenize izin veren lateinit değiştiricisidir.
+Bu durumda, drawerLayout, onu null yapılabilir hale getirmekten kaçınmak için lateinit ile bildirilir. onCreate() içine initialize edilecektir.
+ 
+ 2. onCreate() yönteminin içinde, binding değişkeni initialize edildikten sonra drawerLayout'u initialize edin.
+ 
+ ```
+ val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,
+                R.layout.activity_main)
+
+drawerLayout = binding.drawerLayout
+ ```
+ 
+3. setupActionBarWithNavController() yöntemine üçüncü parametre olarak drawerLayout'u ekleyin:
+ 
+ ```
+ NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+ ```
+ 
+ 4. navController.navigateUp döndürmek yerine NavigationUI.navigateUp döndürmek için onSupportNavigateUp() yöntemini düzenleyin. Navigation controllerı ve drawer layoutu navigationUp()'a iletin. Yöntem aşağıdaki gibi görünecektir:
+ 
+ ```
+ override fun onSupportNavigateUp(): Boolean {
+   val navController = this.findNavController(R.id.myNavHostFragment)
+   return NavigationUI.navigateUp(navController, drawerLayout)
+}
+ ```
+ 
+ 5. Tüm referansların çözülmesi için dosyaya başka bir import eklemeniz gerekebilir, örneğin:
+ 
+ ```
+ import androidx.drawerlayout.widget.DrawerLayout
+ ```
+ 
+ 6.Uygulamanızı çalıştırın. Navigation drawerı görüntülemek için sol kenardan kaydırın ve drawerdaki menü öğelerinin her birinin doğru yere gittiğinden emin olun.
+ 7. Ana ekrana gidin ve Navigation drawerın göründüğünden emin olmak için ![image](https://user-images.githubusercontent.com/80598532/149597124-0f1bad09-e804-45a5-8b63-bf0972b44776.png) Navigation drawer butonuna dokunun. Navigation drawerdaki Rules veya About seçeneklerine tıklamanın sizi doğru yere götürdüğünden emin olun.
+
+![image](https://user-images.githubusercontent.com/80598532/149597136-c3ad87a4-1d18-4bf8-a239-60b27dced8fa.png)
+
+#### Tebrikler!
+Artık uygulamanıza birkaç farklı navigation seçeneği eklediniz.
+
+Kullanıcı artık oyunu oynayarak uygulamada ilerleyebilir. Up butonunu kullanarak istedikleri zaman ana ekrana dönebilirler. About ekranınaOptions menüsünden veya navigation drawerdan ulaşabilirler. Geri butonuna basmak, onları uygulama için anlamlı olacak şekilde önceki ekranlara geri götürür. Kullanıcı, herhangi bir ekranda soldan kaydırarak veya ana ekrandakiapp bardaki drawer butonuna dokunarak navigation drawerı açabilir.
+
+Uygulamanız, kullanıcılarınızın kullanması için sezgisel olan sağlam, mantıksal navigaiton yolları içerir. Tebrikler!
 
 
