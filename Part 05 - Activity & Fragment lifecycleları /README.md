@@ -10,7 +10,7 @@ Activity ve Fragment lifecycleları (yaşam döngüleri), karmaşık lifecycle d
   - Fragment lifecycle'ı keşfedin
 
 
-- [Karmaşık lifecycle durumlarını yönetme](url)
+- [Karmaşık lifecycle durumlarını yönetme](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2005%20-%20Activity%20%26%20Fragment%20lifecyclelar%C4%B1%20/D%C3%B6k%C3%BCman%202%20-%20Karma%C5%9F%C4%B1k%20lifecycle%20durumlar%C4%B1n%C4%B1%20y%C3%B6netme)
   - Lifecycle hatalarından kaçının
   - Android lifecycle kütüphanesini kullanın
   - Uygulama kapanması simülasyonu yapın ve onSaveInstanceState() kullanın
