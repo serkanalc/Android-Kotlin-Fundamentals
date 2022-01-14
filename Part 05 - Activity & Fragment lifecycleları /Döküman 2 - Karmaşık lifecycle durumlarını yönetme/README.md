@@ -379,3 +379,27 @@ adb shell am kill com.example.android.dessertclicker
 15. Uygulamaya geri dönmek için recents ekranını kullanın. Hem anlatılan tatlılar, toplam gelir hem de tatlı görüntüsü için değerlerin doğru şekilde geri yüklendiğini unutmayın.
 
 ## <a name="d"></a>Aşama 4 : Konfigürasyon değişikliklerini keşfedin
+
+Activity ve fragment lifecycle'ı yönetmede anlaşılması önemli olan son bir özel durum vardır: konfigürasyon değişikliklerinin activitylerinizin ve fragmentlarınızın lifecycle'ını nasıl etkilediği.
+
+Bir _konfigürasyon değişikliği_, cihazın durumu o kadar radikal bir şekilde değiştiğinde meydana gelir ki, sistemin değişikliği çözmesinin en kolay yolu activity'yi tamamen kapatmak ve yeniden oluşturmaktır. Örneğin, kullanıcı aygıt dilini değiştirirse, farklı metin yönlerine uyum sağlamak için tüm layout'un değişmesi gerekebilir. Kullanıcı cihazı bir dock'a takarsa veya fiziksel bir klavye eklerse, uygulama layout'unun farklı bir ekran boyutu veya layout'undan faydalanması gerekebilir. Aygıt yönü değişirse, örneğin aygıt dikeyden yataya veya diğer yöne döndürülürse, düzenin yeni yönelime uyacak şekilde değiştirilmesi gerekebilir.
+
+### Adım 1: Cihaz rotasyonunu ve lifecycle callbacklerini keşfedin
+
+1. Uygulamanızı derleyip çalıştırın ve Logcat'i açın.
+2. Cihazı veya emülatörü yatay moda çevirin. Emülatörü döndürme düğmeleriyle veya `Control` ve ok (→) tuşlarıyla (Mac'te `Command` ve ok (→) tuşları) sola veya sağa döndürebilirsiniz.
+
+![emulator](https://developer.android.com/codelabs/kotlin-android-training-complex-lifecycle/img/623fce7c623d42bd.png)
+
+3. Çıktıyı Logcat'te inceleyin. Çıktıyı `MainActivity` ile filtreleyin.
+
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-complex-lifecycle/img/a9e19f1f0f43fffe.png)
+
+Aygıt veya emülatör ekranı döndürdüğünde, sistemin activity'yi kapatmak için tüm lifecycle callbacklerini çağırdığına dikkat edin. Ardından, activity yeniden oluşturulurken sistem, activity'yi başlatmak için tüm lifecycle callbacklerini çağırır.
+
+4. `MainActivity`'de, `onSaveInstanceState()` metodunun tamamını yorumlayın.
+5. Uygulamanızı tekrar derleyin ve çalıştırın. Cupcake'e birkaç kez tıklayın ve cihazı veya emülatörü döndürün. Bu sefer cihaz döndürüldüğünde ve activity kapatılıp yeniden oluşturulduğunda activity varsayılan değerlerle başlar.
+
+Bir konfigürasyon değişikliği meydana geldiğinde Android, uygulamanın state'ini kaydetmek ve geri yüklemek için önceki aşamada öğrendiğiniz aynı instance state bundle'ı kullanır. İşlem kapatmada (process shutdown) olduğu gibi, uygulamanızın verilerini bundle'a koymak için `onSaveInstanceState()` kullanın. Ardından, cihaz döndürülürse activity state'i verilerini kaybetmemek için `onCreate()` içindeki verileri geri yükleyin.
+
+6. `MainActivity`'de `onSaveInstanceState()` metodunun yorumunu kaldırın, uygulamayı çalıştırın, cupcake'e tıklayın ve uygulamayı veya cihazı döndürün. Bu sefer tatlı verilerinin activity rotasyonu boyunca korunduğuna dikkat edin.
