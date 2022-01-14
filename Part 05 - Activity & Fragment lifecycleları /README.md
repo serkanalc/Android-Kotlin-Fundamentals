@@ -17,7 +17,7 @@ Activity ve Fragment lifecycleları (yaşam döngüleri), karmaşık lifecycle d
   - Konfigürasyon değişikliklerini keşfedin
 
 
-- Quiz
+- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2005%20-%20Activity%20%26%20Fragment%20lifecyclelar%C4%B1%20/Quiz)
 
 ## Ödül:
 
