@@ -173,3 +173,68 @@ Bu mesajı emülatörde çalışıyorsa, internete bağlı olduğunuzdan ve konu
 
 ## <a name="b"></a>Aşama 2 : Material Design Dünyasında Stil Kullanın
 
+Materyal Tasarımı bileşenlerinden en iyi şekilde yararlanmak için tema attributelerini kullanın. Tema attributelerini, uygulamanın ana rengi gibi farklı stil bilgileri türlerine işaret eden değişkenlerdir. **MaterialComponents** teması için tema attributelerini belirterek uygulama stilinizi basitleştirebilirsiniz. Renkler veya yazı tipleri için ayarladığınız değerler tüm widget'lar için geçerlidir, böylece tutarlı bir tasarıma ve markaya sahip olabilirsiniz.
+
+#### Adım 1 : Material Tema Attribute'lerini Kullanın
+
+Bu adımda, görünümlerinize stil vermek için Materyal Tasarımı tema niteliklerini kullanmak için ana ekrandaki title başlıklarının stilini değiştirirsiniz. Bu, uygulamanızın stilini özelleştirirken Malzeme stil kılavuzunu izlemenize yardımcı olur.
+
+1. Tipografi teması için [Material web sayfasını](https://material.io/develop/android/theming/typography/) açın Sayfa, Malzeme temalarıyla kullanılabilen tüm stilleri gösterir.
+2. Sayfada textAppearanceHeadline5 (Normal 24sp) ve textAppearanceHeadline6 (Normal 20sp) bulmak için arama yapın veya kaydırın. Bu iki özellik, uygulamanız için iyi eşleşmelerdir.
+3. `home_fragment.xml` içinde, TextView başlığının geçerli stilini (`android:textAppearance="@style/TextAppearance.Title"`) `style="?attr/textAppearanceHeadline5"` ile değiştirin. `?attr` sözdizimi, bir tema özniteliğini aramanın ve geçerli temada tanımlandığı gibi Başlık 5'in değerini uygulamanın bir yoludur.
+
+```
+<TextView
+       android:id="@+id/title"
+       style="?attr/textAppearanceHeadline5"
+```
+
+4. Değişikliklerinizi önizleyin. Stil uygulandığında başlığın yazı tipinin değiştiğine dikkat edin. Bunun nedeni, aşağıdaki stil öncelikli piramit diyagramında gösterildiği gibi, görünümde ayarlanan stilin tema tarafından ayarlanan stili geçersiz kılmasıdır.
+
+![image](https://user-images.githubusercontent.com/70329389/149553083-52b02654-f1a7-4dc1-b9e9-79a3068425a4.png)
+
+Piramit diyagramında `TextAppearance` temanın altındadır. `TextAppearance`, herhangi bir görünümde metin stili uygulayan bir niteliktir. Bir stille aynı değildir ve yalnızca metnin nasıl görüntüleneceğini tanımlamanıza izin verir. Materyal Tasarımı bileşenlerindeki tüm metin stilleri aynı zamanda `textAppearanc`e olarak da kullanılabilir; bu şekilde, tanımladığınız tüm tema öznitelikleri öncelikli olur.
+
+5. TextView başlığında, az önce eklediğiniz stili bir textAppearance ile değiştirin.
+6. Değişikliklerinizi önizleyin veya farkı görmek için uygulamayı çalıştırın. Karşılaştırma için, aşağıdaki ekran görüntüleri, Başlığa Material stili uygulandığında ve Başlık stilini geçersiz kıldığında farkları gösterir.
+
+| MATERIAL STYLE: | TEXT APPEARANCE |
+|:---------------:|:---------------:|
+|style="?attr/textAppearanceHeadline5"|android:textAppearance="?attr/textAppearanceHeadline5"|
+|![image](https://user-images.githubusercontent.com/70329389/149553985-ba327e0d-46b1-4813-83fd-2238519d5854.png)|![image](https://user-images.githubusercontent.com/70329389/149554070-4233bf58-6840-4786-91fc-d0df97dea0d6.png)|
+
+#### Adım 2 : Material Temasındaki Stili Değiştirin
+
+`textAppearanceHeadline6`, `subtitle` için iyi bir Material seçimi olacaktır, ancak varsayılan boyutu, uygulamanın `Title` stilinde tanımlandığı gibi 18sp değil, 20sp'dir. Her `subtitle` görünümünde boyutu geçersiz kılmak yerine, Material temasını değiştirebilir ve varsayılan stilini geçersiz kılabilirsiniz.
+
+1. style.xml'i açın.
+
+2. `Title` ve `subtitle` stillerini silin. Başlık yerine zaten `textAppearanceHeadline5` kullanıyorsunuz ve `subtitle` ihtiyacını ortadan kaldıracaksınız.
+
+3. 18sp bir `textSize` ile bir `CustomHeadline6` stili tanımlayın. Açıkça geçersiz kılmadığınız her şeyi devralması için ona bir `TextAppearance.MaterialComponents.Headline6` parent'i verin.
+
+```
+<style name="TextAppearance.CustomHeadline6" parent="TextAppearance.MaterialComponents.Headline6">
+   <item name="android:textSize">18sp</item>
+</style>
+```
+
+4. Bu stilin içinde, `textAppearanceHeadline6`'yı yeni eklediğiniz özel stille şekillendiren bir öğe tanımlayarak temanın varsayılan `textAppearanceHeadline6`'sını geçersiz kılın.
+
+```
+<item name="textAppearanceHeadline6">@style/TextAppearance.CustomHeadline6</item>
+```
+
+5. `home_fragment.xml` dosyasında, subtitle görünümüne `textAppearanceHeadline6`'yı uygulayın ve kodunuzu yeniden biçimlendirin (**Code > Reformat code**).
+
+```
+ android:textAppearance="?attr/textAppearanceHeadline6"
+```
+
+6. Uygulamayı çalıştırın. Yazı tipi rengindeki farka dikkat edin, ki bu incedir, ancak ekranın ne kadar okunabilir olduğu konusunda büyük bir fark yaratır.
+
+| Orjinal | Sonrası |
+|:---------------:|:---------------:|
+|![image](https://user-images.githubusercontent.com/70329389/149556509-13dc0318-7ede-4025-96d3-17d3d36a9e9c.png)|![image](https://user-images.githubusercontent.com/70329389/149556541-26654b9e-8b15-4af1-820d-f7b20f96146a.png)|
+
+## <a name="c"></a>Aşama 3 : Toolbar Temasını Değiştirin
