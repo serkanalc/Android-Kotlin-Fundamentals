@@ -188,4 +188,92 @@ Activity'nin `lifecycle` özelliği, bu activity'nin sahip olduğu `Lifecycle` n
 4. Uygulamayı arka plana koymak için home düğmesini tıklayın. Zamanlayıcının beklendiği gibi çalışmayı durdurduğuna dikkat edin.
  
 ## <a name="c"></a>Aşama 3 : Uygulama kapanması simülasyonu yapın ve onSaveInstanceState() kullanın
+
+Android bu uygulamayı arka plandayken kapatırsa uygulamanıza ve verilerine ne olur? Bu zor vakayı anlamak önemlidir.
+
+Uygulamanız arka plana geçtiğinde yok edilmez, yalnızca durdurulur ve kullanıcının ona dönmesini bekler. Ancak Android işletim sisteminin ana endişelerinden biri, ön planda olan etkinliğin sorunsuz çalışmasını sağlamaktır. Örneğin, kullanıcınız bir otobüsü yakalamalarına yardımcı olmak için bir GPS uygulaması kullanıyorsa, bu GPS uygulamasını hızlı bir şekilde oluşturmanız ve yol tariflerini göstermeye devam etmeniz önemlidir. Kullanıcının birkaç gün bakmamış olabileceği DessertClicker uygulamasının arka planda sorunsuz çalışır durumda kalması daha az önemlidir.
+
+Android, arka plan uygulamalarını, ön plan uygulamasının sorunsuz çalışabilmesi için düzenler. Örneğin, Android, arka planda çalışan uygulamaların yapabileceği işlem miktarını sınırlar.
+
+Bazen Android, uygulamayla ilişkili her activity'yi içeren tüm uygulama sürecini bile kapatır. Android, sistem stresli olduğunda ve görsel olarak gecikme tehlikesi olduğunda bu tür bir kapatma yapar, bu nedenle bu noktada ek bir callbackleri veya kod çalıştırılmaz. Uygulamanızın süreci arka planda sessizce kapanır. Ancak kullanıcıya, uygulama kapatılmış gibi görünmüyor. Kullanıcı, Android işletim sisteminin kapattığı bir uygulamaya geri döndüğünde, Android o uygulamayı yeniden başlatır.
+
+Bu aşamada, bir Android işleminin kapanmasını simüle edecek ve tekrar başladığında uygulamanıza ne olduğunu inceleyebilirsiniz.
+
+>**Not:** Başlamadan önce, API 28 veya üstünü destekleyen bir emülatör veya cihaz çalıştırdığınızdan emin olun.
+
+### Adım 1: Bir işlemin kapanmasını simüle etmek için adb kullanın
+
+Android Debug Bridge (`adb`), bilgisayarınıza bağlı emülatörlere ve aygıtlara talimatlar göndermenize olanak tanıyan bir command-line aracıdır. Bu adımda, uygulamanızın process'ini kapatmak ve Android uygulamanızı kapattığında ne olduğunu görmek için `adb`'yi kullanırsınız.
+
+1. Uygulamanızı derleyin ve çalıştırın. Cupcake üzerine birkaç kez tıklayın.
+2. Uygulamanızı arka plana almak için Home düğmesine basın. Uygulamanız artık durdurulmuştur ve Android, uygulamanın kullandığı kaynaklara ihtiyaç duyarsa uygulama kapatılabilir.
+3. Android Studio'da, command-line terminalini açmak için **Terminal** sekmesine tıklayın.
+
+![Terminal](https://developer.android.com/codelabs/kotlin-android-training-complex-lifecycle/img/a37c3740cc57b67d.png)
+
+4. `Android Debug Bridge version X.XX.X` ile başlayan ve `tags to be used by logcat (see logcat --help)` ile biten birçok çıktı görürseniz, her şey yolunda demektir. Bunun yerine `adb: command not found` görürseniz, execution path'inizde `adb` komutunun mevcut olduğundan emin olun. Talimatlar için, [Utilies bölümündeki](https://developer.android.com/courses/extras/utilities) "Add adb to your execution path" konusuna bakın.
+
+5. Bu yorumu kopyalayıp komut satırına yapıştırın ve Return tuşuna basın:
+
+```
+
+adb shell am kill com.example.android.dessertclicker
+
+```
+
+Bu komut, bağlı tüm aygıtlara veya emülatörlere, yalnızca uygulama arka plandaysa, `dessertclicker` paket adıyla işlemi sonlandırmak için bir STOP mesajı göndermelerini söyler. Uygulamanız arka planda olduğundan, işleminizin durdurulduğunu gösteren cihaz veya emülatör ekranında hiçbir şey görünmez. Android Studio'da, çağrılan `onStop()` metodunu görmek için **Run** sekmesine tıklayın. `onDestroy()` geri çağrısının hiçbir zaman çalıştırılmadığını görmek için **Logcat** sekmesine tıklayın—activity'niz basitçe sona erdi.
+
+6. Uygulamaya geri dönmek için recents ekranını kullanın. Uygulamanız, arka plana alınmış veya tamamen durdurulmuş olsun, sonlarda görünür. Uygulamaya dönmek için recents ekranını kullandığınızda activity yeniden başlatılır. Activity, `onCreate()` dahil olmak üzere tüm başlangıç lifecycle callbacklerinden geçer.
+7. Uygulama yeniden başlatıldığında, "puanınızı" (hem satılan tatlı sayısı hem de toplam dolar) varsayılan değerlere (0) sıfırladığına dikkat edin. Android uygulamanızı kapattıysa, neden state'inizi kaydetmedi?
+
+İşletim sistemi sizin için uygulamanızı yeniden başlattığında, Android, uygulamanızı önceki state'e sıfırlamak için elinden geleni yapar. Android, bazı viewlarınızın state'ini alır ve activity'den çıktığınızda bir bundle'da kaydeder. Otomatik olarak kaydedilen verilere bazı örnekler, bir EditText'teki metin (view'da ayarlanmış bir IDleri olduğu sürece) ve activity'nizin back stack'idir.
+
+Ancak, bazen Android işletim sistemi tüm verilerinizi bilmez. Örneğin, DessertClicker uygulamasında `revenue` gibi özel bir değişkeniniz varsa, Android işletim sistemi bu verileri veya activity'niz için önemini bilmez. Bu verileri bundle'a kendiniz eklemeniz gerekir.
+
+## Adım 2: Bundle verilerini kaydetmek için onSaveInstanceState() kullanın
+
+`onSaveInstanceState()` metodu, Android işletim sistemi uygulamanızı yok ederse ihtiyaç duyabileceğiniz tüm verileri kaydetmek için kullandığınız callback'tir.Lifecycle callback şemasında, activity durdurulduktan sonra `onSaveInstanceState()` çağrılır. Uygulamanız her arka plana geçtiğinde çağrılır.
+
+![lifecycle diagram](https://developer.android.com/codelabs/kotlin-android-training-complex-lifecycle/img/c259ab6beca0ca88.png)
+
+`onSaveInstanceState()` çağrısını bir güvenlik önlemi olarak düşünün; etkinliğiniz ön plandan çıkarken size az miktarda bilgiyi bir bundle'a kaydetme şansı verir. Sistem bu verileri şimdi kaydeder çünkü uygulamanızı kapatana kadar beklerse işletim sistemi kaynak baskısı altında olabilir. Verilerin her seferinde kaydedilmesi, gerektiğinde bundle'daki güncelleme verilerinin geri yüklenebilmesini sağlar.
+
+1. `MainActivity`'de `onSaveInstanceState()` callback'ini override edin ve bir `Timber` log ifadesi ekleyin.
+
+```kotlin
+
+override fun onSaveInstanceState(outState: Bundle) {
+   super.onSaveInstanceState(outState)
+
+   Timber.i("onSaveInstanceState Called")
+}
+
+```
+
+>**Not:** `onSaveInstanceState()` için biri yalnızca bir `outState` parametresi olan ve diğeri `outState` ve `outPersistentState` parametrelerini içeren iki override vardır. Tek `outState` parametresiyle yukarıdaki kodda gösterileni kullanın.
+
+2. Uygulamayı derleyin ve çalıştırın ve arka plana koymak için **Home** butonunu tıklayın. `onSaveInstanceState()` callbackleri hem `onPause()` hem de `onStop()`'tan hemen sonra gerçekleştiğine dikkat edin:
+
+![Logcat](https://developer.android.com/codelabs/kotlin-android-training-complex-lifecycle/img/c80ed57c9e4e23a.png)
+
+3. Dosyanın en üstünde, class tanımından hemen önce şu sabitleri ekleyin:
+
+```kotlin
+
+const val KEY_REVENUE = "revenue_key"
+const val KEY_DESSERT_SOLD = "dessert_sold_key"
+const val KEY_TIMER_SECONDS = "timer_seconds_key"
+
+```
+
+Bu key'leri, instance state bundle'ından hem kaydetmek hem de veri almak için kullanacaksınız.
+
+4. `onSaveInstanceState()`'e ilerleyin ve `Bundle` türündeki `outState` parametresine dikkat edin.
+
+
+
+
+
+
+
 ## <a name="d"></a>Aşama 4 : Konfigürasyon değişikliklerini keşfedin
