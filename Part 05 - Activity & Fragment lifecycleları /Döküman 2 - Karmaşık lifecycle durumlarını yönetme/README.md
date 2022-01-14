@@ -270,10 +270,112 @@ Bu key'leri, instance state bundle'ından hem kaydetmek hem de veri almak için 
 
 4. `onSaveInstanceState()`'e ilerleyin ve `Bundle` türündeki `outState` parametresine dikkat edin.
 
+Bundle, key'lerin her zaman string olduğu bir key-value (anahtar/değer) çiftleri koleksiyonudur. Bundle'a `int` ve `boolean` değerleri gibi primitive değerler koyabilirsiniz. Sistem bu bundle'ı RAM'de tuttuğundan, bundle'daki verileri küçük tutmak best practice'tir. Bu bundle!'ın boyutu da sınırlıdır, ancak boyut cihazdan cihaza değişir. Genellikle 100.000'den çok daha az depolamanız gerekir, aksi takdirde uygulamanızı `TransactionTooLargeException` hatasıyla çökertme riskiyle karşı karşıya kalırsınız.
+
+5. `onSaveInstanceState()` içinde, `putInt()` metoduyla `revenue` değerini (bir tamsayı) bundle'a koyun:
+
+```kotlin
+
+outState.putInt(KEY_REVENUE, revenue)
+
+```
+
+`putInt()` metodu (ve `Bundle` sınıfından `putFloat()` ve `putString(`) gibi benzer metotlar) iki argüman alır: key için bir string (`KEY_REVENUE` sabiti) ve kaydedilecek gerçek value.
+
+6. Satılan tatlı sayısı ve zamanlayıcının state'i ile aynı işlemi tekrarlayın:
+
+```kotlin
+
+outState.putInt(KEY_DESSERT_SOLD, dessertsSold)
+outState.putInt(KEY_TIMER_SECONDS, dessertTimer.secondsCount)
+
+```
+
+### Adım 3: Bundle verilerini geri yüklemek için onCreate() kullanın
+
+1. onCreate()'e ilerleyin ve metot imzasını inceleyin:
+
+```kotlin
+
+override fun onCreate(savedInstanceState: Bundle?) {
+
+```
+
+`onCreate()` her çağrıldığında bir `Bundle` aldığına dikkat edin. Bir işlemin kapanması nedeniyle activity'niz yeniden başlatıldığında, kaydettiğiniz bundle `onCreate()`'e iletilir. Activity'niz yeni başlıyorsa, `onCreate()` içindeki bu bundle `null`'dır. Bu nedenle, bundle `null` değilse, activity'yi önceden bilinen bir noktadan "yeniden yarattığınızı" bilirsiniz.
+
+>**Not:** Activity yeniden yaratılıyorsa, `onRestoreInstanceState()` callback'i, yine bundle ile birlikte `onStart()`'tan sonra çağrılır. Çoğu zaman, activity state'ini `onCreate()` içinde geri yüklersiniz. Ancak `onRestoreInstanceState()` `onStart()`'tan sonra çağrıldığından, `onCreate()` çağrıldıktan sonra bir state'i geri yüklemeniz gerekirse, `onRestoreInstanceState()` öğesini kullanabilirsiniz.
+
+2. Bu kodu, `DessertTimer` kurulumundan sonra `onCreate()` öğesine ekleyin:
 
 
+```kotlin
 
+if (savedInstanceState != null) {
+   revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
+}
 
+```
 
+`Null` testi, bundle'da veri olup olmadığını veya bundle'ın `null` olup olmadığını belirler, bu da size uygulamanın yeni başlatılıp başlatılmadığını veya bir kapatmadan sonra yeniden oluşturulup oluşturulmadığını söyler. Bu test, bundle'dan verileri geri yüklemek için yaygın bir pattern'dır.
+
+Burada kullandığınız key'in (`KEY_REVENUE`) `putInt()` için kullandığınız key ile aynı olduğuna dikkat edin. Her seferinde aynı key'i kullandığınızdan emin olmak için bu keyleri sabitler olarak tanımlamak best practice'tie. Verileri bundle'a koymak için `putInt()`'i kullandığınız gibi, veriyi bundle'dan çıkarmak için `getInt()`'i kullanırsınız. `getInt()` metodu iki argüman alır:
+
+- Key görevi gören bir string, örneğin gelir (revenue) değeri için `"key_revenue"`.
+- Bundle'da bu key için hiçbir değer olmaması durumunda varsayılan bir value.
+
+Bundle'dan aldığınız integer daha sonra `revenue` değişkenine atanır ve UI bu değeri kullanır.
+
+3. Satılan tatlıların sayısını ve zamanlayıcının değerini geri yüklemek için `getInt()` metotlarını ekleyin:
+
+```kotlin
+
+if (savedInstanceState != null) {
+   revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
+   dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD, 0)
+   dessertTimer.secondsCount =
+       savedInstanceState.getInt(KEY_TIMER_SECONDS, 0)
+}
+
+```
+
+4. Uygulamayı derleyin ve çalıştırın.
+5. Android Studio menüsünden **Run > Stop 'app'** öğesini seçerek uygulamayı durdurun. Artık uygulama cihazınıza/emülatörünüze yüklenmiştir ancak uygulama çalışmıyor.
+6. Cihazınızda/emülatörünüzde app launcher'ı açın ve **Dessert Clicker** uygulamasını seçin. Donut haline gelene kadar cupcake'e en az beş kez basın. Uygulamayı arka plana koymak için Home'a tıklayın.
+7. Android Studio **Terminal** sekmesinde, uygulamanın sürecini kapatmak için `adb` komutunu çalıştırın.
+
+```
+
+adb shell am kill com.example.android.dessertclicker
+
+```
+
+8. Uygulamaya geri dönmek için recents ekranını kullanın. Bu sefer uygulamanın, bundle'dan doğru revenue ve desserts sold değerleri ile geri döndüğüne dikkat edin. Ama aynı zamanda tatlının bir cupcake döndüğüne de dikkat edin. Uygulamanın kapatıldığından tam olarak olduğu gibi dönmesini sağlamak için yapılacak bir şey daha var.
+9. `MainActivity`'de `showCurrentDessert()` metodunu inceleyin. Bu metodun, satılan tatlıların mevcut sayısına ve `allDesserts` değişkenindeki tatlı listesine dayalı olarak activity'de hangi tatlı görüntüsünün görüntüleneceğini belirlediğine dikkat edin.
+
+```kotlin
+
+for (dessert in allDesserts) {
+   if (dessertsSold >= dessert.startProductionAmount) {
+       newDessert = dessert
+   }
+    else break
+}
+
+```
+
+Bu metot, doğru görüntüyü seçmek için satılan tatlı sayısına dayanır. Bu nedenle, `onSaveInstanceState()` içindeki bundle'daki resme bir referansı saklamak için herhangi bir şey yapmanız gerekmez. Bu bundle'da, satılan tatlıların sayısını zaten saklıyorsunuz.
+
+10. Uygulamayı derleyin ve çalıştırın.
+11. Android Studio menüsünden **Run > Stop 'app'** öğesini seçerek uygulamayı durdurun. Artık uygulama cihazınıza/emülatörünüze yüklenmiştir ancak uygulama çalışmıyor.
+12. App launcher'ı açın ve **Dessert Clicker** uygulamasını seçin. Tatlı simgesine birkaç kez tıklayın.
+13. Uygulamayı arka plana alın. İşlemi kapatmak için `adb` kullanın.
+
+```
+
+adb shell am kill com.example.android.dessertclicker
+
+```
+
+15. Uygulamaya geri dönmek için recents ekranını kullanın. Hem anlatılan tatlılar, toplam gelir hem de tatlı görüntüsü için değerlerin doğru şekilde geri yüklendiğini unutmayın.
 
 ## <a name="d"></a>Aşama 4 : Konfigürasyon değişikliklerini keşfedin
