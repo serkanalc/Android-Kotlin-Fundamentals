@@ -238,3 +238,45 @@ Piramit diyagramında `TextAppearance` temanın altındadır. `TextAppearance`, 
 |![image](https://user-images.githubusercontent.com/70329389/149556509-13dc0318-7ede-4025-96d3-17d3d36a9e9c.png)|![image](https://user-images.githubusercontent.com/70329389/149556541-26654b9e-8b15-4af1-820d-f7b20f96146a.png)|
 
 ## <a name="c"></a>Aşama 3 : Toolbar Temasını Değiştirin
+
+Bazen ekranınızın bazı bölümlerini farklı bir temayla değiştirmek isteyebilirsiniz, ancak tamamını değil. Örneğin, araç çubuğunun dark Material components temasını kullanmasını sağlayabilirsiniz. Bunu tema overlay'leri kullanarak yaparsınız.
+
+Tüm uygulama adına genel temayı ayarlamak için bir Tema kullanılır. Bir `ThemeOverlay`, özellikle araç çubuğu olmak üzere belirli görünümler için bu temayı geçersiz kılmak (veya "overlay") için kullanılır.
+
+Tema kaplamaları, bir pastanın üzerine krema gibi mevcut bir temayı kaplamak için tasarlanmış "thin theme'lardır". Uygulamanızın bir alt bölümünü değiştirmek istediğinizde kullanışlıdırlar, örneğin, araç çubuğunu dark olacak şekilde değiştirin, ancak ekranın geri kalanı için açık bir tema kullanmaya devam edin. Bir görünüme tema kaplaması uygularsınız ve kaplama o görünüme ve tüm alt öğelerine uygulanır.
+
+Bunu, istediğiniz temayı, onu kullanmak istediğiniz görünüm hiyerarşisinin kök görünümüne uygulayarak yaparsınız. Bu henüz hiçbir şeyi değiştirmiyor! Hiyerarşide bir görünümün, kaplama temasında tanımlanan belirli bir attribute kullanmasını istediğinizde, görünümdeki attribute'u özel olarak ayarlar ve değeri `?attr/valuename` olarak ayarlarsınız.
+
+#### Adım 1 : Tema Overlay'lerini Kullanın
+
+MaterialComponents temasının, açık renkli bir ekranda karanlık bir araç çubuğu seçeneği yoktur. Bu adımda, yalnızca araç çubuğunun temasını değiştirirsiniz. MaterialComponents'ta bulunan Dark temasını araç çubuğuna kaplama olarak uygulayarak araç çubuğunu koyu hale getirirsiniz.
+
+1. `Activity_main.xml` dosyasını açın ve `Toolbar`'ın nerede tanımlandığını bulun (`androidx.appcompat.widget.Toolbar`). `Toolbar`, Material Design'ın bir parçasıdır ve etkinliklerin varsayılan olarak kullandığı uygulama çubuğundan daha fazla özelleştirmeye olanak tanır.
+2. Araç çubuğunu ve alt öğelerinden herhangi birini karanlık temayla değiştirmek için `Toolbar`'ın temasını `Dark.ActionBar` temasına ayarlayarak başlayın. Bunu `ImageView`'de değil, `Toolbar`'da yaptığınızdan emin olun.
+
+```
+<androidx.appcompat.widget.Toolbar
+    android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+```
+
+3. Araç Çubuğunun arka planını `colorPrimaryDark` olarak değiştirin.
+
+```
+android:background="?attr/colorPrimaryDark"
+```
+
+![image](https://user-images.githubusercontent.com/70329389/149595925-70726017-7b0c-4fc1-b18b-2b6d583d7e1c.png)
+
+Şeffaf bir arka plan üzerinde hem renkli ok hem de gri "GDG Finder" metnini içeren başlıktaki (drawable/logo.png) resme dikkat edin. Değiştirilen arka plan rengi ile metin artık çok fazla öne çıkmıyor. Yeni bir görüntü oluşturabilir veya yeni bir görüntü oluşturmadan kontrastı artırmak için ImageView üzerinde bir renk tonu ayarlayabilirsiniz. Bu, tüm ImageView'in belirtilen renge "tinted olmasına" neden olur. colorOnPrimary attribute'u, birincil rengin üzerine çizildiğinde metin veya ikonografi için erişilebilirlik yönergelerini karşılayan bir renktir.
+
+4. Araç Çubuğunun içindeki ImageView'da renk tonunu colorOnPrimary olarak ayarlayın. drawable, hem görüntüyü hem de GDG Finder metnini içerdiğinden, ikisi de hafif olacaktır.
+
+```
+android:tint="?attr/colorOnPrimary"
+```
+
+5. Uygulamayı çalıştırın ve temadaki karanlık başlığa dikkat edin. Renk tonu, simgeyi ve "GDG Finder" metnini içeren hafif logo görüntüsünden sorumludur.
+
+![image](https://user-images.githubusercontent.com/70329389/149596173-b8dedfb2-fef3-41ff-bded-803a9f2dac85.png)
+
+## <a name="d"></a>Aşama 4 : Dimension'ları Kullanın
