@@ -102,3 +102,74 @@ app:srcCompat="@drawable/ic_gdg"
 
 ![image](https://user-images.githubusercontent.com/70329389/149544488-89a136ee-235c-4601-8b23-f29a0df27543.png)
 
+#### Adım 3 : FAB'a Bir Click Listener Ekleyin
+
+Bu adımda, kullanıcıyı bir GDG listesine götüren FAB'ye bir click listener eklersiniz. Önceki kod laboratuvarlarına click listener eklediniz, bu nedenle talimatlar kısa ve öz.
+
+1. **home_fragment.xml**'de, `<data>` etiketinde, sağlanan **HomeViewModel** için bir **viewModel** değişkeni tanımlayın.
+
+```
+<variable
+   name="viewModel"
+   type="com.example.android.gdgfinder.home.HomeViewModel"/>
+```
+
+2. FAB'a onClick listener ekleyin ve onu **nFabClicked()** olarak adlandırın.
+
+```
+android:onClick="@{() -> viewModel.onFabClicked()}"
+```
+
+3. Home paketinde, sağlanan HomeViewModel sınıfını açın ve aşağıda da gösterilen navigasyon live data'larına ve function'larına bakın. FAB tıklandığında, onFabClicked()click işleyicisinin çağrıldığına ve uygulamanın gezinmeyi tetiklediğine dikkat edin.
+
+```
+private val _navigateToSearch = MutableLiveData<Boolean>()
+val navigateToSearch: LiveData<Boolean>
+   get() = _navigateToSearch
+
+fun onFabClicked() {
+   _navigateToSearch.value = true
+}
+
+fun onNavigatedToSearch() {
+   _navigateToSearch.value = false
+}
+```
+
+4. Home paketinde **HomeFragment** sınıfını açın. onCreateView() öğesinin HomeViewModel'i oluşturduğuna ve onu viewModel'e atadığına dikkat edin.
+5. onCreateView() içindeki bağlamaya viewModel'i ekleyin.
+
+```
+binding.viewModel = viewModel
+```
+6. Hatayı ortadan kaldırmak için, binding nesnesini güncellemek üzere projenizi temizleyin ve yeniden oluşturun.
+7. Ayrıca onCreateView() içinde, GDG'ler listesine giden bir observer ekleyin. İşte kod:
+
+```
+viewModel.navigateToSearch.observe(viewLifecycleOwner,
+            Observer<Boolean> { navigate ->
+                if(navigate) {
+                    val navController = findNavController()
+                    navController.navigate(R.id.action_homeFragment_to_gdgListFragment)
+                    viewModel.onNavigatedToSearch()
+               }
+             })
+```
+
+8. androidx'ten gerekli import'ları yapın. Bu findNavController ve Observer'ı içe aktarın:
+
+```
+import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.Observer
+```
+9. Uygulamanızı çalıştırın.
+10. FAB'a dokunun ve sizi GDG listesine götürür. Uygulamayı fiziksel bir cihazda çalıştırıyorsanız, konum izni istenir. Uygulamayı bir emülatörü çalıştırıyorsanız, aşağıdaki mesajı içeren boş bir sayfa görebilirsiniz:
+
+![image](https://user-images.githubusercontent.com/70329389/149546880-bc7aeda3-6bcf-42aa-b4c6-8c35f27fafb3.png)
+
+Bu mesajı emülatörde çalışıyorsa, internete bağlı olduğunuzdan ve konum ayarlarının açık olduğundan emin olun. Ardından konum hizmetlerini etkinleştirmek için Haritalar uygulamasını açın. Ayrıca emülatörünüzü yeniden başlatmanız gerekebilir.
+
+![image](https://user-images.githubusercontent.com/70329389/149547004-fe17bb0f-355a-422f-bf7d-b1ae36094975.png)
+
+## <a name="b"></a>Aşama 2 : Material Design Dünyasında Stil Kullanın
+
