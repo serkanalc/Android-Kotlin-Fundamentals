@@ -4,7 +4,7 @@ DevBytes adlı uygulamayı tamamlayarak WorkManager ile repository oluşturmayı
 
 ## İşte Konu başlıkları:
 
-- [Bir Repository Ekleyin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%209%20-%20Repository%20%26%20workManager%20/D%C3%B6k%C3%BCman%201%20-%20Bir%20Repository%20Ekleyin)
+- [Bir Repository Ekleyin](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2009%20-%20Repository%20%26%20workManager%20/D%C3%B6k%C3%BCman%201%20-%20Bir%20Repository%20Ekleyin)
   - Kurulum ve başlangıç kodu kılavuzu
   - Caching
   - Çevrimdışı cache ekleyin
@@ -12,7 +12,7 @@ DevBytes adlı uygulamayı tamamlayarak WorkManager ile repository oluşturmayı
   - Bir repository oluşturun
   - Bir refresh stratejisi kullanarak repository'yi entegre edin
 
-- [WorkManager](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%209%20-%20Repository%20%26%20workManager%20/D%C3%B6k%C3%BCman%202%20-%20WorkManager)
+- [WorkManager](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2009%20-%20Repository%20%26%20workManager%20/D%C3%B6k%C3%BCman%202%20-%20WorkManager)
   - Kurulum ve başlangıç kodu kılavuzu
   - WorkManager
   - WorkManager dependency'sini ekleyin
@@ -21,7 +21,7 @@ DevBytes adlı uygulamayı tamamlayarak WorkManager ile repository oluşturmayı
   - Constraintler ekleyin
   
 
-- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%209%20-%20Repository%20%26%20workManager%20/Quiz)
+- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2009%20-%20Repository%20%26%20workManager%20/Quiz)
 
 ## Ödül:
 
