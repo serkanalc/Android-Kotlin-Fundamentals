@@ -52,7 +52,7 @@ tanıyan **TrackMySleep** uygulamasını tamamlayacaksınız.
   - Liste manipülasyonları için coroutineleri kullanın
   - Header'ı ekrana yayılacak şekilde uzatın
   
-- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%20 07%20-%20Databases%20%26%20RecyclerView/Quiz)
+- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2007%20-%20Databases%20%26%20RecyclerView/Quiz)
 
 ## Ödül:
 
