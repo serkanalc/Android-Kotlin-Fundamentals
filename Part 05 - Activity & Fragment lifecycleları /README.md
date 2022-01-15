@@ -21,7 +21,7 @@ Activity ve Fragment lifecycleları (yaşam döngüleri), karmaşık lifecycle d
 
 ## Ödül:
 
-Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/pathways/kotlin-fundamentals-five) 
+Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-five/kotlin-fundamentals-five?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-five%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-five%2Fkotlin-fundamentals-five) 
 ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir
 bir badge kazanabilirsiniz!
 
