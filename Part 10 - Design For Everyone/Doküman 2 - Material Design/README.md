@@ -280,3 +280,42 @@ android:tint="?attr/colorOnPrimary"
 ![image](https://user-images.githubusercontent.com/70329389/149596173-b8dedfb2-fef3-41ff-bded-803a9f2dac85.png)
 
 ## <a name="d"></a>Aşama 4 : Dimension'ları Kullanın
+
+Profesyonel görünümlü bir uygulama, tutarlı bir görünüme ve hisse sahiptir. Her ekranda aynı renklere ve benzer layout'lara sahiptir. Bu, uygulamanın yalnızca daha iyi görünmesini sağlamakla kalmaz, aynı zamanda kullanıcıların ekranları anlamasını ve ekranlarla etkileşim kurmasını kolaylaştırır.
+
+Dimens, veya dimensions, uygulamanız için yeniden kullanılabilir ölçümler belirtmenize olanak tanır. dp kullanarak kenar boşlukları, yükseklikler veya dolgu gibi şeyleri belirtin. sp kullanarak yazı tipi boyutlarını belirtin.
+
+Bu görevde, ekranın sağ ve sol taraflarına tutarlı bir kenar boşluğu uygulamak için kullanılacak bir `Dimens` tanımlarsınız.
+
+#### 1. Adım: Kodunuzu İnceleyin
+
+1. **home_fragment xml**'yi açın.
+
+2. **Design** sekmesine bakın ve **blueprint**'in görünür olduğundan emin olun.
+
+3. Component Tree'de, **start_guideline** ve **end_guideline**'ı seçin. blueprint'de hafifçe vurgulanmalıdırlar.
+
+![Ekran Resmi 2022-01-15 03 56 09](https://user-images.githubusercontent.com/70329389/149602464-16aa2473-bccf-4dad-ad55-b27a8510ebc7.png)
+
+4. Sırasıyla başlangıç ve bitiş yönergelerinin ekini gösteren soldaki 16 ve sağdaki 26 numaraya dikkat edin.
+5. Code sekmesine geçin.
+6. **ConstraintLayout**'un alt kısmında iki Yönergenin tanımlandığına dikkat edin. Yönergeler, ekranınızda içeriğinizin kenarlarını tanımlayan dikey veya yatay çizgiler tanımlar. Tam ekran görüntüler dışında her şey bu satırların içine yerleştirilir.
+
+```
+<androidx.constraintlayout.widget.Guideline
+   android:id="@+id/start_guideline"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:orientation="vertical"
+   app:layout_constraintGuide_begin="16dp" />
+
+<androidx.constraintlayout.widget.Guideline
+   android:id="@+id/end_guideline"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:orientation="vertical"
+   app:layout_constraintGuide_end="26dp" />
+```
+`layout_constraintGuide_begin="16dp"`, Material özelliklerine göre doğrudur. Ancak `app:layout_constraintGuide_end="26dp"` ayrıca 16dp olmalıdır. Bunu burada manuel olarak düzeltebilirsin. Ancak, bu kenar boşlukları için bir boyut oluşturmak ve ardından bunları uygulamanız boyunca tutarlı bir şekilde uygulamak daha iyidir.
+
+#### 2. Adım: Bir Dimension Oluşturun
