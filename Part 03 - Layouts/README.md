@@ -36,3 +36,10 @@ Farklı layout'lar oluşturun, kullanıcı etkileşimi ekleyin ve data binding k
 
     - findViewById() Öğesini Ortadan Kaldırmak için Data Binding Kullanın
     - Verileri görüntülemek için Data Binding kullanın
+
+## Ödül:
+
+Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/pathways/kotlin-fundamentals-three?authuser=6) ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir bir badge kazanabilirsiniz!
+
+![Ekran Resmi 2022-01-15 21 56 06](https://user-images.githubusercontent.com/70329389/149634426-0d82b36b-6e60-4525-9d3b-d96b87a8cc82.png)
+
