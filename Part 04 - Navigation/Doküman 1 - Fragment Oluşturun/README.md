@@ -6,7 +6,7 @@
 
 ## <a name="0"></a>Aşama Ø : Genel Bakış
 
-Bu dersi oluşturan üç kod laboratuvarında AndroidTrivia adlı bir uygulama üzerinde çalışıyorsunuz. Tamamlanan uygulama, kullanıcının Android kodlaması hakkında üç önemsiz soruyu yanıtladığı bir oyundur. Kullanıcı üç soruyu da doğru cevaplarsa oyunu kazanır ve sonuçlarını paylaşabilir.
+Bu dersi oluşturan üç kodlab'da AndroidTrivia adlı bir uygulama üzerinde çalışıyorsunuz. Tamamlanan uygulama, kullanıcının Android kodlaması hakkında üç trivia soruyu yanıtladığı bir oyundur. Kullanıcı üç soruyu da doğru cevaplarsa oyunu kazanır ve sonuçlarını paylaşabilir.
 
 ![Ekran Resmi 2021-12-12 03 35 03](https://user-images.githubusercontent.com/70329389/145696137-595bb2dd-d947-4b19-bde8-012748e93c63.png)
 
