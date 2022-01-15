@@ -354,3 +354,47 @@ Bu görevde, ekranın sağ ve sol taraflarına tutarlı bir kenar boşluğu uygu
 
 ## <a name="e"></a>Aşama 5 : Renkleri Kullanın
 
+Renk kaynaklarını ve Material temasını kullanarak uygulamanızın tamamında tutarlı renkler uygulayabilirsiniz. Renklerin etkin kullanımı, uygulamanızın kullanılabilirliğini önemli ölçüde artırabilir. En iyi renkleri ve renk kombinasyonlarını seçmek zor olabilir, ancak yardımcı olacak araçlar var.
+
+Mevcut araçlardan biri [Color Tool](https://material.io/resources/color/#!/?view.left=0&view.right=0). Araçtan uygulamanız için tam bir Material renk şeması elde etmek adına iki ana temel renk seçersiniz ve ardından araç kalan renkleri uygun şekilde oluşturur.
+
+Bu görevde, bir Material renk şeması oluşturacak ve bunu uygulamanıza uygulayacaksınız.
+
+#### Adım 1 : Malzeme Renk Şeması Oluşturun
+
+1. [Color Tool](https://material.io/tools/color/) sayfasını açın. Kullanıcı arayüzünüz için renk kombinasyonlarını keşfetmek için bu aracı kullanabilirsiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/149614553-06d53e99-c728-4cd9-9dd5-fa4e324254aa.png)
+
+2. Daha fazla renk görmek için sağdaki **MATERIAL PALETTE** aşağı kaydırın.
+
+3. **Primary**'e ve ardından bir rengi tıklayın. Dilediğiniz rengi kullanabilirsiniz.
+
+4. **Secondary**'e tıklayın ve bir renge tıklayın.
+
+5. Aracın sizin için hesapladığı renkten farklı bir renk istiyorsanız, bir metin rengi seçmek için **Text**'e tıklayın. Kontrastı keşfetmek için çeşitli metin renkleri seçin.
+
+6. **ACCESSIBILITY** sekmesine tıklayın. Aşağıdaki gibi bir rapor göreceksiniz. Bu size o anda seçili olan renk seçeneklerinin ne kadar okunabilir olduğu hakkında bir rapor verir.
+
+![image](https://user-images.githubusercontent.com/70329389/149614677-c58ae46d-dd04-42c0-98ec-1a2fb3531f7f.png)
+
+7. Üçgen ünlem işareti simgelerini arayın.
+
+![image](https://user-images.githubusercontent.com/70329389/149614692-555264f3-3170-4298-9fd3-31876d984b3a.png)
+
+> Not: Araç, değerlendirmesini, çeşitli görme bozukluğu biçimlerini hesaba katan, insanların görme konusunda ne kadar iyi olduğuna dayandırır. Birçok bozukluk için daha iyi kontrast, metni okumayı kolaylaştırır. Metninizi okumakta sorun yaşamasanız bile, uygulamanızı milyonlarca kullanıcıya gönderdiğinizde bu araç, kullanıcılarınızın da metni okuyabildiğini bilmenize yardımcı olacaktır!
+
+8. Araçta CUSTOM sekmesine geçin ve aşağıdaki iki rengi girin.
+
+       - Primary: #669df6
+       - Secondary: #a142f4
+
+Ana renk, GDG logosunda kullanılan rengi temel alan bir mavidir. İkincil renk, ana ekrandaki görüntüdeki balonları temel alır. Renkleri **Hex Color** alanına yazın. Araç tarafından önerilen siyah beyaz yazı tiplerini koruyun.
+
+Bu renk şemasında hala bazı erişilebilirlik uyarıları olduğunu unutmayın. Çoğu renk şeması yapar. Bir sonraki adımda bu sorunu giderirsiniz.
+
+9. Pencerenin sağ üst tarafında, **EXPORT** ve **ANDROID**'i seçin. Araç bir indirme işlemini başlatır.
+10. **Colours.xml** dosyasını uygun bir konuma kaydedin.
+
+#### Adım 2 : Uygulamanıza Malzeme Renk Şemasını Uygulayın
+
