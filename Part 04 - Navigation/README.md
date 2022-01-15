@@ -28,6 +28,6 @@ Bir fragment oluşturun, navigation yollarını tanımlayın ve harici bir activ
 
 ## Ödül:
 
-Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/pathways/kotlin-fundamentals-four?authuser=6) ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir bir badge kazanabilirsiniz!
+Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-four/kotlin-fundamentals-four?authuser=6&continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-four%3Fauthuser%3D6%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-four%2Fkotlin-fundamentals-four) ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir bir badge kazanabilirsiniz!
 
 ![Ekran Resmi 2022-01-15 21 57 45](https://user-images.githubusercontent.com/70329389/149634462-68208a7f-06c5-4dea-8cfe-2a0d00055062.png)
