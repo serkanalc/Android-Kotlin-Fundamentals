@@ -131,7 +131,7 @@ override fun onStart() {
 Bu aşamada, uygulamanızı `Timber` adlı popüler bir log kütüphanesi kullanacak şekilde değiştirirsiniz. `Timber`, yerleşik Android `Log` class'ına göre çeşitli avantajlara sahiptir. Özellikle, `Timber` kütüphanesi:
 
 - Class adına göre sizin için log tag'i oluşturur.
-- Android uygulamanızın yayınlanmış bir sürümünde logların gösterilmesini önlemenize yardımcı olur.
+- Android uygulamanızın yayınlanmış bir sürümünde logların gösterilmesini önlemenize yardımcı olur. (Uygulamanızı yayınlarken Log ifadelerini manuel olarak silmeniz gerekmeyecektir.)
 - Crash raporlama kütüphaneleri ile entegrasyona izin verir.
 
 İlk faydayı hemen göreceksiniz; diğerlerini, daha büyük uygulamalar hazırlarken ve gönderirken takdir edeceksiniz.
