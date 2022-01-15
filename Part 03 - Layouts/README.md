@@ -20,7 +20,7 @@ Farklı layout'lar oluşturun, kullanıcı etkileşimi ekleyin ve data binding k
     - DONE Düğmesine Bir Click Listener Ekleyin
     - TextView Nickname'ine bir Click Listener Ekleyin
 
- - [Layout Editör ile ConstraintLayout'u Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%203%20-%20Layouts/Dok%C3%BCman%203%20-%20Layout%20Edit%C3%B6r%20ile%20ConstraintLayout'u%20Kullan%C4%B1n)
+ - [Layout Editör ile ConstraintLayout'u Kullanın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2003%20-%20Layouts/Dok%C3%BCman%203%20-%20Layout%20Edit%C3%B6r%20ile%20ConstraintLayout'u%20Kullan%C4%B1n)
 
     - ColorMyView Projesini Oluşturun
     - ConstraintLayout Oluşturmak İçin Layout Editor Kullanın
