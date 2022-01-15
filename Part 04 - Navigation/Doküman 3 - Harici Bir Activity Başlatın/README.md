@@ -45,7 +45,7 @@ Uygulamayı Android Studio'dan çalıştırın:
 
 Bu kodlab'de, Tebrikler ekranının üstüne bir paylaşım simgesi eklersiniz. Paylaş simgesi, kullanıcının sonuçlarını bir e-posta veya kısa mesajla paylaşmasına olanak tanır.
 
-### 2.Adım: Projeye Safe Arglar ekleyin
+### 2.Adım: Projeye Safe Arglar Ekleyin
 1. Android Studio'da project-lvel'da build.gradle dosyasını açın.
 2. Navigation safe-args-gradle-plugin dependency'sini aşağıda gösterildiği gibi ekleyin:
 
