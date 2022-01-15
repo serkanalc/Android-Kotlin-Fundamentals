@@ -398,3 +398,38 @@ Bu renk şemasında hala bazı erişilebilirlik uyarıları olduğunu unutmayın
 
 #### Adım 2 : Uygulamanıza Malzeme Renk Şemasını Uygulayın
 
+1. İndirilen **color.xml** dosyasını bir metin düzenleyicide açın.
+
+2.Android Studio'da **values/colors.xml**'i açın.
+
+3. **Values/colors.xml** dosyasının kaynaklarını, indirilen **color.xml** dosyasının içeriğiyle değiştirin.
+
+4. **style.xml**'i açın.
+
+5. **AppTheme** içinde, hata olarak gösterilen renkleri silin: **colorPrimary**, **colorPrimaryDark** ve **colorAccent**.
+
+6. **AppTheme** içinde, aşağıdaki kodda gösterildiği gibi bu yeni renklerle 6 attribute tanımlayın. Listeyi Renk Temaları kılavuzunda bulabilirsiniz.
+
+```
+<item name="colorPrimary">@color/primaryColor</item>
+<item name="colorPrimaryDark">@color/primaryDarkColor</item>
+<item name="colorPrimaryVariant">@color/primaryLightColor</item>
+<item name="colorOnPrimary">@color/primaryTextColor</item>
+<item name="colorSecondary">@color/secondaryColor</item>
+<item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+<item name="colorOnSecondary">@color/secondaryTextColor</item>
+```
+
+7. Uygulamayı çalıştırın. Bu oldukça iyi görünüyor...
+
+![image](https://user-images.githubusercontent.com/70329389/149614938-c092ff18-9301-4c30-98d1-5a378dba1d37.png)
+
+
+8. Ancak, **colorOnPrimary**'nin, **colorPrimaryDark**'ın üstünde görüntülendiğinde logo renk tonunun ("GDG Finder metni" dahil) yeterince öne çıkması için yeterince açık olmadığına dikkat edin.
+
+9. **Activity_main.xml** içinde **Toolbar**'ı bulun. **ImageView**'da logo tonunu **colorOnSecondary** olarak değiştirin.
+
+10. Uygulamayı çalıştırın.
+
+![image](https://user-images.githubusercontent.com/70329389/149615056-3170fa04-f2e5-40f4-800b-db1e19797433.png)
+
