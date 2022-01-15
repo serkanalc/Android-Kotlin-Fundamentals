@@ -25,7 +25,7 @@ DevBytes adlı uygulamayı tamamlayarak WorkManager ile repository oluşturmayı
 
 ## Ödül:
 
-Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/pathways/kotlin-fundamentals-nine#0) 
+Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-nine/kotlin-fundamentals-nine?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-nine%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-nine%2Fkotlin-fundamentals-nine) 
 ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir
 bir badge kazanabilirsiniz!
 
