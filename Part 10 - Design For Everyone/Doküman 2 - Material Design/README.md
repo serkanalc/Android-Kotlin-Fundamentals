@@ -319,3 +319,38 @@ Bu görevde, ekranın sağ ve sol taraflarına tutarlı bir kenar boşluğu uygu
 `layout_constraintGuide_begin="16dp"`, Material özelliklerine göre doğrudur. Ancak `app:layout_constraintGuide_end="26dp"` ayrıca 16dp olmalıdır. Bunu burada manuel olarak düzeltebilirsin. Ancak, bu kenar boşlukları için bir boyut oluşturmak ve ardından bunları uygulamanız boyunca tutarlı bir şekilde uygulamak daha iyidir.
 
 #### 2. Adım: Bir Dimension Oluşturun
+
+1. **home_fragment xml**'de **Code** görünümünü kullanarak imlecinizi **app:layout_constraintGuide_begin="16dp"** öğesinin 16dp'sine getirin.
+
+2. Intentions menüsünü açın ve Extract dimension resource'u seçin.
+
+![image](https://user-images.githubusercontent.com/70329389/149603006-7abbfb42-9d3a-4ed4-82ec-6edc9d0e3e38.png)
+
+3. dimension'un Kaynak Adını **space_normal** olarak ayarlayın. Diğer her şeyi verildiği gibi bırakın ve Tamam'ı tıklayın.
+
+4. Ayrıca **space_normal** dimension'unu kullanmak için **layout_constraintGuide_end**'i düzeltin.
+
+```
+<androidx.constraintlayout.widget.Guideline
+       android:id="@+id/end_grid"
+       app:layout_constraintGuide_end="@dimen/spacing_normal"
+```
+
+5. Android Studio'da Replace All'ı açın (Mac'te Cmd+Shift+R veya Windows'ta Ctrl+Shift+R).
+
+6. 16dp'yi arayın ve **dimens.xml**'deki hariç tüm oluşumları **@dimen/spacing_normal** ile değiştirin.
+
+![image](https://user-images.githubusercontent.com/70329389/149603250-26d7889c-9802-42bc-8614-7f2576737af6.png)
+
+7. **res/values/dimens.xml** dosyasını açın ve yeni space_normal boyutuna dikkat edin. 16dp'yi yanlışlıkla kendi kendine referansla değiştirmediğinizden emin olun!
+
+8. Uygulamanızı çalıştırın.
+
+9. Metnin solundaki ve sağındaki aralığın artık aynı olduğuna dikkat edin. Ayrıca, aralığın satır sonlarını etkilediğine ve sağ ekran görüntüsündeki metnin bir satır daha kısa olduğuna dikkat edin.
+
+| Öncesi | Sonrası |
+|:---------------:|:---------------:|
+|![image](https://user-images.githubusercontent.com/70329389/149603292-a280a4cb-5435-4b0f-9116-15b20d3f78c6.png)|![image](https://user-images.githubusercontent.com/70329389/149603309-d7503a75-9f5f-42dd-926f-f370c3a2a8e1.png)|
+
+## <a name="e"></a>Aşama 5 : Renkleri Kullanın
+
