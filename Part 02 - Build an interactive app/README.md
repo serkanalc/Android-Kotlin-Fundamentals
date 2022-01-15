@@ -21,7 +21,7 @@ Bu Bölümde, Bir Android uygulama projesinin temel anatomisini, uygulamanıza n
     - Örnek Koddan Öğrenin
     - Dokümanları ve Diğer Kaynakları Keşfedin
     
- - [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%202%20-%20Build%20an%20interactive%20app/Quiz)
+ - [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2002%20-%20Build%20an%20interactive%20app/Quiz)
 
 
 ## Ödül:
