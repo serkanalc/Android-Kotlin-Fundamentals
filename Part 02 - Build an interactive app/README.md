@@ -9,7 +9,7 @@ Bu Bölümde, Bir Android uygulama projesinin temel anatomisini, uygulamanıza n
     - Bir Düğme Ekleyin
     - Metni Değiştirin
  
- - [Görüntü Kaynakları & Uyumluluk](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%202%20-%20Build%20an%20interactive%20app/Dok%C3%BCman%202%20-%20G%C3%B6r%C3%BCnt%C3%BC%20Kaynaklar%C4%B1%20%26%20Uyumluluk)
+ - [Görüntü Kaynakları & Uyumluluk](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2002%20-%20Build%20an%20interactive%20app/Dok%C3%BCman%202%20-%20G%C3%B6r%C3%BCnt%C3%BC%20Kaynaklar%C4%B1%20%26%20Uyumluluk)
     - Görüntü Kaynakları Ekleyin & Güncelleyin
     - Görünümleri Verimli Bir Şekilde Bulun
     - Varsayılan Bir Resim Kullanın
