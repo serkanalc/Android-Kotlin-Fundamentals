@@ -20,3 +20,8 @@ Bir fragment oluşturun, navigation yollarını tanımlayın ve harici bir activ
    - Option Menusu Ekleyin
    - Navigation Drawer Ekleyin
   
+ - [Harici Bir Activity Başlatın](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2004%20-%20Navigation/Dok%C3%BCman%203%20-%20Harici%20Bir%20Activity%20Ba%C5%9Flat%C4%B1n)
+
+   - Safe Args Plugin'ini kurun ve Kullanın
+   - Argümanları Ekleyin ve İletin
+   - Oyun Sonuçlarını Paylaşma
