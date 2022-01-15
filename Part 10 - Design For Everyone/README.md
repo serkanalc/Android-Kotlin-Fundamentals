@@ -19,8 +19,14 @@ Android'in stil sisteminin temellerini, Materyal Tasarımı ilkelerini uygulaman
    - Renkleri Kullanın 
 
  - [Design For Everyone](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2010%20-%20Design%20For%20Everyone/Dok%C3%BCman%203%20-%20Design%20for%20Everyone)
+   - Right to Left (RTL) Diller İçin Destek Ekleyin
+   - Erişilebilirlik İçin Scan Edin
+   - TalkBack için Design
+   - Bölgeleri Filtrelemek İçin Çipleri Kullanın
+   - Night Mode'u Destekleyin
 
  - [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2010%20-%20Design%20For%20Everyone/Quiz)
+   
 
 ## Ödül:
 
