@@ -1,4 +1,4 @@
-# Repository & workManager
+# Repository & WorkManager
 
 DevBytes adlı uygulamayı tamamlayarak WorkManager ile repository oluşturmayı, çevrimdışı cache (önbellek) eklemeyi ve arka plan görevlerini planlamayı öğrenin. Bu uygulama, Google Android Geliştirici İlişkileri ekibi tarafından hazırlanan kısa eğitimler olan DevByte videolarının bir listesini görüntüler. Uygulama, Retrofit kütüphanesini kullanarak network'ten video URL'lerinin bir listesini getirir ve bir RecyclerView kullanarak listeyi görüntüler.
 
