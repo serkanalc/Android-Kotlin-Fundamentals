@@ -63,7 +63,7 @@ Bu adımda GDG Finder uygulamasının RTL dilleriyle çalışmasını sağlarsı
 
 9. Uygulamada, navigation drawer'ı açın ve Arama ekranına gidin. Aşağıda gösterildiği gibi, simgeler hala soldadır ve hiçbir metin görünmez. Metnin ekranın dışında, simgenin solunda olduğu ortaya çıktı. Bunun nedeni, kodun görünüm özelliklerinde ve düzen kısıtlamalarında sol/sağ ekran referanslarını kullanmasıdır.
 
-![Ekran Resmi 2022-01-15 19 21 22](https://user-images.githubusercontent.com/70329389/149629296-862d1567-e5f8-4b41-8b0a-c109f10c5093.png)
+![Ekran Resmi 2022-01-15 19 23 53](https://user-images.githubusercontent.com/70329389/149629382-b1aef36c-72bf-486b-982e-c11c5cac3d87.png)
 
 ### 2. Adım: Left & Right Yerine Start & End Kullanın
 
