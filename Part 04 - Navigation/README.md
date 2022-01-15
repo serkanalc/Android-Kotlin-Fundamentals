@@ -25,3 +25,9 @@ Bir fragment oluşturun, navigation yollarını tanımlayın ve harici bir activ
    - Safe Args Plugin'ini kurun ve Kullanın
    - Argümanları Ekleyin ve İletin
    - Oyun Sonuçlarını Paylaşma
+
+## Ödül:
+
+Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/pathways/kotlin-fundamentals-four?authuser=6) ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir bir badge kazanabilirsiniz!
+
+![Ekran Resmi 2022-01-15 21 57 45](https://user-images.githubusercontent.com/70329389/149634462-68208a7f-06c5-4dea-8cfe-2a0d00055062.png)
