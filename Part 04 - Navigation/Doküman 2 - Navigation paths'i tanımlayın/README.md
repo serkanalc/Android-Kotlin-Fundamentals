@@ -1,7 +1,7 @@
 # Navigation Paths'i tanımlayın
 
 - [Projeye Navigation Components Ekleyin](#0) 
-- [NavHostFragment Oluşturun.](#1) 
+- [NavHostFragment Oluşturun](#1) 
 - [Navigation Grafiğine Fragment Ekleyin](#2) 
 - [Koşullu (Conditional) Navigation Ekleyin](#3) 
 - [Geri Butonunun Hedefini Değiştirin](#4) 
