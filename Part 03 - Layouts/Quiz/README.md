@@ -1,6 +1,6 @@
 # Kotlin Fundamentals: Layouts Quiz
 
-Bu Layouts aşaması quizinin tam çevirisidir. Aşağıdaki soruları çözdüyseniz [bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-two/kotlin-fundamentals-two?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-two%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-two%2Fkotlin-fundamentals-two)  cevapları gönderip başarı seviyenizi görebilir ve paylaşılabilir bir badge kazanabilirsiniz! Bu sınavı geçmek için en az 5 soruyu doğru cevaplamalısınız.
+Bu Layouts aşaması quizinin tam çevirisidir. Aşağıdaki soruları çözdüyseniz [bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-three/kotlin-fundamentals-three?authuser=6&continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-three%3Fauthuser%3D6%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-three%2Fkotlin-fundamentals-three)  cevapları gönderip başarı seviyenizi görebilir ve paylaşılabilir bir badge kazanabilirsiniz! Bu sınavı geçmek için en az 5 soruyu doğru cevaplamalısınız.
 
 1. Aşağıdakilerden hangisi bir ViewGroup'tur?
 
