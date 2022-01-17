@@ -67,3 +67,37 @@ Bu adımda GDG Finder uygulamasının RTL dilleriyle çalışmasını sağlarsı
 
 ### 2. Adım: Left & Right Yerine Start & End Kullanın
 
+Ekrandaki "sol" ve "sağ" (ekrana baktığınızda) metnin yönü değişse bile değişmez. Örneğin layout_constraintLeft_toLeftOf, öğenin sol tarafını her zaman ekranın sol tarafıyla sınırlar. Uygulamanızın durumunda, yukarıdaki ekran görüntüsünde gösterildiği gibi metin RTL dillerinde ekranın dışındadır.
+
+Bunu düzeltmek için "left" ve "right" yerine **Start** ve **End** terminolojisini kullanın. Bu terminoloji, metnin başlangıcını ve metnin sonunu mevcut dilde metnin yönüne uygun olarak ayarlar, böylece kenar boşlukları ve düzenler ekranların doğru alanlarında olur.
+
+1. list_item.xml'i açın.
+2. Left ve Right yapılan tüm referansları Start ve End referanslarıyla değiştirin.
+
+```
+app:layout_constraintStart_toStartOf="parent"
+
+app:layout_constraintStart_toEndOf="@+id/gdg_image"
+app:layout_constraintEnd_toEndOf="parent"
+```
+3. ImageView'ın layout_marginLeft değerini layout_marginStart ile değiştirin. Bu, simgeyi ekranın kenarından uzağa taşımak için kenar boşluğunu doğru yere taşır.
+
+```
+<ImageView
+android:layout_marginStart="
+?
+```
+
+4. **fragman_gdg_list.xml** dosyasını açın. Preview bölmesindeki GDG'lerin listesini kontrol edin. Yansıtıldığı için simgenin hala yanlış yönü gösterdiğine dikkat edin (Simge yansıtılmamışsa, sağdan sola önizlemeyi görüntülediğinizden emin olun). Materyal Tasarımı yönergelerine göre simgeler aynalanmamalıdır.
+
+5. **res/drawable/ic_gdg.xml** dosyasını açın.
+
+6. XML kodunun ilk satırında, yansıtmayı devre dışı bırakmak için **Android:autoMirrored="true"** öğesini bulun ve silin.
+
+7. Preview kontrol edin veya uygulamayı tekrar çalıştırın ve GDG Ara ekranını açın. Layout şimdi düzeltilmeli!
+
+![image](https://user-images.githubusercontent.com/70329389/149732595-7bf0f09a-22f0-4a9d-8d7d-81cd5484cc72.png)
+
+> İpucu: Android Studio, start ve end özelliklerinin kullanımını teşvik etmek için size sarı vurgulu ipuçları verir. XML layout'unda Sol ve Sağın tüm oluşumlarını bulmak için büyük/küçük harf eşleştirmeyle ara ve değiştir özelliğini kullanın.
+
+### Adım 3 : Bırakın İşi Sizin İçin Android Studio Yapsın!
