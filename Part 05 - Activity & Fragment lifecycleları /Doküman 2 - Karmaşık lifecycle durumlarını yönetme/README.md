@@ -211,7 +211,9 @@ Android Debug Bridge (`adb`), bilgisayarınıza bağlı emülatörlere ve aygıt
 
 ![Terminal](https://developer.android.com/codelabs/kotlin-android-training-complex-lifecycle/img/a37c3740cc57b67d.png)
 
-4. `Android Debug Bridge version X.XX.X` ile başlayan ve `tags to be used by logcat (see logcat --help)` ile biten birçok çıktı görürseniz, her şey yolunda demektir. Bunun yerine `adb: command not found` görürseniz, execution path'inizde `adb` komutunun mevcut olduğundan emin olun. Talimatlar için, [Utilies bölümündeki](https://developer.android.com/courses/extras/utilities) "Add adb to your execution path" konusuna bakın.
+4. `adb` yazın ve enter'a tıklayın.
+
+`Android Debug Bridge version X.XX.X` ile başlayan ve `tags to be used by logcat (see logcat --help)` ile biten birçok çıktı görürseniz, her şey yolunda demektir. Bunun yerine `adb: command not found` görürseniz, execution path'inizde `adb` komutunun mevcut olduğundan emin olun. Talimatlar için, [Utilies bölümündeki](https://developer.android.com/courses/extras/utilities) "Add adb to your execution path" konusuna bakın.
 
 5. Bu yorumu kopyalayıp komut satırına yapıştırın ve Return tuşuna basın:
 
