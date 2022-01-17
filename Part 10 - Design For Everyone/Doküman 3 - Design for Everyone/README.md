@@ -101,3 +101,61 @@ android:layout_marginStart="
 > İpucu: Android Studio, start ve end özelliklerinin kullanımını teşvik etmek için size sarı vurgulu ipuçları verir. XML layout'unda Sol ve Sağın tüm oluşumlarını bulmak için büyük/küçük harf eşleştirmeyle ara ve değiştir özelliğini kullanın.
 
 ### Adım 3 : Bırakın İşi Sizin İçin Android Studio Yapsın!
+
+Önceki alıştırmada, RTL dillerini desteklemek için ilk adımlarınızı attınız. Neyse ki, Android Studio uygulamanızı tarayabilir ve sizin için birçok temel ayar ayarlayabilir.
+
+1. **list_item.xml**'de, TextView'da **layout_marginStart**'ı tekrar **layout_marginLeft** olarak değiştirin, böylece tarayıcının bulabileceği bir şey olur.
+
+```
+<TextView
+android:layout_marginLeft="@dimen/spacing_normal"
+```
+
+2. Android Studio'da, **Refactor > Add RTL support where possible**'yi seçin ve başlangıç ve bitiş özelliklerini kullanmak için bildirimi ve düzen dosyalarını güncellemek için kutuları işaretleyin.
+
+![image](https://user-images.githubusercontent.com/70329389/149733528-ac6d7950-4573-4d1f-b304-d4eee72135da.png)
+
+3. **Refactoring Preview** bölmesinde, uygulama klasörünü bulun ve tüm ayrıntılara açılana kadar genişletin.
+4. Uygulama klasörünün altında, az önce değiştirdiğiniz **layout_marginLeft** öğesinin refactor kodu olarak listelendiğine dikkat edin.
+
+![image](https://user-images.githubusercontent.com/70329389/149733759-d1a75af9-f28c-4e27-a58b-6a746c7ed47d.png)
+
+5. Önizlemenin sistem ve kitaplık dosyalarını da listelediğine dikkat edin. **layout** ve **layout-watch-v20** ve uygulamanın parçası olmayan diğer klasörlere sağ tıklayın ve içerik menüsünden Exclude'u seçin.
+
+![image](https://user-images.githubusercontent.com/70329389/149733915-0879a701-ed0f-4bf4-ae78-e50050ecd756.png)
+
+6. Devam edin ve şimdi yeniden düzenlemeyi yapın. (Sistem dosyaları hakkında bir açılır pencere alırsanız, uygulama kodunuzun parçası olmayan tüm klasörleri hariç tuttuğunuzdan emin olun.)
+7. layout_marginLeft öğesinin layout_marginStart olarak değiştirildiğine dikkat edin.
+
+Not: Bazı Görünüm bileşenlerinin, RTL ile düzgün şekilde davranması için daha fazla özelleştirmeye ihtiyacı vardır. Kullanıcı arayüzü üzerinde daha hassas kontrole sahip olmak için kullanabileceğiniz 4 farklı API vardır:
+
+Bir bileşenin düzeninin yönünü ayarlamak için [Android:layoutDirection](https://developer.android.com/reference/android/util/LayoutDirection?authuser=6).
+[Android:textDirection](https://developer.android.com/reference/android/view/View.html?authuser=6#attr_android:textDirection) bir bileşenin metninin yönünü ayarlamak için.
+[Android:textAlignment](https://developer.android.com/reference/android/view/View.html?authuser=6#attr_android:textAlignment) bir bileşenin metninin hizalamasını ayarlamak için.
+[getLayoutDirectionFromLocale()](https://developer.android.com/reference/android/support/v4/text/TextUtilsCompat?authuser=6#getlayoutdirectionfromlocale), yönü belirten yerel ayarı programlı olarak almak için bir yöntemdir
+
+### Adım 4 : Yerel Ayarlar İçin Klasörleri Keşfedin
+
+Şimdiye kadar, uygulama için kullanılan varsayılan dilin yönünü değiştirdiniz. Bir üretim uygulaması için, yeni bir dile çevrilmesi için strings.xml dosyasını bir çevirmene gönderirsiniz. Bu kod laboratuvarı için uygulama, İspanyolca bir strings.xml dosyası sağlar (çevirileri oluşturmak için Google Çeviri'yi kullandık, bu yüzden mükemmel değiller.).
+
+1. Android Studio'da proje görünümünü **Project Files** olarak değiştirin.
+
+2. res klasörünü genişletin ve **res/values** ve **res/values-es** klasörlerine dikkat edin. Klasör adındaki "es", İspanyolca'nın dil kodudur. Değerler-"[language code](https://www.loc.gov/standards/iso639-2/php/code_list.php)" klasörleri, desteklenen her dil için değerler içerir. Uzantısı olmayan değerler klasörü, aksi takdirde geçerli olan varsayılan kaynakları içerir.
+
+![image](https://user-images.githubusercontent.com/70329389/149735120-6c9a107a-4bd9-477e-a391-da6cc97b82ef.png)
+
+3. Değerlerde, strings.xml dosyasını açın ve tüm dizelerin İspanyolca olduğuna dikkat edin.
+
+4. Android Studio'da, Tasarım sekmesinde aktivite_main.xml'i açın.
+
+5. Önizleme için Yerel Ayar açılır menüsünde İspanyolca'yı seçin. Metniniz şimdi İspanyolca olmalıdır.
+
+![image](https://user-images.githubusercontent.com/70329389/149735438-b098f864-7ae8-4fb9-abbf-a0c263de9b95.png)
+
+6. [İsteğe bağlı] Bir RTL dilinde uzmansanız, o dilde bir değerler klasörü ve bir string.xml oluşturun ve bunun cihazınızda nasıl göründüğünü test edin.
+7. [İsteğe bağlı] Cihazınızdaki dil ayarlarını değiştirin ve uygulamayı çalıştırın. Geri almayı biraz zorlaştıracağından, cihazınızı okumadığınız bir dile çevirmediğinizden emin olun!
+
+## <a name="b"></a>Aşama 2 : Erişilebilirlik İçin Scan Edin
+
+
+
