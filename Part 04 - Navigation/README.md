@@ -26,6 +26,9 @@ Bir fragment oluşturun, navigation yollarını tanımlayın ve harici bir activ
    - Argümanları Ekleyin ve İletin
    - Oyun Sonuçlarını Paylaşma
 
+- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2004%20-%20Navigation/Quiz)
+
+
 ## Ödül:
 
 Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-four/kotlin-fundamentals-four?authuser=6&continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-four%3Fauthuser%3D6%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-four%2Fkotlin-fundamentals-four) ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir bir badge kazanabilirsiniz!
