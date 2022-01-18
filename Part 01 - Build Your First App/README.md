@@ -13,6 +13,8 @@ Selamlar Android Kotlin Fundamentals serisinin ilk bölümüne hoş geldiniz. Bu
   - Uygulamanızı fiziksel bir cihazda çalıştırın
   - Çalışma Örnekleri
 
+- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2001%20-%20Build%20Your%20First%20App/Quiz)
+
 
 ## Ödül:
 
