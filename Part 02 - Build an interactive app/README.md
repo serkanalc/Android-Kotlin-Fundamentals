@@ -22,6 +22,7 @@ Bu Bölümde, Bir Android uygulama projesinin temel anatomisini, uygulamanıza n
     - Dokümanları ve Diğer Kaynakları Keşfedin
     
  - [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2002%20-%20Build%20an%20interactive%20app/Quiz)
+ - [Proje](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Proje%20Dosyalar%C4%B1/Part%2002%20Proje%20)
 
 
 ## Ödül:
