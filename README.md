@@ -1,7 +1,7 @@
 
 ![Android 12 Bootcamp (2)](https://user-images.githubusercontent.com/70329389/139955062-4e63d1a2-abf8-499b-88e2-e9b40ed2228a.png)
 
-# 📝 İçerik:
+## 📝 İçerik:
 
 Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotlin Fundamentals](https://developer.android.com/courses/kotlin-fundamentals/course) dokümantasyonunu Türkçeye çevriyor olacağız. Sizi hangi konu başlıklarının beklediğini, döküman sayısını, tahmini çalışma süresini, hangi başarım rozetini alabileceğinizi aşağıdaki tablodan görebilirsiniz. Aynı zamanda bir hata veya güncel olmayan bir parçayla karşılaşırsanız ilgili dokümanının sorumlu kişisine ulaşıp en kısa sürede güncellenmesini gözlemleyebilirsiniz.
 
@@ -20,11 +20,11 @@ Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotli
 
 
 
-# 🛠 Güncellemeler
+## 🛠 Güncellemeler
 
 Bu repositoriyi düzenli olarak güncelliyor ve geliştiriyoruz. siz de bu güncellemelerden haberdar olmak ve bir sonraki geliştirme veya güncellememizin ne zaman gerçekleşeceğini öğrenmek için [bu linki](https://github.com/serkanalc/Android-Kotlin-Fundamentals/wiki/Updates) ilerlemeyi takip edebilirsiniz. İlerleyiş hakkında bize görüşlerinizi ve önerilerinizi iletmekten çekinmeyin. 
 
-# <img align="right" src="https://media.giphy.com/media/LnKdiQXyu3DrhadXx6/giphy.gif" width='110' /> Bu Repoyu Faydalı Buldunuz Mu ?
+## <img align="right" src="https://media.giphy.com/media/LnKdiQXyu3DrhadXx6/giphy.gif" width='110' /> ⭐ Bu Repoyu Faydalı Buldunuz Mu ?
 
 
 Eğer size bir faydası dokunduğunu düşünüyorsanız bu repoyu starlayarak siz de [Stargazers](https://github.com/serkanalc/Android-Kotlin-Fundamentals/stargazers)'ların arasına katılıp bizi buna benzer kaynak paylaşımları yapmaya motive edebilirsiniz.⭐
@@ -32,7 +32,7 @@ Eğer size bir faydası dokunduğunu düşünüyorsanız bu repoyu starlayarak s
 Bu repo gönüllülük esaslı geliştirilmiştir, dolayısıyla bir şey eksikse veya düzeltilmesi gerekiyorsa lütfen ilgili kişilere ulaşarak bunu bildirin ve en kısa sürede düzenlememize katkıda bulunmuş olun 👍🏻
 
 
-# 🧾 Lisans
+## 🧾 Lisans
 
 ```
 Copyright © 2021 Serkan Alc
