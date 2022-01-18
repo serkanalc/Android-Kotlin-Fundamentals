@@ -37,6 +37,9 @@ Farklı layout'lar oluşturun, kullanıcı etkileşimi ekleyin ve data binding k
     - findViewById() Öğesini Ortadan Kaldırmak için Data Binding Kullanın
     - Verileri görüntülemek için Data Binding kullanın
 
+- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2003%20-%20Layouts/Quiz)
+- [Proje](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Proje%20Dosyalar%C4%B1/Part%2003%20Proje)
+
 ## Ödül:
 
 Eğer bu yazıyı okuduysanız artık hızlı bir quizle çalışmanızı ödüllendirebilirsiniz. [Bu linkten](https://developer.android.com/courses/quizzes/kotlin-fundamentals-three/kotlin-fundamentals-three?authuser=6&continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fkotlin-fundamentals-three%3Fauthuser%3D6%23quiz-%2Fcourses%2Fquizzes%2Fkotlin-fundamentals-three%2Fkotlin-fundamentals-three) ilerleyişinizi takip edebilir, kendinizi test edebilir ve Google Developers Profile ve diğer sosyal medyalarda paylaşılabilir bir badge kazanabilirsiniz!
