@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <dimen name="text_size">20sp</dimen>
+    <dimen name="small_padding">8dp</dimen>
+    <dimen name="line_spacing_extra">8sp</dimen>
+    <dimen name="layout_margin">16dp</dimen>
+    <dimen name="padding">16dp</dimen>
+    <dimen name="line_spacing_multiplier">1.2</dimen>
+</resources>

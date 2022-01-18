@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">About Me Data Binding</string>
+    <!-- Break paragraphs without extra spacing, by putting \n at the beginning of next line.-->
+    <string name="bio">Selam Ben Serkan
+    \n\nUpschool şirketinde Project yöneticiliği yapıyorum.
+    \n\nGoogle Developer Student Club Türkiye ve Orta Asya Android Mentörüyüm.
+    \n\nAndroid Public Speaker ve Instructor olarak gönüllü communitylere destek olmaya çalışıyorum. Gönüllü olarak bu içeriği sizler için düzenliyor ve Türkçeye çeviriyor olacağım. Döküman hakkında şikayet ve önerilerinizi lütfen bana iletin. Daha fazla Android içeriği için Android Student Club Youtube kanalına bakabilir veya beni twitter, instagram veya github hesaplarımdan takip edebilirsiniz.
+    \n\nSerkan Alc/@aserkanalc
+    \n\n</string>
+    <string name="what_is_your_nickname">Takma Adın Ne?</string>
+    <string name="done">TAMAMLANDI</string>
+    <string name="yellow_star">Yellow star</string>
+    <string name="name">Serkan Alc</string>
+</resources>

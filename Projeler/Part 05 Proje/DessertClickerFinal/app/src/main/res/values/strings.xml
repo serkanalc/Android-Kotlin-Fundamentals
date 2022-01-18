@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Dessert Clicker</string>
+    <string name="dollar_sign">$</string>
+    <string name="zero">0</string>
+    <string name="dessert_sold">Satılan Tatlılar</string>
+    <string name="share_text"> %1$d  Tatlıya tıkladım ve fiyatları total olarak  %2$d$ #AndroidDessertClicker</string>
+    <string name="share">Paylaş</string>
+    <string name="sharing_not_available">Paylaşım Mevcut Değil</string>
+</resources>

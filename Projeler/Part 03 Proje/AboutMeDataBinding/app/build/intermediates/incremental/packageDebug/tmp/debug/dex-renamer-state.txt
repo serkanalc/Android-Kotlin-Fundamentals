@@ -1,0 +1,4 @@
+#Mon Dec 06 02:18:54 TRT 2021
+base.0=/Users/serkanalc/Desktop/AboutMeDataBinding/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
