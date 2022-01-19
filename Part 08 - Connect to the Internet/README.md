@@ -10,7 +10,7 @@
   - Moshi ile JSON yanıtını ayrıştırın
   - Coroutines ile Retrofit’i kullanın
 
-- İnternetten görüntüleri yükleme ve görüntüleme
+- [İnternetten görüntüleri yükleme ve görüntüleme](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2008%20-%20Connect%20to%20the%20Internet/Dok%C3%BCman%202%20-%20%C4%B0nternetten%20g%C3%B6r%C3%BCnt%C3%BCleri%20y%C3%BCkleme%20ve%20g%C3%B6r%C3%BCnt%C3%BCleme)
   - Bir internet görseli göster
   - RecyclerView ile bir görsel ızgarası (grid) ile görüntüleyin
   - RecyclerView'da hata kontrolü ekleyin
