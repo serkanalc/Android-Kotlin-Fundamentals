@@ -21,7 +21,7 @@
   - Bir ayrıntı sayfası oluşturun ve navigasyonu ayarlayın
   - Daha kullanışlı bir ayrıntı sayfası oluşturun
   
-- Quiz
+- [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2008%20-%20Connect%20to%20the%20Internet/Quiz)
 - Proje
 
 ## Ödül:
