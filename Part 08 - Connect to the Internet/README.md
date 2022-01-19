@@ -4,7 +4,7 @@
 
 ## İşte Konu başlıkları:
 
-- [İnternetten veri alma]
+- [İnternetten veri alma](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2008%20-%20Connect%20to%20the%20Internet/Dok%C3%BCman%201%20-%20%C4%B0nternetten%20Veri%20Alma)
   - MarsRealEstate başlangıç uygulamasını keşfedin
   - Retrofit ile bir web servisine bağlanın
   - Moshi ile JSON yanıtını ayrıştırın
