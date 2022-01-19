@@ -10,18 +10,19 @@
   - Moshi ile JSON yanıtını ayrıştırın
   - Coroutines ile Retrofit’i kullanın
 
-- [İnternetten görüntüleri yükleme ve görüntüleme]
+- İnternetten görüntüleri yükleme ve görüntüleme
   - Bir internet görseli göster
   - RecyclerView ile bir görsel ızgarası (grid) ile görüntüleyin
   - RecyclerView'da hata kontrolü ekleyin
  
-- [İnternet verileriyle filtreleme ve detay görünümleri]
+- İnternet verileriyle filtreleme ve detay görünümleri
   - overview'a "satılık" görselleri ekleyin
   - Sonuçları filtrele
   - Bir ayrıntı sayfası oluşturun ve navigasyonu ayarlayın
   - Daha kullanışlı bir ayrıntı sayfası oluşturun
   
-- [Quiz]
+- Quiz
+- Proje
 
 ## Ödül:
 
