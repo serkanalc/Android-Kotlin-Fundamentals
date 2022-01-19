@@ -545,4 +545,4 @@ private fun getMarsRealEstateProperties() {
 ```
 
 8. Uygulamayı derleyin ve çalıştırın. Bu sefer önceki görevdekiyle aynı sonucu alırsınız (özellik sayısı raporu), 
-ancak daha basit kod ve hata işleme ile.
+ancak daha kısa kod ve hata kontrolü ile.
