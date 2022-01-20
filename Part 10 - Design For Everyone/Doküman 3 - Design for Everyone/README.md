@@ -251,4 +251,127 @@ TalkBack birçok fiziksel cihaza önceden yüklenmiş olarak gelir, ancak bir em
 
 ### 2. Adım: Bir içerik açıklaması ekleyin
 
+İçerik tanımlayıcıları, görünümlerin anlamını açıklayan tanımlayıcı etiketlerdir. Görüşlerinizin çoğunda içerik açıklamaları olmalıdır.
+
+1. GDG Finder uygulaması çalışırken ve Talkback etkinken, GDG'yi çalıştırmak için Uygula ekranına gidin.
+
+2. Ana resme dokunun ... ve hiçbir şey olmuyor.
+
+3. **add_gdg_fragment.xml** dosyasını açın.
+
+4. ImageView'da, aşağıda gösterildiği gibi bir içerik tanımlayıcı niteliği ekleyin. **Stage_image_description** dizesi sizin için **strings.xml** içinde sağlanır.
+
+```
+android:contentDescription="@string/stage_image_description"
+```
+
+5. Uygulamanızı çalıştırın.
+
+6. GDG'yi çalıştırmak için Uygula'ya gidin ve resme tıklayın. Şimdi görüntünün kısa bir açıklamasını duymalısınız.
+
+7. [İsteğe bağlı] Bu uygulamadaki diğer resimler için içerik açıklamaları ekleyin. Bir üretim uygulamasında, tüm görsellerin içerik açıklamalarına sahip olması gerekir.
+
+### 3. Adım: Düzenlenebilir metin alanlarına ipuçları ekleyin
+
+EditText gibi düzenlenebilir öğeler için, kullanıcıların ne yazacaklarını anlamalarına yardımcı olmak için XML'de Android:hint kullanabilirsiniz. Bir giriş alanındaki varsayılan metin olduğu için kullanıcı arayüzünde her zaman bir ipucu gösterilir.
+
+1. Aşağıdaki kodu kılavuz olarak kullanarak içerik açıklamaları ve ipuçları ekleyin.
+
+**textViewIntro**'ya ekleyin:
+
+```
+android:contentDescription="@string/add_gdg"
+```
+Düzenleme metinlerine sırasıyla ekleyin:
+
+```
+android:hint="@string/your_name_label"
+
+android:hint="@string/email_label"
+
+android:hint="@string/city_label"
+
+android:hint="@string/country_label"
+
+android:hint="@string/region_label"
+```
+
+3. **labelTextWhy**'a bir içerik açıklaması ekleyin.
+
+```
+android:contentDescription="@string/motivation" 
+```
+
+4. **EditTextWhy**'a bir ipucu ekleyin. Düzenleme kutularını etiketledikten sonra, etikete bir içerik açıklaması ve kutuya bir ipucu ekleyin.
+
+```
+android:hint="@string/enter_motivation"
+```
+
+5. Gönder düğmesi için bir içerik açıklaması ekleyin. Tüm düğmelere, basıldığında ne olacağına dair bir açıklamanın olması gerekir.
+
+```
+android:contentDescription="@string/submit_button_description"
+```
+
+6. Uygulamanızı Talkback etkinken çalıştırın ve bir GDG çalıştırmak için başvurmak için formu doldurun.
+
+### 4. Adım: Bir İçerik Grubu Oluşturun
+
+TalkBack'in bir grup olarak ele alması gereken kullanıcı arayüzü kontrolleri için içerik gruplandırmasını kullanabilirsiniz. Birlikte gruplandırılan ilgili içerikler birlikte duyurulur. Böylece, yardımcı teknoloji kullanıcılarının ekrandaki tüm bilgileri keşfetmek için kaydırmaya, taramaya veya sık sık beklemelerine gerek kalmayacak. Bu, kontrollerin ekranda nasıl göründüğünü etkilemez.
+
+UI bileşenlerini gruplamak için bunları LinearLayout gibi bir ViewGroup'a sarın. GDG Finder uygulamasında, labelText Why ve editTextWhy öğeleri, anlamsal olarak birbirine ait olduklarından gruplama için mükemmel adaylardır.
+
+1. **add_gdg_fragment.xml** dosyasını açın.
+
+2. Bir içerik grubu oluşturmak için bir LinearLayout'u LabelText Why ve EditTextWhy etrafına sarın. Aşağıdaki kodu kopyalayıp yapıştırın. Bu LinearLayout, ihtiyacınız olan bazı stilleri zaten içeriyor. (Düğmenin LinearLayout'un DIŞINDA olduğundan emin olun.)
+
+```
+<LinearLayout android:id="@+id/contentGroup" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/EditTextRegion"
+            android:orientation="vertical" app:layout_constraintStart_toStartOf="@+id/EditTextRegion"
+            app:layout_constraintEnd_toEndOf="@+id/EditTextRegion"
+            android:layout_marginTop="16dp" app:layout_constraintBottom_toTopOf="@+id/button"
+            android:layout_marginBottom="8dp">
+
+     <!-- label and edit text here –>
+
+</LinearLayout>
+```
+
+3. Tüm kodu doğru şekilde girintilemek için **Code > Reformat code** biçimlendir'i seçin.
+
+4. Tüm layout kenar boşluklarını **labelTextWhy** ve **editTextWhy** öğelerinden kaldırın.
+
+5. **labelTextWhy**'da **layout_constraintTop_toTopOf** kısıtlamasını contentGroup olarak değiştirin.
+
+```
+app:layout_constraintTop_toTopOf="@+id/contentGroup" />
+```
+
+6. **editTextWhy**'da **layout_constraintBottom_toBottomOf** kısıtlamasını contentGroup olarak değiştirin.
+
+```
+app:layout_constraintBottom_toBottomOf="@+id/contentGroup"
+```
+
+7. Hatalardan kurtulmak için **EditTextRegion** ve Button öğesini contentGroup ile sınırlayın.
+
+```
+app:layout_constraintBottom_toTopOf="@+id/contentGroup"
+```
+
+8. LinearLayout'a kenar boşlukları ekleyin. İsteğe bağlı olarak, bu kenar boşluğunu bir boyut olarak çıkarın.
+
+```
+android:layout_marginStart="32dp"
+android:layout_marginEnd="32dp"
+```
+
+Yardıma ihtiyacınız varsa, çözüm kodundaki [add_gdg_fragment.xml](https://github.com/google-developer-training/android-kotlin-fundamentals-apps/blob/master/GDGFinderFinal/app/src/main/res/layout/add_gdg_fragment.xml) ile kodunuzu kontrol edin.
+
+9. Uygulamanızı çalıştırın ve TalkBack ile GDG'yi çalıştırmak için Uygula ekranını keşfedin.
+
+Adım 5: Bir Live Region Ekleyin
 
