@@ -374,4 +374,53 @@ Yardıma ihtiyacınız varsa, çözüm kodundaki [add_gdg_fragment.xml](https://
 9. Uygulamanızı çalıştırın ve TalkBack ile GDG'yi çalıştırmak için Uygula ekranını keşfedin.
 
 Adım 5: Bir Live Region Ekleyin
+ 
+Şu anda gönder düğmesindeki etikette sorun yok. Form gönderilmeden önce düğmenin bir etiketi ve açıklaması olması ve kullanıcı tıkladıktan ve form gönderildikten sonra dinamik olarak farklı bir etiket ve içerik açıklamasıyla değiştirilmesi daha iyi olurdu. live region(Bunu canlı bir bölge) kullanarak yapabilirsiniz.
 
+live region, erişilebilirlik hizmetlerine, bir görünüm değiştiğinde kullanıcının bilgilendirilip bilgilendirilmeyeceğini belirtir. Örneğin, kullanıcıyı yanlış bir şifre veya bir ağ hatası hakkında bilgilendirmek, uygulamanızı daha erişilebilir hale getirmenin harika bir yoludur. Bu örnekte, basit olması için gönder düğmesi durumunu değiştirdiğinde kullanıcıyı bilgilendirirsiniz.
+
+1. **add_gdg_fragment.xml** dosyasını açın.
+2. Sağlanan **Submit** dizesi kaynağını kullanarak düğmenin metin atamasını **Submit** olarak değiştirin.
+
+```
+android:text="@string/submit"
+```
+3. **Android:accessibilityLiveRegion** attribute'ünü ayarlayarak düğmeye live region ekleyin. Yazarken, değeri için birkaç seçeneğiniz vardır. Değişikliğin önemine bağlı olarak, kullanıcının kesintiye uğramasını seçebilirsiniz. "İddialı" değeriyle, erişilebilirlik hizmetleri, bu görünümdeki değişiklikleri hemen duyurmak için devam eden konuşmayı keser. Değeri "yok" olarak ayarlarsanız, hiçbir değişiklik duyurulmaz. "polite" olarak ayarlanan erişilebilirlik hizmetleri değişiklikleri duyurur, ancak sıralarını bekleyin. Değeri "polite" olarak ayarlayın.
+
+![image](https://user-images.githubusercontent.com/70329389/150427897-314e40bb-826a-448f-90c3-f40403dd19f8.png)
+
+```
+android:accessibilityLiveRegion="polite"
+```
+
+4. Eklenti paketinde **AddGdgFragment.kt** dosyasını açın.
+
+5. showSnackBarEventObserver içinde, SnackBar'ı göstermeyi bitirdikten sonra, düğme için yeni bir içerik açıklaması ve metni ayarlayın.
+
+```
+binding.button.contentDescription=getString(R.string.submitted)
+binding.button.text=getString(R.string.done)
+```
+
+6. Uygulamanızı çalıştırın ve düğmesine tıklayın. Ne yazık ki, düğme ve yazı tipi çok küçük!
+
+6. Adım: Düğme Stilini Düzeltin
+
+1. **add_gdg_fragment.xml** dosyasında, düğmenin genişliğini ve yüksekliğini **wrap_content** olarak değiştirin, böylece tam etiket görünür ve düğme iyi bir boyutta
+olur.
+
+```
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+```
+
+2. Uygulamanın daha iyi tema stilini kullanması için arka planTint, textColor ve textSize attributelerini düğmeden silin.
+
+3. textColor niteliğini textViewIntro'dan silin. Tema renkleri iyi bir kontrast sağlamalıdır.
+
+4. Uygulamayı çalıştırın. Çok daha kullanışlı olan Gönder düğmesine dikkat edin. Gönder'e tıklayın ve nasıl Bitti olarak değiştiğine dikkat edin.
+
+|![image](https://user-images.githubusercontent.com/70329389/150428649-2d6c55fd-4533-413d-9b54-9a203cbe888e.png)|![image](https://user-images.githubusercontent.com/70329389/150428669-ce25d5de-04e5-4c22-8a4b-78d1c8e25a32.png)|
+|----|------|
+
+## <a name="d"></a>Aşama 4 : Bölgeleri Filtrelemek İçin Çipleri Kullanın
