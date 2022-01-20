@@ -2,7 +2,7 @@
 
 - [Right to Left (RTL) Diller İçin Destek Ekleyin](#a)
 - [Erişilebilirlik İçin Scan Edin](#b)
-- [TalkBack için Design](#c)
+- [TalkBack İçin Design](#c)
 - [Bölgeleri Filtrelemek İçin Çipleri Kullanın](#d)
 - [Night Mode'u Destekleyin](#e)
 
@@ -157,5 +157,67 @@ Bir bileşenin düzeninin yönünü ayarlamak için [Android:layoutDirection](ht
 
 ## <a name="b"></a>Aşama 2 : Erişilebilirlik İçin Scan Edin
 
+Önceki görevde, uygulamanızı manuel olarak değiştirdiniz ve ardından yapılacak ek RTL iyileştirmelerini kontrol etmek için Android Studio'yu kullandınız.
 
+[Accessibility Scanner](https://play.google.com/store/apps/details?id=com.google.android.apps.accessibility.auditor) uygulaması, uygulamanızı erişilebilir kılmak söz konusu olduğunda en iyi müttefikinizdir. Hedef cihazınızdaki görünür ekranı tarar ve dokunma hedeflerini büyütme, kontrastı artırma ve uygulamanızı daha erişilebilir hale getirmek adına resimler için açıklamalar sağlama gibi iyileştirmeler önerir. Accessibility Scanner Google tarafından yapılmıştır ve Play Store'dan yükleyebilirsiniz.
+
+### Adım 1: Accessibility Scanner'ı Kurun Ve Çalıştırın
+
+1. Play Store'u açın ve gerekirse oturum açın. Bunu fiziksel cihazınızda veya emülatörünüzde yapabilirsiniz. Bu doküman emülatörü kullanır.
+
+2. Play Store'da, Google LLC tarafından Accessibility Scanner arayın. Doğru uygulamayı seçtiğinize emin olun, arama sonucu birçok uygulama karşınıza çıkacak.
+
+![image](https://user-images.githubusercontent.com/70329389/150338786-3f294c82-772d-40a6-ac85-017f100f2060.png)
+
+3. Scanner'ı emülatöre indirin.
+4. Kurulduktan sonra, Aç'ı tıklatın.
+5. Başla'yı tıklayın.
+6. Ayarlardaki Accessibility Scanner kurulumunu başlatmak için Tamam'ı tıklayın.
+
+![image](https://user-images.githubusercontent.com/70329389/150339396-c1024e23-81d4-447b-bb95-b4190041e1a7.png)
+
+7. Aygıtın erişilebilirlik ayarlarına gitmek için Accessibility Scanner'a tıklayın.
+
+![image](https://user-images.githubusercontent.com/70329389/150339496-1059de2f-a0d2-417f-ac91-ff333981a6f2.png)
+
+8. Aktifleştirmek için **User Service**'e tıklayın
+
+![image](https://user-images.githubusercontent.com/70329389/150339599-32e50b62-a1a0-4824-8812-1c33c089366e.png)
+
+9. Ekrandaki talimatları izleyin ve tüm izinleri verin.
+
+10. Ardından Tamam'ı tıklayın ve ana ekrana dönün. Ekranda bir yerde bir kontrol işaretiyle mavi bir düğmeyi görebilirsiniz. Bu düğmeye tıklamak, ön plandaki uygulamanın testini tetikler. Düğmeyi sürükleyerek yeniden konumlandırabilirsiniz. Bu düğme herhangi bir uygulamanın üstünde kalır, böylece herhangi bir zamanda test tetikleyebilirsiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/150339803-43ce309d-99fa-4223-af6c-1c6be11c5a00.png)
+
+> Tarayıcıyı Ayarlar sekmesinden kapatabilirsiniz.
+
+11. Uygulamanızı açın veya çalıştırın.
+
+12. Mavi düğmeye tıklayın ve ek güvenlik uyarıları ve izinleri kabul edin.
+
+Accessibility Scanner simgesine ilk kez tıkladığınızda, uygulama ekranınızda her şeyin görüntülenmesi için izin ister. Bu çok korkutucu izin gibi görünüyor ve öylede.
+
+Bu gibi bir izin neredeyse hiçbir zaman vermemelisiniz, çünkü bu izin uygulamalarının e-postanızı okuduğunu hatta banka hesap bilgilerinizi erişmesine bile izin verir! Ancak, Accessibility Scanner çalışmalarını yapması için, uygulamanızı bir kullanıcının yapacağı şekilde incelemesi gerekir - bu yüzden bu iznine ihtiyaç duyar.
+
+13. Mavi düğmeyi tıklayın ve analizin tamamlanmasını bekleyin. Aşağıdaki ekran görüntüsü gibi bir şey göreceksiniz, başlık ve Fab kırmızı kutulu. Bu, bu ekranda erişilebilirlik gelişmeleri için iki öneri olduğunu gösterir.
+
+![image](https://user-images.githubusercontent.com/70329389/150341618-0bd48905-4e6d-48c6-b244-5cc5b5f82363.png)
+
+14. GDG bulucuyu çevreleyen kutuya tıklayın. Bu, aşağıda gösterildiği gibi, görüntü kontrastlı sorunları belirten ek bilgiyle bir bölme açar.
+
+15. Görüntü kontrast bilgilerini genişletin ve araç ilaçlar önerir.
+
+16. Bir sonraki öğe için bilgi almak adına sağdaki okları tıklayın.
+
+<img width="799" alt="Ekran Resmi 2022-01-20 15 51 17" src="https://user-images.githubusercontent.com/70329389/150341990-eec65cd5-a442-46ad-b596-e899b97b5eb6.png">
+
+17. Uygulamanızda, **Apply for GDG** gidin ve Accessibility Scanner uygulamasıyla tarayın. Bu, solda gösterildiği gibi, oldukça az sayıda öneri verir. 12. Adil olalım, bunlardan bazıları benzer itemlerin  kopyalardır.
+
+18. Sağ ekran görüntüsünde aşağıda gösterildiği gibi, tüm önerilerin bir listesini almak için alt araç çubuğundaki simgeye tıklayın. Bu codelab'daki tüm bu sorunları göreceksiniz.
+
+![image](https://user-images.githubusercontent.com/70329389/150343207-29200487-8e45-4463-a699-15262cf8513f.png)
+![image](https://user-images.githubusercontent.com/70329389/150343311-149ae84c-949a-44ba-90a4-e3f5c86ffcad.png)
+
+## <a name="c"></a>Aşama 3 : TalkBack İçin Design
 
