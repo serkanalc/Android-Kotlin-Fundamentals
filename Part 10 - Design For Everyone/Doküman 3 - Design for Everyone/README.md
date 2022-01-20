@@ -221,3 +221,34 @@ Bu gibi bir izin neredeyse hiçbir zaman vermemelisiniz, çünkü bu izin uygula
 
 ## <a name="c"></a>Aşama 3 : TalkBack İçin Design
 
+Google'ın bir uygulama koleksiyonu olan [Android Accessibility Suite](https://play.google.com/store/apps/details?id=com.google.android.marvin.talkback), uygulamaları daha erişilebilir hale getirmeye yardımcı olacak araçlar içerir. TalkBack gibi araçlar içerir. TalkBack, kullanıcıların gözlerini kullanmadan cihazlarında gezinmesine ve içeriği kullanmasına olanak tanıyan işitsel, dokunsal ve sözlü geri bildirim sunan bir ekran okuyucudur.
+
+TalkBack'in yalnızca kör insanlar tarafından değil, aynı zamanda bir tür görme bozukluğu olan birçok kişi tarafından da kullanıldığı ortaya çıktı. Ya da sadece gözlerini dinlendirmek isteyenler bile!
+
+Yani, Erişilebilirlik herkes içindir! Bu görevde, TalkBack'i dener ve uygulamanızı onunla iyi çalışacak şekilde güncellersiniz.
+
+### 1. Adım: Accessibility Suite'i kurun ve çalıştırın
+
+TalkBack birçok fiziksel cihaza önceden yüklenmiş olarak gelir, ancak bir emülatörde onu yüklemeniz gerekir.
+
+1. Play Store'u açın.
+
+2. Accessibility Suite (Erişilebilirlik Paketini) bulun. Google'ın sunduğu doğru uygulama olduğundan emin olun.
+
+3. Kurulu değilse, Erişilebilirlik Paketi'ni yükleyin.
+
+4. Cihazda TalkBack'i etkinleştirmek için **Settings > Accessibility**'e gidin ve **Use Service**'ı seçerek TalkBack'i açın. Erişilebilirlik tarayıcısı gibi TalkBack de ekrandaki içeriği okumak için izinler gerektirir. İzin isteklerini kabul ettiğinizde, TalkBack sizi TalkBack'i nasıl etkili bir şekilde kullanacağınızı öğretmek için bir eğitim listesiyle karşılar.
+
+5. İşiniz bittiğinde TalkBack'i nasıl yeniden kapatacağınızı öğrenmekten başka bir neden yoksa burada duraklayın ve öğreticilere katılın.
+
+6. Eğiticiden ayrılmak için, seçmek üzere geri düğmesini tıklayın, ardından ekranda herhangi bir yere iki kez dokunun.
+
+> İpucu: Hiçbir şey duyamıyorsanız... sesi açın!
+
+> İpucu: Bir öğeyi tıklamak için iki kez dokunun; kaydırmak veya sürüklemek için çift dokunun ve sürükleyin.
+
+7. TalkBack ile GDG Finder uygulamasını kullanarak keşfedin. TalkBack'in ekran veya kontrol hakkında size yararlı bilgiler vermediği yerlere dikkat edin. Bir sonraki alıştırmada bunu düzelteceksiniz.
+
+### 2. Adım: Bir içerik açıklaması ekleyin
+
+
