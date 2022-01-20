@@ -22,7 +22,7 @@ Bu repositorie'de Google'ın tamamıyla ücretsiz olarak sunduğu [Android Kotli
 
 ## 🛠 Güncellemeler
 
-Bu repositoriyi düzenli olarak güncelliyor ve geliştiriyoruz. siz de bu güncellemelerden haberdar olmak ve bir sonraki geliştirme veya güncellememizin ne zaman gerçekleşeceğini öğrenmek için [bu linki](https://github.com/serkanalc/Android-Kotlin-Fundamentals/wiki/Updates) ilerlemeyi takip edebilirsiniz. İlerleyiş hakkında bize görüşlerinizi ve önerilerinizi iletmekten çekinmeyin. 
+Bu repositoriyi düzenli olarak güncelliyor ve geliştiriyoruz. siz de bu güncellemelerden haberdar olmak ve bir sonraki geliştirme veya güncellememizin ne zaman gerçekleşeceğini öğrenmek için [bu linki](https://github.com/serkanalc/Android-Kotlin-Fundamentals/wiki/Updates) kullanabilirsiniz. İlerleyiş hakkında bize görüşlerinizi ve önerilerinizi iletmekten çekinmeyin. 
 
 ## <img align="right" src="https://media.giphy.com/media/LnKdiQXyu3DrhadXx6/giphy.gif" width='110' /> ⭐ Bu Repoyu Faydalı Buldunuz Mu ?
 
