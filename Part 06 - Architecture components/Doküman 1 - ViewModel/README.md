@@ -245,5 +245,371 @@ I/GameViewModel: GameViewModel destroyed!
 ```
 
 ## <a name="d"></a>Aşama 4 : GameViewModel'ı doldurun
+
+`ViewModel`, konfigürasyon değişikliklerinden kurtulur, bu nedenle, konfigürasyon değişikliklerinden kurtulması gereken veriler için iyi bir yerdir:
+
+- Ekranda görüntülenecek verileri ve bu verileri işlemek için kodu `ViewModel`'a koyun.
+- `ViewModel` asla fragmentlara, activitylere veya viewlara referanslar içermemelidir, çünkü activityler, fragmentlar ve viewlar konfigürasyon değişikliklerinden sağ çıkamaz.
+
+![diagram](https://developer.android.com/codelabs/kotlin-android-training-view-model/img/86c9c22e398e0642.png)
+
+Karşılaştırma için, `ViewModel`'ı eklemeden önce ve `ViewModel`'ı ekledikten sonra `GameFragment` UI verilerinin başlangıç uygulamasında nasıl işlendiği aşağıda açıklanmıştır:
+
+- `ViewModel`'ı eklemeden önce: Uygulama, ekran döndürme gibi bir konfigürasyon değişikliğinden geçtiğinde, game fragment yok edilir ve yeniden oluşturulur. Veriler kaybolur.
+- `ViewModel`'ı ekledikten ve game fragment'ın UI verilerini `ViewModel`'a taşıdıktan sonra: Fragment'ın görüntülemesi gereken tüm veriler artık `ViewModel`'dır. Uygulama bir konfigürasyon değişikliğinden geçtiğinde, `ViewModel` hayatta kalır ve veriler korunur.
+
+![diagram](https://developer.android.com/codelabs/kotlin-android-training-view-model/img/6451748b74d3b82c.png)
+
+Bu aşamada, uygulamanın UI verilerini, verileri işleme metotlarıyla birlikte `GameViewModel` class'ına taşırsınız. Bunu, konfigürasyon değişiklikleri sırasında verilerin korunması için yaparsınız.
+
+### Adım 1: Veri alanlarını ve veri işlemeyi ViewModel'a taşıyın
+
+Aşağıdaki veri alanlarını ve metotları `GameFragment`'tan `GameViewModel`'a taşıyın:
+
+1. `word`, `score`, ve `wordList` veri alanlarını taşıyın. `word` ve `score`'un `private` olmadığından emin olun.
+
+Viewlara referanslar içerdiğinden, `GameFragmentBinding` binding değişkenini hareket ettirmeyin. Bu değişken, layout'u inflate etmek, click listenerları ayarlamak ve verileri ekranda görüntülemek için kullanılır - fragment'ın sorumlulukları. 
+
+2. `resetList()` ve `nextWord()` metotlarını taşıyın. Bu metotlar ekranda hangi kelimenin gösterileceğine karar verir. 
+3. `onCreateView()` metodunun içinden, metot çağrılarını `resetList()`e ve `nextWord()`'ü `GameViewModel`'in `init` bloğuna taşıyın.
+
+Bu metotlar `init` bloğunda olmalıdır, çünkü kelime listesini fragment her oluşturulduğunda değil, `ViewModel` oluşturulduğunda sıfırlamanız gerekir. `GameViewModel`'ın `init` bloğundaki log ifadesini silebilirsiniz.
+
+`GameFragment`'taki `onSkip()` ve `onCorrect()` click handlerları, verileri işlemek ve UI'yı güncellemek için kod içerir. UI'yı güncelleme kodu fragment'ta kalmalıdır, ancak verileri işleme kodunun `ViewModel`'a taşınması gerekir.
+
+Şimdilik, aynı metotları her iki yere de koyun:
+
+1. `onSkip()` ve `onCorrect()` metotlarını `GameFragment`'tan `GameViewModel`'a kopyalayın.
+2. `GameViewModel`'da `onSkip()` ve `onCorrect()` metotlarının `private` olmadığından emin olun, çünkü bu metotlara fragment'tan referans edeceksiniz.
+
+Yeniden düzenlemeden sonra `GameViewModel` class'ının kodu:
+
+```kotlin
+
+class GameViewModel : ViewModel() {
+   // Geçerli kelime
+   var word = ""
+   // Geçerli puan
+   var score = 0
+   // Kelime listesi - tahmin edilecek bir sonraki kelime listenin başında
+   private lateinit var wordList: MutableList<String>
+
+   /**
+    * Sözcük listesini sıfırlar ve sırayı rastgele ayarlar
+    */
+   private fun resetList() {
+       wordList = mutableListOf(
+               "queen",
+               "hospital",
+               "basketball",
+               "cat",
+               "change",
+               "snail",
+               "soup",
+               "calendar",
+               "sad",
+               "desk",
+               "guitar",
+               "home",
+               "railway",
+               "zebra",
+               "jelly",
+               "car",
+               "crow",
+               "trade",
+               "bag",
+               "roll",
+               "bubble"
+       )
+       wordList.shuffle()
+   }
+
+   init {
+       resetList()
+       nextWord()
+       Log.i("GameViewModel", "GameViewModel oluşturuldu!")
+   }
+   /**
+    * Listedeki bir sonraki kelimeye gider
+    */
+   private fun nextWord() {
+       if (!wordList.isEmpty()) {
+           //Listeden bir kelime seçin ve kaldırın
+           word = wordList.removeAt(0)
+       }
+       updateWordText()
+       updateScoreText()
+   }
+ /** Buton tıklamaları için metotlar **/
+   fun onSkip() {
+       score--
+       nextWord()
+   }
+
+   fun onCorrect() {
+       score++
+       nextWord()
+   }
+
+   override fun onCleared() {
+       super.onCleared()
+       Log.i("GameViewModel", "GameViewModel yok edildi!")
+   }
+}
+
+```
+
+Yeniden düzenlemeden sonra `GameFragment` class'ının kodu:
+
+```kotlin
+
+/**
+* Oyunun oynandığı fragment
+*/
+class GameFragment : Fragment() {
+
+
+   private lateinit var binding: GameFragmentBinding
+
+
+   private lateinit var viewModel: GameViewModel
+
+
+   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                             savedInstanceState: Bundle?): View? {
+
+       // View'u inflate et ve binding class'ı için bir instance al
+       binding = DataBindingUtil.inflate(
+               inflater,
+               R.layout.game_fragment,
+               container,
+               false
+       )
+
+       Log.i("GameFragment", "ViewModelProvider.get çağrıldı")
+       viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
+
+       binding.correctButton.setOnClickListener { onCorrect() }
+       binding.skipButton.setOnClickListener { onSkip() }
+       updateScoreText()
+       updateWordText()
+       return binding.root
+
+   }
+
+
+   /** Buton click handlerları için metotlar **/
+
+   private fun onSkip() {
+       score--
+       nextWord()
+   }
+
+   private fun onCorrect() {
+       score++
+       nextWord()
+   }
+
+
+   /** UI'yı güncellemek için metotlar **/
+
+   private fun updateWordText() {
+       binding.wordText.text = word
+   }
+
+   private fun updateScoreText() {
+       binding.scoreText.text = score.toString()
+   }
+}
+
+```
+
+### Adım 2: GameFragment'te click handlerlar ve veri alanlarına referansları güncelleyin
+
+1. `GameFragment`'ta, `onSkip()` ve `onCorrect()` metotlarını güncelleyin. Puanı güncellemek için kodu kaldırın ve bunun yerine `viewModel`'da karşılık gelen `onSkip()` ve `onCorrect()` metotlarını çağırın.
+2. `nextWord()` metodunu `ViewModel`'a taşıdığınız için game fragment artık ona erişemez.
+
+`GameFragment`'ta, `onSkip()` ve `onCorrect()` metotlarında `nextWord()` çağrısını `updateScoreText()` ve u`pdateWordText()` ile değiştirin. Bu metotlar, verileri ekranda görüntüler.
+
+```kotlin
+
+private fun onSkip() {
+   viewModel.onSkip()
+   updateWordText()
+   updateScoreText()
+}
+private fun onCorrect() {
+   viewModel.onCorrect()
+   updateScoreText()
+   updateWordText()
+}
+
+```
+
+3. `GameFragment`'ta, bu değişkenler artık `GameViewModel`'da olduğundan, `GameViewModel` değişkenlerini kullanmak için `score` ve `word` değişkenlerini güncelleyin.
+
+```kotlin
+
+private fun updateWordText() {
+   binding.wordText.text = viewModel.word
+}
+
+private fun updateScoreText() {
+   binding.scoreText.text = viewModel.score.toString()
+}
+
+```
+
+>**Hatırlatma:** Uygulamanın activityleri, fragmentları ve viewları konfigürasyon değişikliklerinden sağ çıkamadığından, `ViewModel` uygulamanın activitylerine, fragmentlarına veya viewlarına referanslar içermemelidir.
+
+4. `GameViewModel`'da `nextWord()` metodunun içinde `updateWordText()` ve `updateScoreText()` metotlarına yapılan çağrıları kaldırın. Bu metotlar şimdi `GameFragment`'tan çağrılıyor.
+5. Uygulamayı oluşturun ve hata olmadığından emin olun. Hatalarınız varsa, projeyi clean ve rebuild edin.
+6. Uygulamayı çalıştırın ve oyunu bazı kelimelerle oynayın. Oyun ekranındayken cihazı döndürün. Oryantasyon değişikliğinden sonra geçerli puanın ve geçerli kelimenin korunduğuna dikkat edin.
+
+Harika bir iş! Artık uygulamanızın tüm verileri bir `ViewModel`'da depolanıyor, bu nedenle yapılandırma konfigürasyon sırasında saklanıyor.
+
 ## <a name="e"></a>Aşama 5 : Oyunu Bitir butonu için click listener uygulayın
+
+Bu aşamada, **Oyunu Bitir** butonu için click listener'ı uygulayacaksınız.
+
+1. `GameFragment`'ta `onEndGame()` adlı bir metot ekleyin. Kullanıcı **Oyunu Bitir** butonuna dokunduğunda `onEndGame()` metodu çağrılır.
+
+```kotlin
+
+private fun onEndGame() {
+   }
+   
+```
+
+2. `GameFragment`'ta, `onCreateView()` metodunun içinde, **Anladım** ve **Atla** butonları için click listenerları ayarlayan kodu bulun. Bu iki satırın hemen altında, **Oyunu Bitir** butonu için bir click listener ayarlayın. Binding değişkenini, `binding`, kullanın. Click listener'ın içinde `onEndGame()` metodunu çağırın.
+
+```kotlin
+
+binding.endGameButton.setOnClickListener { onEndGame() }
+
+```
+
+3. `GameFragment`'ta, uygulamada puan ekranına gitmek için `gameFinished()` adlı bir metot ekleyin. [Safe Args](https://developer.android.com/topic/libraries/architecture/navigation/navigation-pass-data#Safe-args)'ı kullanarak puanı bir argüman olarak iletin.
+
+```kotlin
+
+/**
+* Oyun bittiğinde çağırılır
+*/
+private fun gameFinished() {
+   Toast.makeText(activity, "Oyun yeni bitti", Toast.LENGTH_SHORT).show()
+   val action = GameFragmentDirections.actionGameToScore()
+   action.score = viewModel.score
+   NavHostFragment.findNavController(this).navigate(action)
+}
+
+```
+
+4. `onEndGame()` metodunda, `gameFinished()` metodunu çağırın.
+
+```kotlin
+
+private fun onEndGame() {
+   gameFinished()
+}
+
+```
+
+5. Uygulamayı çalıştırın, oyunu oynayın ve bazı kelimeler arasında dolaşın. **Oyunu Bitir** butonuna dokunun. Uygulamanın puan ekranına gittiğine, ancak nihai puanın görüntülenmediğine dikkat edin. Bunu bir sonraki aşamada düzelteceksiniz.
+
+![app](https://user-images.githubusercontent.com/46448616/150520837-7f1f93f7-e223-44bb-be54-2f76f0220046.png)
+
 ## <a name="f"></a>Aşama 6 : Bir ViewModelFactory kullanın
+
+Kullanıcı oyunu bitirdiğinde `ScoreFragment` skoru göstermez. Bir `ViewModel`'ın `ScoreFragment` tarafından görüntülenecek puanı tutmasını istiyorsunuz. [Factory metodu pattern](https://en.wikipedia.org/wiki/Factory_method_pattern)'ını kullanarak `ViewModel` initialization sırasında puan değerini ileteceksiniz.
+
+_Factory metodu pattern_'ı, nesneler oluşturmak için factory metotlarını kullanan bir [creational design pattern](https://en.wikipedia.org/wiki/Creational_pattern)'dır (yaratıcı tasarım kalıbı). _Factory metodu_, aynı class'ın bir instance'ını döndüren bir yöntemdir.
+
+Bu aşamada, score fragment için parametreli bir constructor'a ve `ViewModel`'i instantiate etmek için bir factory metoduna sahip bir `ViewModel` oluşturacaksınız.
+
+1. `score` paketinin altında `ScoreViewModel` adında yeni bir Kotlin class'ı oluşturun. Bu class, score fragment için `ViewModel` olacaktır.
+2. `ScoreViewModel` class'ını `ViewModel`'dan extend edin. Nihai puan için bir constructor parametresi ekleyin. Log ifadesi içeren bir `init` bloğu ekleyin.
+3. `ScoreViewModel` class'ında, niahi puanı kaydetmek için `score` adlı bir değişken ekleyin.
+
+```kotlin
+
+class ScoreViewModel(finalScore: Int) : ViewModel() {
+   // Nihai puan
+   var score = finalScore
+   init {
+       Log.i("ScoreViewModel", "Nihai puan: $finalScore")
+   }
+}
+
+```
+
+4. `score` paketinin altında `ScoreViewModelFactory` adında başka bir Kotlin class'ı oluşturun. Bu class, `ScoreViewModel` nesnesini instantiate etmekten sorumlu olacaktır.
+5. `ScoreViewModelFactory` class'ını `ViewModelProvider.Factory`'den extend edin. Nihai puan için bir constructor parametresi ekleyin.
+
+```kotlin
+
+class ScoreViewModelFactory(private val finalScore: Int) : ViewModelProvider.Factory {
+}
+
+```
+
+6. `ScoreViewModelFactory`'de Android Studio, uygulanmamış bir abstract üye hakkında bir hata gösteriyor. Hatayı çözmek için `create()` metodunu override edin. `create()` metodunda, yeni oluşturulan `ScoreViewModel` nesnesini döndürün.
+
+```kotlin
+
+override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+   if (modelClass.isAssignableFrom(ScoreViewModel::class.java)) {
+       return ScoreViewModel(finalScore) as T
+   }
+   throw IllegalArgumentException("Unknown ViewModel class")
+}
+
+```
+
+7. `ScoreFragment`'ta, `ScoreViewModel` ve `ScoreViewModelFactory` için class değişkenleri oluşturun.
+
+```kotlin
+
+private lateinit var viewModel: ScoreViewModel
+private lateinit var viewModelFactory: ScoreViewModelFactory
+
+```
+
+8. `ScoreFragment`'ta, `onCreateView()` içinde, `binding` değişkenini initialize ettikten sonra `viewModelFactory`'yi initialize edin. `ScoreViewModelFactory`'yi kullanın. `ScoreViewModelFactory()`'ye constructor parametresi olarak argüman bundle'ındaki nihai puanı iletin.
+
+```kotlin
+
+viewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(requireArguments()).score)
+
+```
+
+9. `onCreateView()` içinde, `viewModelFactory`'yi initialize ettikten sonra `viewModel` nesnesini initialize edin. `ViewModelProvider.get()` metodunu çağırın, ilişkili score fragment context'ini ve `viewModelFactory`'yi iletin. Bu, `viewModelFactory` class'ında tanımlanan factory metodunu kullanarak `ScoreViewModel` nesnesini yaratacaktır.
+
+```kotlin
+
+viewModel = ViewModelProvider(this, viewModelFactory)
+       .get(ScoreViewModel::class.java)
+       
+```
+
+10. `onCreateView()` metodunda, `viewModel`'ı initialize ettikten sonra, `scoreText` view'unun metnini `ScoreViewModel`'de tanımlanan nihai puana ayarlayın.
+
+```kotlin
+
+binding.scoreText.text = viewModel.score.toString()
+       
+```
+
+11. Uygulamanızı çalıştırın ve oyunu oynayın. Bazı veya tüm kelimeler arasında dolaşın ve **Oyunu Bitir**'e dokunun. Score fragment'ın artık nihai puanı gösterdiğine dikkat edin.
+
+12. Opsiyonel: `ScoreViewModel`'da filtre uygulayarak Logcat'teki `ScoreViewModel` loglarını kontrol edin. Skor değeri görüntülenmelidir.
+
+```
+
+2019-02-07 10:50:18.328 com.example.android.guesstheword I/ScoreViewModel: Final score is 15
+
+```
+
+>**Not:** Bu uygulamada, puanı doğrudan **viewModel.score** değişkenine atayabileceğiniz için **ScoreViewModel** için bir **ViewModelFactory** eklemek gerekli değildir. Ancak bazen verilere tam olarak **viewModel** initialize edildiğinde ihtiyaç duyarsınız.
+
+Bu aşamada, `ViewModel`'ı kullanmak için `ScoreFragment` uyguladınız. Ayrıca `ViewModelFactory` interface'ini kullanarak bir `ViewModel` için parametreli bir construtor oluşturmayı da öğrendiniz.
