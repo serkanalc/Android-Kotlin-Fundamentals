@@ -423,4 +423,74 @@ android:layout_height="wrap_content"
 |![image](https://user-images.githubusercontent.com/70329389/150428649-2d6c55fd-4533-413d-9b54-9a203cbe888e.png)|![image](https://user-images.githubusercontent.com/70329389/150428669-ce25d5de-04e5-4c22-8a4b-78d1c8e25a32.png)|
 |----|------|
 
-## <a name="d"></a>Aşama 4 : Bölgeleri Filtrelemek İçin Çipleri Kullanın
+## <a name="d"></a>Aşama 4 : Bölgeleri Filtrelemek İçin Chip'leri Kullanın
+
+Chip'ler, bir attribute'ü, metni, varlığı veya eylemi temsil eden kompakt öğelerdir. Kullanıcıların bilgi girmesine, bir seçim yapmasına, içeriği filtrelemesine veya bir eylemi tetiklemesine izin verir.
+
+**Chip** widget'ı, tüm yerleşimi ve çizim mantığını içeren **ChipDrawable**'ın etrafındaki ince bir görünüm sarıcısıdır. Dokunma, fare, klavye ve erişilebilirlik navigasyonunu desteklemek için ekstra mantık mevcuttur. Ana çip ve kapat simgesi, ayrı mantıksal alt görünümler olarak kabul edilir ve kendi gezinme davranışlarını ve durumlarını içerir.
+
+![image](https://user-images.githubusercontent.com/70329389/150507990-0db3ab1e-390d-4edd-a8fa-7a03e4c693da.png)
+
+Chip'ler drawable'lar kullanır. Android drawable'ları, ekranda resimler, şekiller ve animasyonlar çizmenize olanak tanır ve sabit bir boyuta sahip olabilir veya dinamik olarak boyutlandırılabilir. GDG uygulamasındaki resimler gibi resimleri drawable olarak kullanabilirsiniz. Ve hayal edebileceğiniz her şeyi çizmek için vektör çizimlerini kullanabilirsiniz. Ayrıca, bu kod laboratuvarında ele alınmayan, [9-patch drawable](https://developer.android.com/guide/topics/graphics/drawables#nine-patch) olarak adlandırılan, yeniden boyutlandırılabilir bir drawable vardır. **drawable/ic_gdg.xml** dosyasındaki GDG logosu, drawable başka bir şeydir.
+
+Drawable'lar view değildir, bu nedenle bir drawable'ı doğrudan **ConstraintLayout**'un içine koyamazsınız, onu bir **ImageView** içine koymanız gerekir. Ayrıca, bir metin görünümü veya bir düğme için bir arka plan sağlamak üzere drawable kullanabilirsiniz ve arka plan metnin arkasına çizilir.
+
+### Adım 1: GDG Listesine Chips Ekleyin
+
+Aşağıdaki kontrol edilen chip, üç drawable kullanır. Arka plan ve onay işaretinin her biri drawable'dır. chip'e dokunmak, durum değişikliklerine tepki olarak bir dalgalanma efekti gösteren özel bir RippleDrawable ile yapılan bir dalgalanma efekti yaratır.
+
+![image](https://user-images.githubusercontent.com/70329389/150509264-ce121f59-7e9a-46f5-9919-b39573d2ead1.png)
+
+Bu görevde, GDG'ler listesine chip'ler eklersiniz ve seçildiklerinde durumlarını değiştirmelerini sağlarsınız. Bu alıştırmada, `Search` screen'e üst kısmına chip adı verilen bir dizi düğme ekleyeceksiniz. Her düğme, kullanıcının yalnızca seçilen bölgeden sonuçları alması için GDG listesini filtreler. Bir düğme seçildiğinde, düğme arka planını değiştirir ve bir onay işareti gösterir.
+
+1. **fragman_gdg_list.xml** dosyasını açın.
+
+2. **HorizontalScrollView** içinde bir **com.google.android.material.chip.ChipGroup** oluşturun. **SingleLine** özelliğini true olarak ayarlayın, böylece tüm chip'ler yatay olarak kaydırılabilir bir satırda sıralanır. SingleSelection özelliğini true olarak ayarlayın, böylece grupta aynı anda yalnızca bir chip seçilebilir. İşte kod.
+
+```
+<com.google.android.material.chip.ChipGroup
+    android:id="@+id/region_list"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:singleSelection="true"
+    android:padding="@dimen/spacing_normal"/>
+```
+
+3. Layout klasöründe, bir Chip layout'unu tanımlamak için **region.xml**, adlı yeni bir layout kaynak dosyası oluşturun.
+
+4. **Region.xml**'de, tüm kodu, aşağıda verilen bir Chip layout'uyla değiştirin. Bu chip'in bir Material bileşeni olduğuna dikkat edin. Ayrıca **app:checkedIconVisible** özelliğini ayarlayarak onay işareti aldığınızı unutmayın. Eksik **selected_highlight** rengi için bir hata alırsınız.
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.chip.Chip
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        app:chipBackgroundColor="@color/selected_highlight"
+        app:checkedIconVisible="true"
+        tools:checked="true"/>
+```
+
+5. Eksik **selected_highlight** rengini oluşturmak için imleci **selected_highlight**'ın üzerine getirin, intention menüsünü açın ve seçilen vurgu için renk kaynağı oluşturun. Varsayılan seçenekler gayet iyi, bu yüzden sadece Tamam'ı tıklayın. Dosya **res/color** klasöründe oluşturulur.
+
+6. **res/color/selected_highlight.xml** dosyasını açın. `<selektör>` olarak kodlanmış bu renk durumu listesinde, farklı durumlar için farklı renkler sağlayabilirsiniz. Her durum ve ilişkili renk bir `<item>` olarak kodlanmıştır. Bu renkler hakkında daha fazla bilgi için Renk Temalarına bakın.
+
+7. `<selector>` içinde, durum listesine varsayılan **colorOnSurface** rengine sahip bir öğe ekleyin. Eyalet listelerinde her zaman tüm eyaletleri kapsamak önemlidir. Bunu yapmanın bir yolu, varsayılan bir renge sahip olmaktır.
+
+```
+<item android:alpha="0.18" android:color="?attr/colorOnSurface"/>
+```
+
+8. Varsayılan rengin üzerine **colorPrimaryVariant** rengine sahip bir öğe ekleyin ve kullanımını seçilen durum doğru olduğunda sınırlayın. Durum listeleri, bir vaka ifadesi gibi yukarıdan aşağıya doğru işlenir. Durumlardan hiçbiri eşleşmezse, varsayılan durum uygulanır.
+
+```
+<item android:color="?attr/colorPrimaryVariant"
+         android:state_selected="true" />
+```
+### Adım 2: Chip'lerin sırasını görüntüleyin
+
+
