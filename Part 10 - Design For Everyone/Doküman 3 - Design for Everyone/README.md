@@ -493,4 +493,148 @@ Bu görevde, GDG'ler listesine chip'ler eklersiniz ve seçildiklerinde durumlar�
 ```
 ### Adım 2: Chip'lerin sırasını görüntüleyin
 
+GDG uygulaması, GDG'leri olan bölgeleri gösteren bir chip listesi oluşturur. Bir chip seçildiğinde, uygulama sonuçları yalnızca o bölge için GDG sonuçlarını gösterecek şekilde filtreler.
+
+> Not: Bu listenin nasıl oluşturulduğu ve sonuçların nasıl filtrelendiği bu kod laboratuvarının parçası değildir. GDG listesinin nasıl elde edildiğini ve filtrelemenin nasıl yapıldığını öğrenmek istiyorsanız, **search** ve **network** **packages** dosyaları inceleyin. Özellikle **GdgListViewModel**'i inceleyin.
+
+1. **Search** paketinde **GdgListFragment.kt** dosyasını açın.
+
+2. **onCreateView()** içinde, return ifadesinin hemen üzerinde, viewModel.regionList üzerinde bir observer ekleyin ve onChanged() öğesini geçersiz kılın. Görünüm modeli tarafından sağlanan bölgelerin listesi değiştiğinde, Chiplerin yeniden oluşturulması gerekir. Sağlanan veriler boşsa, hemen döndürülecek bir ifade ekleyin.
+
+```
+viewModel.regionList.observe(viewLifecycleOwner, object: Observer<List<String>> {
+        override fun onChanged(data: List<String>?) {
+             data ?: return
+        }
+})
+```
+3. **onChanged()** içinde, null testinin altında, **zoneList**'i önbelleğe almak için **binding.regionList**'i chipGroup adlı yeni bir değişkene atayın.
+
+```
+val chipGroup = binding.regionList
+```
+
+4. Aşağıda **chipGroup.context**'ten chipleri Inflate etmek için yeni bir layoutInflater oluşturun.
+
+```
+val inflator = LayoutInflater.from(chipGroup.context)
+```
+5. Databinding hatasından kurtulmak için projenizi temizleyin ve yeniden oluşturun.
+
+inflator'un altında, şimdi bölge Listesindeki her bölge için bir tane olmak üzere gerçek chipleri oluşturabilirsiniz.
+
+6. Tüm chipleri tutmak için bir değişken oluşturun, `children`. Her çipi oluşturmak ve döndürmek için, iletilen veriler üzerinde bir eşleme işlevi atayın.
+
+```
+val children = data.map {} 
+```
+
+7. Map lambda içinde, her bölgeAdı için bir Chip oluşturun ve inflate edin. Tamamlanan kod aşağıdadır.
+
+```
+   val children = data.map { regionName ->
+       val chip = inflator.inflate(R.layout.region, chipGroup, false) as Chip
+       chip.text = regionName
+       chip.tag = regionName
+       // TODO: Click listener goes here.
+       chip
+   }
+```
+8. Lambda'nın içinde, Chip'i iade etmeden hemen önce bir click listener ekleyin. chip'e tıklandığında, durumunu işaretli olarak ayarlayın. Bu filtrenin sonucunu getiren bir dizi olayı tetikleyen viewModel'de onFilterChanged() öğesini çağırın.
+
+```
+chip.setOnCheckedChangeListener { button, isChecked ->
+   viewModel.onFilterChanged(button.tag as String, isChecked)
+}
+```
+
+9. Lambda'nın sonunda, chipGroup'taki tüm geçerli görünümleri kaldırın, ardından alt öğelerin tüm Chip'leri chipGroup'a ekleyin. (Çipleri güncelleyemezsiniz, bu nedenle chipGroup'un içeriğini kaldırmanız ve yeniden oluşturmanız gerekir.)
+
+```
+chipGroup.removeAllViews()
+
+for (chip in children) {
+   chipGroup.addView(chip)
+}
+```
+Tamamlanmış gözlemciniz aşağıdaki gibi olmalıdır:
+
+```
+   override fun onChanged(data: List<String>?) {
+       data ?: return
+
+       val chipGroup = binding.regionList
+       val inflator = LayoutInflater.from(chipGroup.context)
+
+       val children = data.map { regionName ->
+           val chip = inflator.inflate(R.layout.region, chipGroup, false) as Chip
+           chip.text = regionName
+           chip.tag = regionName
+           chip.setOnCheckedChangeListener { button, isChecked ->
+               viewModel.onFilterChanged(button.tag as String, isChecked)
+           }
+           chip
+       }
+       chipGroup.removeAllViews()
+
+       for (chip in children) {
+           chipGroup.addView(chip)
+       }
+   }
+})
+```
+
+12. Uygulamanızı çalıştırın ve yeni chip'lerinizi kullanmak üzere Arama ekranını açmak için GDGS'yi arayın. Her çipi tıkladığınızda, uygulama altındaki filtre gruplarını görüntüler.
+
+![image](https://user-images.githubusercontent.com/70329389/150522537-6f1d9329-b1b7-49e4-bd04-de25fe9e4973.png)
+
+
+## <a name="e"></a>Aşama 5 : Night Mode'u Destekleyin
+
+Night Mode, örneğin cihaz ayarları gece modunu etkinleştirecek şekilde ayarlandığında, uygulamanızın renklerini koyu bir temaya değiştirmesine olanak tanır. Gece modunda, uygulamalar varsayılan açık renkli arka planlarını koyu olarak değiştirir ve diğer tüm ekran öğelerini buna göre değiştirir.
+
+### 1. Adım:Night Mode'u etkinleştirin
+
+Uygulamanız için dark tema sağlamak adına, uygulamanızın temasını Light temadan DayNight adlı bir temaya değiştirirsiniz. DayNight teması, moda bağlı olarak açık veya koyu görünür.
+
+1. Style.xml'de AppTheme ana temasını Light'tan DayNight'a değiştirin.
+
+```
+<style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+```
+
+2. MainActivity'nin onCreate() yönteminde, karanlık temayı programlı olarak açmak için AppCompatDelegate.setDefaultNightMode() öğesini çağırın.
+
+```
+AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+```
+
+3. Uygulamayı çalıştırın ve Dark temaya geçtiğini doğrulayın.
+
+![image](https://user-images.githubusercontent.com/70329389/150523566-d1a4e1c5-16d0-433e-940c-5e232a2a0cf5.png)
+
+2. Adım: Kendi Dark Tema Renk Paletinizi Oluşturun
+
+Dark temayı özelleştirmek için, dark temanın kullanması için -night niteleyicisine sahip klasörler oluşturun. Örneğin, **values-night** adlı bir klasör oluşturarak dark modunda belirli renklere sahip olabilirsiniz.
+
+
+1. [Material.io renk seçici aracını](https://material.io/resources/color/#!/?view.left=0&view.right=0) ziyaret edin ve bir night-theme renk paleti oluşturun. Örneğin, koyu mavi bir renge dayandırabilirsiniz.
+
+2. **Colors.xml** dosyasını oluşturun ve indirin.
+
+3. Projenizdeki tüm klasörleri listelemek için Proje Dosyaları görünümüne geçin.
+
+4. res klasörünü bulun ve genişletin.
+
+5. Bir **res/values-night** kaynak klasörü oluşturun.
+
+6. Yeni **color.xml** dosyasını **res/values-night** kaynak klasörüne ekleyin.
+
+7. Uygulamanızı gece modu etkinken çalıştırın ve uygulama **res/values-night** için tanımladığınız yeni renkleri kullanmalıdır. Chip'lerin yeni ikincil rengi kullandığına dikkat edin.
+
+![image](https://user-images.githubusercontent.com/70329389/150524416-a31de421-16a2-45b3-9f3b-8a4a13a58cf1.png)
+
+
+
+
 
