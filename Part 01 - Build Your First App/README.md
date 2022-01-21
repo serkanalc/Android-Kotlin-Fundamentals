@@ -6,11 +6,11 @@ Selamlar Android Kotlin Fundamentals serisinin ilk bölümüne hoş geldiniz. Bu
 
 - [Geliştirmeye Başlayalım 👇](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2001%20-%20Build%20Your%20First%20App/Dok%C3%BCman%202)
 
-  - "HelloWorld" projesini oluşturun
+  - "HelloWorld" Projesini Oluşturun
   - Android Studio'yu Keşfedin
-  - Gradle Scripts klasörünü keşfedin
-  - Uygulamanızı sanal bir cihazda çalıştırın (emülatör)
-  - Uygulamanızı fiziksel bir cihazda çalıştırın
+  - Gradle Scripts Klasörünü Keşfedin
+  - Uygulamanızı Sanal Bir Cihazda Çalıştırın (Emülatör)
+  - Uygulamanızı Fiziksel bir Cihazda Çalıştırın
   - Çalışma Örnekleri
 
 - [Quiz](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2001%20-%20Build%20Your%20First%20App/Quiz)
