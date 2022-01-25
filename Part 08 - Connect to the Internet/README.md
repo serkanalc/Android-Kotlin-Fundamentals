@@ -15,7 +15,7 @@
   - RecyclerView ile bir görsel ızgarası (grid) ile görüntüleyin
   - RecyclerView'da hata kontrolü ekleyin
  
-- İnternet verileriyle filtreleme ve detay görünümleri
+- [İnternet verileriyle filtreleme ve detay görünümleri](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2008%20-%20Connect%20to%20the%20Internet/Dok%C3%BCman%203%20-%20%C4%B0nternet%20verileriyle%20g%C3%B6r%C3%BCn%C3%BCmleri%20filtreleyin%20ve%20olu%C5%9Fturun)
   - overview'a "satılık" görselleri ekleyin
   - Sonuçları filtrele
   - Bir ayrıntı sayfası oluşturun ve navigasyonu ayarlayın
