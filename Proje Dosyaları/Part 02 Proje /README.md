@@ -21,9 +21,14 @@ Bu projede sizlere Kotlini kullanarak ilk Android uygulamanızı geliştirmekte 
 - Zar Görünümlerini indirin ve uygulamanıza **import** edin
 - When yapısındaki textview çıktılarını import ettiğiniz zar görselleriyle değiştirin
 
-Tuşa bastığınızda çıktı aşağıdaki gibi olmalıdır
+Tuşa bastığınızda çıktı aşağıdaki gibi olmalıdır:
+
+<br>
+<br>
 
 
+![Yeni Proje](https://user-images.githubusercontent.com/70329389/151247006-e53fbf0a-49af-4e4d-9c36-06a66c226be2.png)
 
+Tebrikler ilk Uygulamanızı geliştirdiniz 🎉
 
 
