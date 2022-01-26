@@ -29,6 +29,9 @@ Tuşa bastığınızda çıktı aşağıdaki gibi olmalıdır:
 
 ![Yeni Proje](https://user-images.githubusercontent.com/70329389/151247006-e53fbf0a-49af-4e4d-9c36-06a66c226be2.png)
 
+<br>
+<br>
+
 Tebrikler ilk Uygulamanızı geliştirdiniz 🎉
 
 
