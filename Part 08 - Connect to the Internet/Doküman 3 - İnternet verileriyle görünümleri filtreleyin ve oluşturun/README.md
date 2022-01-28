@@ -180,3 +180,146 @@ Yeni grid_view_item.xml dosyası aşağıda gösterilmiştir:
 7. Uygulamayı derleyin, çalıştırın ve kiralık olmayan mülklerin dolar işareti simgesine sahip olduğunu unutmayın.
 
 ![image](https://user-images.githubusercontent.com/29903779/151013734-ab844ae0-de24-4730-9d1f-0fe7cffde003.png)
+
+## <a name="b"></a>Aşama 2 : Sonuçları filtreleyin
+
+Şu anda uygulamanız overview kılavuzunda tüm Mars özelliklerini görüntüler. Bir kullanıcı Mars'ta kiralık bir 
+mülk için alışveriş yapıyorsa, mevcut mülklerden hangilerinin satılık olduğunu gösteren simgelere sahip olmak faydalı 
+olabilir ancak sayfada hala kaydırılacak çok sayıda mülk var. Bu görevde overview fragment'a kullanıcının 
+yalnızca kiralık mülkleri, satılık mülkleri veya tümünü göstermesini sağlayan bir seçenekler menüsü eklersiniz.
+
+![image](https://user-images.githubusercontent.com/29903779/151576723-c206fffb-85bb-4bfa-a125-5d2790736377.png)
+
+Bu görevi gerçekleştirmenin bir yolu, overview kılavuzundaki her bir MarsProperty için türü test etmek ve 
+yalnızca eşleşen özellikleri görüntülemektir. Ancak gerçek Mars web servisi, yalnızca `<rent>` veya `<buy>` 
+türündeki özellikleri almanızı sağlayan bir sorgu parametresine veya seçeneğine (filtre) sahiptir. 
+Bu filtre sorgusunu realestate web servisi URL'si ile aşağıdaki gibi bir tarayıcıda kullanabilirsiniz:
+
+```https://android-kotlin-fun-mars-server.appspot.com/realestate?filter=buy```
+
+Bu görevde, Retrofit ile web servisi isteğine bir sorgu seçeneği eklemek için MarsApiService sınıfını değiştirirsiniz. 
+Ardından, bu sorgu seçeneğini kullanarak tüm Mars özelliği verilerini yeniden indirmek için seçenekler menüsünü bağlarsınız. 
+Web servisinden aldığınız yanıt yalnızca ilgilendiğiniz özellikleri içerdiğinden, overview ızgarası için görünüm 
+görüntüleme mantığını değiştirmeniz gerekmez.
+
+### Adım 1: Mars API hizmetini güncelleyin
+
+İsteği değiştirmek için bu serideki ilk codelab'de uyguladığınız MarsApiService sınıfını tekrar ziyaret etmeniz gerekir. 
+Bir filtreleme API'si sağlamak için sınıfı değiştirirsiniz.
+
+1. network/MarsApiService.kt'yi açın. İmportların hemen altında, web servisinin beklediği sorgu değerleriyle eşleşen sabitleri 
+tanımlamak için MarsApiFilter adlı bir enum oluşturun.
+
+```kotlin
+enum class MarsApiFilter(val value: String) {
+   SHOW_RENT("rent"),
+   SHOW_BUY("buy"),
+   SHOW_ALL("all") }
+```
+
+2. Filtre sorgusu için string girdisi almak üzere getProperties() metodunu değiştirin ve aşağıda gösterildiği gibi bu girdiye 
+@Query("filter") ile açıklama ekleyin.
+
+İstendiğinde retrofit2.http.Query'yi import edin.
+
+@Query annotation'ı, getProperties() metoduna (ve dolayısıyla Retrofit) filtre seçeneğiyle web servisi isteğinde bulunmasını 
+söyler. getProperties() her çağrıldığında, istek URL'si, web hizmetini bu sorguyla eşleşen sonuçlarla yanıt vermeye 
+yönlendiren ?filter=type bölümünü içerir.
+
+```kotlin
+suspend fun getProperties(@Query("filter") type: String): List<MarsProperty>
+```  
+
+### Adım 2: Overview view modeli güncelleyin
+
+OverviewViewModel'deki getMarsRealEstateProperties() metodunda MarsApiService'den veri talep edersiniz. Şimdi filtre 
+argümanını almak için bu isteği güncellemeniz gerekiyor.
+
+1. overview/OverviewViewModel.kt dosyasını açın. Bir önceki adımda yaptığınız değişikliklerden dolayı Android Studio'da 
+hatalar göreceksiniz. getMarsRealEstateProperties() çağrısına bir parametre olarak MarsApiFilter'ı (olası filtre değerlerinin listesi) ekleyin.
+
+İstendiğinde com.example.android.marsrealestate.network.MarsApiFilter'ı import edin.
+
+```kotlin
+private fun getMarsRealEstateProperties(filter: MarsApiFilter) {
+```
+
+2. Bu filtre sorgusunu bir string olarak iletmek için Retrofit hizmetindeki getProperties() çağrısını değiştirin.
+
+```kotlin
+ _properties.value = MarsApi.retrofitService.getProperties(filter.value)
+```
+
+3. Uygulama ilk yüklendiğinde tüm özellikleri göstermek için init {} bloğunda, MarsApiFilter.SHOW_ALL öğesini 
+getMarsRealEstateProperties() öğesine bir argüman olarak iletin.
+
+```kotlin
+init {
+   getMarsRealEstateProperties(MarsApiFilter.SHOW_ALL)
+}
+```
+
+4. Sınıfın sonuna, bir MarsApiFilter argümanı alan ve bu argümanla getMarsRealEstateProperties() 
+öğesini çağıran bir updateFilter() metodu ekleyin.
+
+```kotlin
+fun updateFilter(filter: MarsApiFilter) {
+   getMarsRealEstateProperties(filter)
+}
+```
+
+### Adım 3: Fragment'ı seçenekler menüsüne bağlayın
+
+Son adım, kullanıcı bir menü seçeneği seçtiğinde view modelde updateFilter() metodunu çağırmak için 
+overflow_menu.xml'i fragment'a bağlamaktır.
+
+1. res/menu/overflow_menu.xml dosyasını açın. MarsRealEstate uygulaması, mevcut üç seçeneği sağlayan mevcut 
+bir overflow menüye sahiptir: tüm mülkleri gösterme, yalnızca kiralık mülkleri gösterme ve yalnızca satılık mülkleri gösterme.
+
+```kotlin
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+   <item
+       android:id="@+id/show_all_menu"
+       android:title="@string/show_all" />
+   <item
+       android:id="@+id/show_rent_menu"
+       android:title="@string/show_rent" />
+   <item
+       android:id="@+id/show_buy_menu"
+       android:title="@string/show_buy" />
+</menu>
+```
+
+2. overview/OverviewFragment.kt dosyasını açın. Sınıfın sonunda, menü öğesi seçimlerini işlemek için onOptionsItemSelected() yöntemini uygulayın.
+
+```kotlin
+override fun onOptionsItemSelected(item: MenuItem): Boolean {
+} 
+```
+
+3. onOptionsItemSelected() içinde, uygun filtreyle görünüm modelinde updateFilter() yöntemini çağırın. 
+Seçenekler arasında geçiş yapmak için {} bloğu olduğunda bir Kotlin kullanın. Varsayılan filtre değeri 
+için MarsApiFilter.SHOW_ALL kullanın. Menü öğesini ele aldığınız için true değerini döndürün. 
+İstendiğinde MarsApiFilter'ı (com.example.android.marsrealestate.network.MarsApiFilter) import edin. 
+Tamamlanmış onOptionsItemSelected() metodu aşağıda gösterilmiştir.
+
+```kotlin
+override fun onOptionsItemSelected(item: MenuItem): Boolean {
+   viewModel.updateFilter(
+           when (item.itemId) {
+               R.id.show_rent_menu -> MarsApiFilter.SHOW_RENT
+               R.id.show_buy_menu -> MarsApiFilter.SHOW_BUY
+               else -> MarsApiFilter.SHOW_ALL
+           }
+   )
+   return true
+}
+```
+
+4. Uygulamayı derleyin ve çalıştırın. Uygulama, tüm mülk türleri ve dolar simgesiyle işaretlenmiş satılık 
+mülkler ile ilk overview ızgarasını başlatır.
+5. Seçenekler menüsünden Rent'i seçin. Özellikler yeniden yüklenir ve hiçbiri dolar simgesiyle görünmez. 
+(Yalnızca kiralık mülkler gösterilir.) Ekranın yalnızca filtrelenmiş mülkleri gösterecek şekilde yenilenmesi 
+için birkaç dakika beklemeniz gerekebilir.
+6. Seçenekler menüsünden Buy'ı seçin. Özellikler yeniden yüklenir ve hepsi dolar simgesiyle görünür. 
+(Yalnızca satılık mülkler gösterilmektedir.)
