@@ -323,3 +323,112 @@ mülkler ile ilk overview ızgarasını başlatır.
 için birkaç dakika beklemeniz gerekebilir.
 6. Seçenekler menüsünden Buy'ı seçin. Özellikler yeniden yüklenir ve hepsi dolar simgesiyle görünür. 
 (Yalnızca satılık mülkler gösterilmektedir.)
+
+## <a name="c"></a>Aşama 3 : Bir detay sayfası oluşturun ve navigasyonu ayarlayın
+
+Artık Mars mülkleri için kaydırılabilir bir ızgaranız var ancak daha fazla detay almanın zamanı geldi. 
+Bu görevde, belirli bir özelliğin ayrıntılarını görüntülemek için bir detail fragment eklersiniz. Bu detail fragment, 
+ister kiralık ister satılık olsun, daha büyük bir resim, fiyat ve mülk türünü gösterecektir.
+
+![image](https://user-images.githubusercontent.com/29903779/151581111-f2c5d6fd-68b8-4271-ba94-3a4954271148.png)
+
+Bu fragment, kullanıcı overview kılavuzunda bir resme dokunduğunda başlatılır. Bunu başarmak için, RecyclerView 
+ızgara öğelerine bir onClick dinleyicisi eklemeniz ve ardından yeni parçaya gitmeniz gerekir. Bu dersler boyunca 
+yaptığınız gibi, ViewModel'de bir LiveData değişikliğini tetikleyerek gezinirsiniz. Ayrıca, seçilen MarsProperty 
+bilgilerini overview fragment'tan detail fragment'a geçirmek için Navigation bileşeninin Safe Args eklentisini 
+de kullanırsınız.
+
+### Adım 1: Detail view modeli oluşturun ve detail tasarımını güncelleyin
+
+Overview view modeli ve fragment'ları için kullandığınız işleme benzer şekilde, şimdi detail fragment için 
+view modeli ve tasarım dosyalarını düzenlemeniz gerekir.
+
+1. detail/DetailViewModel.kt dosyasını açın. Servisle ilgili Kotlin dosyalarının network klasöründe ve overview dosyalarının 
+overview'da yer alması gibi, detail klasörü de detail görünümüyle ilişkili dosyaları içerir. DetailViewModel 
+sınıfının (şu anda boş), constructor'da parametre olarak bir marsProperty aldığına dikkat edin.
+
+```kotlin
+class DetailViewModel( marsProperty: MarsProperty,
+                     app: Application) : AndroidViewModel(app) {
+}
+```
+
+2. Sınıf tanımının içinde, bu bilgileri detay görünümüne sunmak için seçilen Mars özelliği için LiveData ekleyin. 
+MarsProperty'nin kendisini tutmak için bir MutableLiveData oluşturma modelini izleyin ve ardından değişmeyen (immutable)
+bir LiveData özelliğini ortaya çıkarın.
+
+androidx.lifecycle.LiveData'yı içe aktarın ve istendiğinde androidx.lifecycle.MutableLiveData'yı import edin.
+
+```kotlin
+private val _selectedProperty = MutableLiveData<MarsProperty>()
+val selectedProperty: LiveData<MarsProperty>
+   get() = _selectedProperty
+```
+
+3. Bir init {} bloğu oluşturun ve yapıcıdan MarsProperty nesnesiyle seçilen Mars özelliğinin değerini ayarlayın.
+   
+```kotlin
+init {
+        _selectedProperty.value = marsProperty
+    }
+```
+
+4. res/layout/fragment_detail.xml dosyasını açın ve tasarım görünümünde ona bakın.
+
+Bu, detail fragment'ın tasarım dosyasıdır. Büyük fotoğraf için bir ImageView, mülk türü (kiralık veya satış) için 
+bir TextView ve fiyat için bir TextView içerir. Constraint layout'un bir ScrollView ile sarıldığına dikkat edin. 
+Böylece görünüm ekran için çok büyürse, örneğin kullanıcı onu yatay modda görüntülediğinde otomatik olarak kaydırılır.
+5. Layout içinde Metin sekmesine gidin. Layout'un en üstünde `<ScrollView>` öğesinden hemen önce, detail view modelini 
+layout ile ilişkilendirmek için bir `<data>` öğesi ekleyin.
+
+```kotlin
+<data>
+   <variable
+       name="viewModel"
+       type="com.example.android.marsrealestate.detail.DetailViewModel" />
+</data>
+```
+
+6. app:imageUrl niteliğini ImageView öğesine ekleyin. View modelin seçili özelliğinden imgSrcUrl olarak ayarlayın.
+
+Glide kullanarak bir görüntüyü yükleyen binding adapter burada da otomatik olarak kullanılacaktır, 
+çünkü bu adapter tüm app:imageUrl özniteliklerini izler.
+
+```kotlin
+ app:imageUrl="@{viewModel.selectedProperty.imgSrcUrl}"
+```
+
+### Adım 2: Overview view modelinde navigation tanımlayın
+
+Kullanıcı overview modelinde bir fotoğrafa dokunduğunda, tıklanan öğeyle ilgili detayları gösteren 
+bir fragment navigasyonu tetiklemelidir.
+
+1. overview/OverviewViewModel.kt dosyasını açın. Bir _navigateToSelectedProperty MutableLiveData özelliği 
+ekleyin ve bunu değişmez bir LiveData ile gösterin.
+
+Bu LiveData null olmayan olarak değiştiğinde, gezinme tetiklenir. (Yakında bu değişkeni gözlemlemek ve 
+navigasyonu tetiklemek için kodu ekleyeceksiniz.)
+
+```kotlin
+private val _navigateToSelectedProperty = MutableLiveData<MarsProperty>()
+val navigateToSelectedProperty: LiveData<MarsProperty>
+   get() = _navigateToSelectedProperty
+```
+
+2. Sınıfın sonunda, _navigateToSelectedProperty öğesini seçili Mars özelliğine ayarlayan bir displayPropertyDetails() metodu ekleyin.
+
+```kotlin
+fun displayPropertyDetails(marsProperty: MarsProperty) {
+   _navigateToSelectedProperty.value = marsProperty
+}
+```
+
+3. _navigateToSelectedProperty değerini geçersiz kılan bir displayPropertyDetailsComplete() metodu ekleyin. 
+Navigation durumunu tamamlamak için işaretlemek ve kullanıcı detay görünümünden döndüğünde navigation'ın yeniden 
+tetiklenmesini önlemek için buna ihtiyacınız vardır.
+
+```kotlin
+fun displayPropertyDetailsComplete() {
+   _navigateToSelectedProperty.value = null
+}
+```
