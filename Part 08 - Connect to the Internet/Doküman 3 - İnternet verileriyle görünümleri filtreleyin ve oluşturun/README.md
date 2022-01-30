@@ -432,3 +432,234 @@ fun displayPropertyDetailsComplete() {
    _navigateToSelectedProperty.value = null
 }
 ```
+
+### Adım 3: Grid (Izgara) adapter ve fragment içerisindeki listener'ları ayarlayın
+
+1. overview/PhotoGridAdapter.kt dosyasını açın. Sınıfın sonunda, marsProperty parametresiyle bir lambda alan özel 
+bir OnClickListener sınıfı oluşturun. Sınıf içinde, lambda parametresine ayarlanmış bir onClick() işlevi tanımlayın.
+
+```kotlin
+class OnClickListener(val clickListener: (marsProperty:MarsProperty) -> Unit) {
+     fun onClick(marsProperty:MarsProperty) = clickListener(marsProperty)
+}
+```
+
+2. PhotoGridAdapter için sınıf tanımına gidin ve constructor'a özel bir OnClickListener özelliği ekleyin.
+
+```kotlin
+class PhotoGridAdapter( private val onClickListener: OnClickListener ) :
+       ListAdapter<MarsProperty,              
+           PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback) {
+```
+
+3. onBindviewHolder() metodunda, ızgara öğesine onClickListener ekleyerek bir fotoğrafı tıklanabilir yapın. 
+getItem() ve bind() çağrıları arasında tıklamaya ait listener'ları tanımlayın.
+
+```kotlin
+override fun onBindViewHolder(holder: MarsPropertyViewHolder, position: Int) {
+   val marsProperty = getItem(position)
+   holder.itemView.setOnClickListener {
+       onClickListener.onClick(marsProperty)
+   }
+   holder.bind(marsProperty)
+}
+```
+
+4. overview/OverviewFragment.kt dosyasını açın. onCreateView() metodunda, binding.photosGrid.adapter özelliğini 
+başlatan satırı aşağıda gösterilen satırla değiştirin.
+
+Bu kod, PhotoGridAdapter.onClickListener nesnesini PhotoGridAdapter constructor'ına ekler ve geçirilen MarsProperty 
+nesnesiyle viewModel.displayPropertyDetails() öğesini çağırır. Bu, navigation için view modelde LiveData'yı tetikler.
+
+```kotlin
+binding.photosGrid.adapter = PhotoGridAdapter(PhotoGridAdapter.OnClickListener {
+   viewModel.displayPropertyDetails(it)
+})
+```
+
+### Adım 4: Navigation graph'ı değiştirin ve MarsProperty'yi parcelable hale getirin
+
+Bir kullanıcı overview grid içerisinde bir fotoğrafa dokunduğunda uygulama detail fragment'a gitmeli ve seçilen Mars 
+özelliğinin detayları geçmelidir. Böylece detay görünümü bu bilgileri görüntüleyebilir.
+
+![image](https://user-images.githubusercontent.com/29903779/151699650-7892a209-5315-452f-b038-f9fecfe9b133.png)
+
+Şu anda dokunma durumunu kontrol etmek için PhotoGridAdapter'da bir tıklama listener'ınız ve view modelden navigation'ı 
+tetiklemenin bir yolu var. Ancak henüz detail fragment'a geçirilen bir MarsProperty nesneniz yok. Bunun için navigation 
+bileşenindeki Safe Args'ı kullanırsınız.
+
+1. res/navigation/nav_graph.xml dosyasını açın. Navigation graph'ın XML kodunu görüntülemek için Text sekmesine tıklayın.
+2. Detail fragment için `<fragment>` öğesinin içine, aşağıda gösterilen `<argument>` öğesini ekleyin. SelectedProperty olarak 
+adlandırılan bu argüman, MarsProperty tipine sahiptir.
+
+```kotlin
+<argument
+   android:name="selectedProperty"
+   app:argType="com.example.android.marsrealestate.network.MarsProperty"
+   />
+```
+
+3. Uygulamayı derleyin. Navigation size bir hata veriyor çünkü MarsProperty parcelable değil. Parcelable arabirimini, nesnelerin 
+serileştirilmesine (serialized) olanak tanır, böylece nesnelerdeki veriler fragment veya activity'ler arasında iletilebilir. Bu durumda, 
+MarsProperty nesnesinin içindeki verilerin Safe Args aracılığıyla detail fragment'a geçirilmesi için MarsProperty'nin Parcelable
+arabirimini uygulaması gerekir. İyi haber şu ki, Kotlin bu arayüzü uygulamak için kolay bir kısayol sağlıyor.
+4. network/MarsProperty.kt'yi açın. @Parcelize annotation'ını sınıf tanımına ekleyin.
+
+İstendiğinde kotlinx.android.parcel.Parcelize dosyasını import edin.
+
+@Parcelize annotation'ı, bu sınıf için Parcelable arabirimindeki yöntemleri otomatik olarak uygulamak için Kotlin Android 
+uzantılarını kullanır. Başka bir şey yapmanıza gerek yok!
+
+```kotlin
+@Parcelize
+data class MarsProperty (
+```
+
+5. Parcelable'ı extend etmek için MarsProperty'nin sınıf tanımını değiştirin.
+
+İstendiğinde android.os.Parcelable dosyasını import edin.
+
+MarsProperty sınıf tanımı şimdi şöyle görünür:
+
+```kotlin
+@Parcelize
+data class MarsProperty (
+       val id: String,
+       @Json(name = "img_src") val imgSrcUrl: String,
+       val type: String,
+       val price: Double) : Parcelable {
+```
+
+### Adım 5: Fragment'ları bağlayın
+
+Hâlâ navigation yapmıyorsunuz (gerçek navigation fragment'lar arasında oluyor). Bu adımda, overview ve detail fragment'ları arasında 
+navigation uygulamak için son kodları eklersiniz.
+
+1. overview/OverviewFragment.kt dosyasını açın. onCreateView() içinde fotoğraf grid adapter'ını başlatan satırların 
+altına, overview view modelinden navigasyondToSelectedProperty'yi gözlemlemek için aşağıda gösterilen satırları ekleyin.
+
+androidx.lifecycle.Observer'ı içe aktarın ve istendiğinde androidx.navigation.fragment.findNavController'ı import edin.
+
+Gözlemci (Observer), lambda'da bulunan MarsProperty'nin boş olup olmadığını test eder ve eğer öyleyse navigation controller'ı 
+findNavController() ile parçadan alır. View modelde, LiveData'yı null olarak sıfırlamasını söylemek için displayPropertyDetailsComplete() 
+öğesini çağırın. Böylece uygulama OverviewFragment'a geri döndüğünde yanlışlıkla navigation'ı yeniden tetiklemezsiniz.
+
+```kotlin
+viewModel.navigateToSelectedProperty.observe(this, Observer {
+   if ( null != it ) {   
+      this.findNavController().navigate(
+              OverviewFragmentDirections.actionShowDetail(it))             
+      viewModel.displayPropertyDetailsComplete()
+   }
+})
+```
+
+2. detail/DetailFragment.kt dosyasını açın. onCreateView() metodunda binding.lifecycleOwner satırının hemen 
+altına bu satırı ekleyin. Bu satır, Safe Args'dan seçilen MarsProperty nesnesini alır.
+
+Kotlin'in boş olmayan onaylama operatörünün (!!) kullanımına dikkat edin. SelectedProperty orada değilse, korkunç bir şey 
+olmuştur ve aslında kodun bir boş gösterici atmasını istiyorsunuz. (Üretim kodunda, bu hatayı bir şekilde ele almalısınız.)
+
+```kotlin
+ val marsProperty = DetailFragmentArgs.fromBundle(arguments!!).selectedProperty
+```
+
+3. Yeni bir DetailViewModelFactory almak için bu satırı ekleyin. DetailViewModel'in bir örneğini almak için 
+DetailViewModelFactory'yi kullanacaksınız. Başlangıç uygulaması, DetailViewModelFactory'nin bir uygulamasını içerir.
+Bu nedenle burada yapmanız gereken tek şey onu başlatmaktır.
+
+```kotlin
+val viewModelFactory = DetailViewModelFactory(marsProperty, application)
+```
+
+4. Son olarak, factory'den bir DetailViewModel almak ve tüm fragment'ları bağlamak için bu satırı ekleyin.
+
+```kotlin
+binding.viewModel = ViewModelProvider(
+                this, viewModelFactory).get(DetailViewModel::class.java)
+```
+
+5. Uygulamayı derleyin, çalıştırın ve herhangi bir Mars mülkü fotoğrafına dokunun. Detail fragment, o mülkün detayları 
+ile görünür. Overview sayfasına dönmek için Geri düğmesine dokunun ve detay ekranının hâlâ biraz seyrek olduğuna 
+dikkat edin. Bir sonraki görevde özelliğe ait verileri bu detay sayfasına ekleme işlemini tamamlayacaksınız.
+
+## <a name="d"></a>Aşama 4 : Daha kullanışlı bir detay sayfası oluşturun
+
+Şu anda detay sayfası, yalnızca genel bakış sayfasında görmeye alışık olduğunuz Mars fotoğrafını gösteriyor. 
+MarsProperty sınıfının ayrıca bir mülk türü (kiralama veya satın alma) ve bir mülk fiyatı vardır. Detay ekranı bu 
+değerlerin her ikisini de içermelidir ve kiralık mülklerin fiyatın aylık bir değer olduğunu belirtmesi yararlı olacaktır. 
+Her ikisini de uygulamak için view modelde LiveData dönüşümlerini kullanırsınız.
+
+1. res/values/strings.xml dosyasını açın. Başlangıç kodu, detaylı görünüm için string'leri oluşturmanıza yardımcı olmak üzere 
+aşağıda gösterilen string kaynaklarını içerir. Fiyat için, mülk türüne bağlı olarak display_price_monthly_rental kaynağını veya 
+display_price kaynağını kullanacaksınız.
+
+```kotlin
+<string name="type_rent">Rent</string>
+<string name="type_sale">Sale</string>
+<string name="display_type">For %s</string>
+<string name="display_price_monthly_rental">$%,.0f/month</string>
+<string name="display_price">$%,.0f</string>
+```
+
+2. detail/DetailViewModel.kt dosyasını açın. Sınıfın en altına, aşağıda gösterilen kodu ekleyin.
+
+İstenirse androidx.lifecycle.Transformations'ı import edin.
+
+Bu dönüşüm, ilk görevdeki aynı testi kullanarak seçilen mülkün kiralık olup olmadığını test eder. Özellik kiralık ise, 
+dönüşüm Kotlin when{} ile kaynaklardan uygun string'i seçer. Bu string'lerin her ikisinin de sonunda bir sayı olması 
+gerekir. Bu nedenle daha sonra property.price öğesini birleştirirsiniz.
+
+```kotlin
+val displayPropertyPrice = Transformations.map(selectedProperty) {
+   app.applicationContext.getString(
+           when (it.isRental) {
+               true -> R.string.display_price_monthly_rental
+               false -> R.string.display_price
+           }, it.price)
+}
+```
+
+3. Projedeki string kaynaklarına erişmek için oluşturulan R sınıfını import edin.
+
+```kotlin
+import com.example.android.marsrealestate.R
+```
+
+4. displayPropertyPrice dönüşümünden sonra aşağıda gösterilen kodu ekleyin. Bu dönüşüm, mülk türünün kiralık olup olmamasına 
+bağlı olarak birden çok string kaynağını birleştirir.
+
+```kotlin
+val displayPropertyType = Transformations.map(selectedProperty) {
+   app.applicationContext.getString(R.string.display_type,
+           app.applicationContext.getString(
+                   when (it.isRental) {
+                       true -> R.string.type_rent
+                       false -> R.string.type_sale
+                   }))
+}
+```
+
+5. res/layout/fragment_detail.xml dosyasını açın. Yapılması gereken bir şey daha var ve o da (LiveData dönüşümleriyle oluşturduğunuz) 
+yeni string'leri detay görünümüne bağlamak. Bunu yapmak için özellik türüne ait metin alanının değerini viewModel.displayPropertyType 
+olarak ve fiyat değerine ait metin alanını da viewModel.displayPropertyPrice olarak ayarlayın.
+
+```kotlin
+<TextView
+   android:id="@+id/property_type_text"
+...
+android:text="@{viewModel.displayPropertyType}"
+...
+   tools:text="To Rent" />
+
+<TextView
+   android:id="@+id/price_value_text"
+...
+android:text="@{viewModel.displayPropertyPrice}"
+...
+   tools:text="$100,000" />
+```
+
+6. Uygulamayı derleyin ve çalıştırın. Artık tüm mülk verileri, güzel bir şekilde biçimlendirilmiş olarak detay sayfasında görünür.
+
+![image](https://user-images.githubusercontent.com/29903779/151700621-e042924c-b893-453f-b72b-4e4ae3f64f57.png)
