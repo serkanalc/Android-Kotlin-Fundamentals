@@ -8,7 +8,7 @@
 - [ScoreViewModel'a LiveData ekleyin](#f)
 - [Tekrar Oyna butonu ekleyin](#g)
 
-Bu partta, başlangıç kodundan başlayarak GuessTheWord uygulamasını geliştireceksiniz. GuessTheWord, oyuncuların mümkün olan en yüksek puanı elde etmek için işbirliği yaptığı iki oyunculu, sessiz sinema ([charades](https://en.wikipedia.org/wiki/Charades)) tarzı bir oyundur.
+Bu dokümanda, başlangıç kodundan başlayarak GuessTheWord uygulamasını geliştireceksiniz. GuessTheWord, oyuncuların mümkün olan en yüksek puanı elde etmek için işbirliği yaptığı iki oyunculu, sessiz sinema ([charades](https://en.wikipedia.org/wiki/Charades)) tarzı bir oyundur.
 
 İlk oyuncu uygulamadaki kelimelere bakar ve kelimeyi ikinci oyuncuya göstermemeye dikkat ederek sırayla her birini hareketlerle anlatmaya çalışır. İkinci oyuncu kelimeyi tahmin etmeye çalışır.
 
@@ -27,6 +27,13 @@ Bu partta, kullanıcı uygulamadaki tüm kelimeler arasında geçiş yaptığın
 ![app screens](https://user-images.githubusercontent.com/46448616/151831290-a92d55a9-0fe9-4a63-966f-5c8bab7c6c78.png)
 
 ## <a name="a"></a>Aşama 1 : Başlayın
+
+Bu aşamada, bu doküman için başlangıç kodunuzu bulup çalıştıracaksınız. Başlangıç kodunuz olarak önceki dokümanda oluşturduğunuz GuessTheWord uygulamasını kullanabilir veya bir başlangıç uygulaması indirebilirsiniz.
+
+1. (Opsiyonel) Önceki dokümandaki kodunuzu kullanmıyorsanız, bu doküman için başlangıç kodunu indirin. Kodu açın ve projeyi Android Studio'da açın.
+2. Uygulamayı çalıştırın ve oyunu oynayın.
+3. **Atla** butonunun bir sonraki kelimeyi gösterdiğine ve puanı birer birer azalttığına ve **Anladım** butonunun bir sonraki kelimeyi gösterdiğine ve puanı bir artırdığına dikkat edin. **Oyunu Bitir** butonu oyunu bitirir.
+
 ## <a name="b"></a>Aşama 2 : GameViewModel'a LiveData ekleyin
 ## <a name="c"></a>Aşama 3 : LiveData nesnelerine observerlar bağlayın
 ## <a name="d"></a>Aşama 4 : LiveData'yı encapsulate edin
