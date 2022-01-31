@@ -602,6 +602,8 @@ binding.scoreText.text = viewModel.score.toString()
 
 11. Uygulamanızı çalıştırın ve oyunu oynayın. Bazı veya tüm kelimeler arasında dolaşın ve **Oyunu Bitir**'e dokunun. Score fragment'ın artık nihai puanı gösterdiğine dikkat edin.
 
+![app image](https://developer.android.com/codelabs/kotlin-android-training-view-model/img/c6dbcc9f154d8753.png)
+
 12. Opsiyonel: `ScoreViewModel`'da filtre uygulayarak Logcat'teki `ScoreViewModel` loglarını kontrol edin. Skor değeri görüntülenmelidir.
 
 ```
