@@ -289,5 +289,271 @@ private fun nextWord() {
 Harika iş, `LiveData` nesneleri `word` ve `score`'u encapsulate ettiniz.
 
 ## <a name="e"></a>Aşama 5 : Bir oyun bitti event'i ekleyin
+
+Kullanıcı **Oyunu Bitir** butonuna dokunduğunda mevcut uygulamanız puan ekranına gider. Buna ek olarak, oyuncular tüm kelimeler arasında geçiş yaptıklarında uygulamanın puan ekranına gitmesini istiyorsunuz. Oyuncular son kelimeyi bitirdikten sonra, kullanıcının butona dokunmasına gerek kalmaması için oyunun otomatik olarak bitmesini istiyorsunuz.
+
+Bu işlevi uygulamak için, tüm kelimeler gösterildiğinde tetiklenecek ve `ViewModel`'dan fragment'a iletilecek bir event'e ihtiyacınız vardır. Bunu yapmak için, oyunla tamamlanmış bir event'i modellemek için `LiveData` observer pattern'ını kullanırsınız.
+
+### Observer pattern
+
+_Observer pattern_ bir yazılım tasarım pattern'ıdır. Nesneler arasındaki iletişimi belirtir: bir _observable_ (gözlemin "öznesi") ve _observerlar_. Bir observable, state'indeki değişiklikler hakkında observerları bilgilendiren bir nesnedir.
+
+![observer pattern](https://developer.android.com/codelabs/kotlin-android-training-live-data/img/b608df5e5e5fa4f8.png)
+
+Bu uygulamadaki `LiveData` durumunda, observable (konu) `LiveData` nesnesidir ve observerlar, fragmentlar gibi UI controllerlarındaki metotlardır. `LiveData` içine sarılmış veriler değiştiğinde bir state değişikliği gerçekleşir. `LiveData` classları, `ViewModel`'dan fragment'a iletişim kurmak için çok önemlidir.
+
+### Adım 1: Oyun bitti event'ini tespit etmek için LiveData kullanın
+
+Bu görevde, bir oyun bitti event'ini modellemek için `LiveData` observer pattern'ı kullanacaksınız.
+
+1. `GameViewModel`'da, `_eventGameFinish` adlı bir `Boolean` `MutableLiveData` nesnesi oluşturun. Bu nesne oyunun bittiği event'i tutacaktır.
+2. `_eventGameFinish` nesnesini initialize ettikten sonra `eventGameFinish` adlı bir backing property oluşturun ve initialize edin.
+
+```kotlin
+
+// Oyunun sonunu tetikleyen event
+private val _eventGameFinish = MutableLiveData<Boolean>()
+val eventGameFinish: LiveData<Boolean>
+   get() = _eventGameFinish
+
+```
+
+3. `GameViewModel`'da bir `onGameFinish()` metodu ekleyin. Metotta, oyun bitti event'ini, `eventGameFinish`, `true` olarak ayarlayın.
+
+```kotlin
+
+/** Oyun bitti event'i için metot **/
+fun onGameFinish() {
+   _eventGameFinish.value = true
+}
+
+```
+
+4. Game `ViewModel`'da, `nextWord()` metodunun içinde, kelime listesi boşsa oyunu bitirin.
+
+```kotlin
+
+private fun nextWord() {
+   if (wordList.isEmpty()) {
+       onGameFinish()
+   } else {
+       //Listeden bir _word seçin ve kaldırın
+       _word.value = wordList.removeAt(0)
+   }
+}
+
+```
+
+5. `GameFragment`'ta, `onCreateView()` içinde, `viewModel`'ı initialize ettikten sonra eventGameFinish'e bir observer ekleyin. [`observe()`](https://developer.android.com/reference/android/arch/lifecycle/LiveData.html#observe(android.arch.lifecycle.LifecycleOwner,%0Aandroid.arch.lifecycle.Observer%3CT%3E)) metodunu kullanın. Lambda fonksiyonunun içinde `gameFinished()` metodunu çağırın.
+
+```kotlin
+
+// Oyun bitti event'i için observer
+viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
+   if (hasFinished) gameFinished()
+})
+
+```
+
+6. Uygulamanızı çalıştırın, oyunu oynayın ve tüm kelimeleri geçin. Siz `Oyunu Bitir`'e dokunana kadar, oyun bölümünde kalmak yerine uygulama otomatik olarak skor ekranına gider.
+
+Kelime listesi boşaldıktan sonra `eventGameFinish` ayarlanır, oyun fragment'taki ilişkili observer metodu çağrılır ve uygulama ekran fragment'ına gider.
+
+7. Eklediğiniz kod bir lifecycle sorununa neden oldu. Sorunu anlamak için `GameFragment` class'ında `gameFinished()` metodundaki navigation kodunu yorumlayın. `Toast` mesajını metotta tuttuğunuzdan emin olun.
+
+```kotlin
+
+private fun gameFinished() {
+       Toast.makeText(activity, "Oyun yeni bitti", Toast.LENGTH_SHORT).show()
+//        val action = GameFragmentDirections.actionGameToScore()
+//        action.score = viewModel.score.value?:0
+//        NavHostFragment.findNavController(this).navigate(action)
+   }
+
+```
+
+8. Uygulamanızı çalıştırın, oyunu oynayın ve tüm kelimeleri geçin. Oyun ekranının altında kısaca "Oyun yeni bitti" yazan bir toast mesajı belirir ve bu beklenen davranıştır.
+
+Şimdi cihazı veya emülatörü döndürün. Toast tekrar görüntüleniyor! Cihazı birkaç kez daha çevirin ve muhtemelen her seferinde toast'u göreceksiniz. Bu bir hatadır, çünkü toast oyun bittiğinde yalnızca bir kez gösterilmelidir. Toast, fragment her yeniden oluşturulduğunda görüntülenmemelidir. Bu sorunu bir sonraki aşamada çözeceksiniz.
+
+![app rotation](https://user-images.githubusercontent.com/46448616/152019492-8f5e9df6-b2bd-4a22-9736-3caef29a4ead.png)
+
+
+### Adım 2: Oyun bitti event'ini sıfırlayın
+
+Genellikle `LiveData`, yalnızca veriler değiştiğinde observerlara güncellemeler sunar. Bu davranışın bir istisnası, observer aktif olmayan durumdan aktif duruma geçtiğinde observerların da güncellemeler almasıdır.
+
+Bu nedenle, oyun bitti toast'u uygulamanızda tekrar tekrar tetiklenir. Oyun aktif'ı bir ekran dönüşünden sonra yeniden oluşturulduğunda, aktif olmayan durumdan aktif duruma geçer. Fragment'taki observer, mevcut `ViewModel`'a yeniden bağlanır ve mevcut verileri alır. `gameFinished()` metodu yeniden tetiklenir ve toast görüntülenir.
+
+Bu aşamada, `GameViewModel`'da `eventGameFinish` flag'ini sıfırlayarak bu sorunu giderecek ve toast'u yalnızca bir kez görüntüleyeceksiniz.
+
+1. `GameViewModel`'da, oyun bitti event'i `_eventGameFinish`'i sıfırlamak için bir `onGameFinishComplete()` metodu ekleyin.
+
+```kotlin
+
+/** Oyun tamamlandı event'i için metot **/
+
+fun onGameFinishComplete() {
+   _eventGameFinish.value = false
+}
+
+```
+
+2. `GameFragment`'ta, `gameFinished()`'in sonunda, `viewModel` nesnesinde `onGameFinishComplete()`'i çağırın. (Navigation kodunu `gameFinished()`'te şimdilik yorum olarak bırakın.)
+
+```kotlin
+
+private fun gameFinished() {
+   ...
+   viewModel.onGameFinishComplete()
+}
+
+```
+
+3. Uygulamayı çalıştırın ve oyunu oynayın. Tüm kelimeleri gözden geçin, ardından cihazın ekran yönünü değiştirin. Toast yalnızca bir kez görüntülenir.
+4. `GameFragment`'ta, `gameFinished()` metodunun içinde navigation kodunun yorumunu kaldırın.
+
+Android Studio'da açıklamayı kaldırmak için yorum yapılan satırları seçin ve `Control+/` (Mac'te `Command+/`) düğmesine basın.
+
+```kotlin
+
+private fun gameFinished() {
+   Toast.makeText(activity, "Oyun yeni bitti", Toast.LENGTH_SHORT).show()
+   val action = GameFragmentDirections.actionGameToScore()
+   action.score = viewModel.score.value?:0
+   findNavController(this).navigate(action)
+   viewModel.onGameFinishComplete()
+}
+
+```
+
+Android Studio tarafından istenirse, `androidx.navigation.fragment.NavHostFragment.findNavController`'ı import edin.
+
+5. Uygulamayı çalıştırın ve oyunu oynayın. Tüm kelimeleri geçtikten sonra uygulamanın otomatik olarak son puan ekranına gittiğinden emin olun.
+
+![app](https://user-images.githubusercontent.com/46448616/152020751-9978d9ae-b894-4e0f-b7cd-f644348c24a4.png)
+
+Harika bir iş! Uygulamanız, `GameViewModel`'dan oyun fragment'ına kelime listesinin boş olduğunu bildirmek için bir oyun bitti event'i tetiklemek için `LiveData`'yı kullanır. Oyun fragment'ı daha sonra puan fragment'ına gider.
+
+
 ## <a name="f"></a>Aşama 6 : ScoreViewModel'a LiveData ekleyin
+
+Bu aşamada, puanı `ScoreViewModel`'da bir `LiveData` nesnesi olarak değiştirecek ve ona bir observer ekleyeceksiniz. Bu aşama, `LiveData`'yı `GameViewModel`'a eklediğinizde yaptığınıza benzer.
+
+Bu değişiklikleri eksiksiz olması için `ScoreViewModel`'da yaparsınız, böylece uygulamanızdaki tüm veriler `LiveData` kullanır.
+
+1. `ScoreViewModel`'da puan değişkeni türünü `MutableLiveData` olarak değiştirin. Kural olarak `_score` olarak yeniden adlandırın ve bir backing property ekleyin.
+
+
+```kotlin
+
+private val _score = MutableLiveData<Int>()
+val score: LiveData<Int>
+   get() = _score
+
+```
+
+2. `ScoreViewModel`'da, `init` bloğunun içinde `_score`'u başlatın. `init` bloğundaki log'u istediğiniz gibi kaldırabilir veya bırakabilirsiniz.
+
+```kotlin
+
+init {
+   _score.value = finalScore
+}
+
+```
+
+3. `ScoreFragment`'ta, `onCreateView()` içinde, `viewModel`'ı initialize ettikten sonra, `LiveData` nesnesi için bir observer ekleyin. Lambda ifadesinin içinde, puan değerini puan text view'a ayarlayın. Puan değerini text view'a doğrudan atayan kodu `ViewModel`'dan kaldırın.
+
+Eklenecek kod:
+
+```kotlin
+
+// Puan için observer ekleyin
+viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+   binding.scoreText.text = newScore.toString()
+})
+
+```
+
+Kaldırılacak kod:
+
+```kotlin
+
+binding.scoreText.text = viewModel.score.toString()
+
+```
+
+Android Studio tarafından istenirse, `androidx.lifecycle.Observer`'ı import edin.
+
+4. Uygulamanızı çalıştırın ve oyunu oynayın. Uygulama eskisi gibi çalışmalı, ancak şimdi skoru güncellemek için `LiveData` ve bir observer kullanıyor.
+
 ## <a name="g"></a>Aşama 7 : Tekrar Oyna butonu ekleyin
+
+Bu aşamada, skor ekranına bir **Tekrar Oyna** butonu ekleyecek ve bir `LiveData` event'i kullanarak click listener uygulayacaksınız. Buton, skor ekranından oyun ekranına gitmek için bir event tetikler.
+
+Uygulamanın başlangıç kodu, **Tekrar Oyna** butonunu içerir, ancak buton gizlidir.
+
+1. `res/layout/score_fragment.xml` dosyasında `play_again_button` butonu için `visibility` özelliğinin değerini `visible` olarak değiştirin.
+
+```xml
+
+<Button
+   android:id="@+id/play_again_button"
+...
+   android:visibility="visible"
+ />
+ 
+```
+
+2. `ScoreViewModel`'da, `_eventPlayAgain` adlı bir `Boolean` değerini tutmak için bir `LiveData` nesnesi ekleyin. Bu nesne, skor ekranından oyun ekranına gitmek için `LiveData` event'ini kaydetmek için kullanılır.
+
+```kotlin
+
+private val _eventPlayAgain = MutableLiveData<Boolean>()
+val eventPlayAgain: LiveData<Boolean>
+   get() = _eventPlayAgain
+   
+```
+
+3. `ScoreViewModel`'da, `_eventPlayAgain` olayını ayarlamak ve sıfırlamak için metotlar tanımlayın.
+
+```kotlin
+
+fun onPlayAgain() {
+   _eventPlayAgain.value = true
+}
+fun onPlayAgainComplete() {
+   _eventPlayAgain.value = false
+}
+   
+```
+
+4. `ScoreFragment`'ta `eventPlayAgain` için bir observer ekleyin. Kodu `onCreateView()`'un sonuna, `return` ifadesinin önüne koyun. Lambda ifadesinin içinde oyun ekranına geri dönün ve `eventPlayAgain`'i sıfırlayın.
+
+```kotlin
+
+// Butona basıldığında oyuna geri döner
+viewModel.eventPlayAgain.observe(viewLifecycleOwner, Observer { playAgain ->
+   if (playAgain) {
+      findNavController().navigate(ScoreFragmentDirections.actionRestart())
+       viewModel.onPlayAgainComplete()
+   }
+})
+   
+```
+
+Android Studio tarafından istendiğinde, `androidx.navigation.fragment.findNavController`'ı import edin.
+
+5. `ScoreFragment`'ta, `onCreateView()` içinde, **Tekrar Oyna** butonuna bir click listener ekleyin ve `viewModel.onPlayAgain()`'i çağırın.
+
+```kotlin
+
+binding.playAgainButton.setOnClickListener {  viewModel.onPlayAgain()  }
+   
+```
+
+6. Uygulamanızı çalıştırın ve oyunu oynayın. Oyun bittiğinde skor ekranı son skoru ve **Tekrar Oyna** butonunu gösterir. **Tekrar Oyna** butonuna dokunun ve uygulama, oyunu tekrar oynayabilmeniz için oyun ekranına gidecektir.
+
+![score screen](https://developer.android.com/codelabs/kotlin-android-training-live-data/img/d6bf6cf728fb6c09.png)
+
