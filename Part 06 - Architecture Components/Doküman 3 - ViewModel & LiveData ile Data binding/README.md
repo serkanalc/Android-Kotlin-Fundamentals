@@ -66,7 +66,7 @@ Bu adımda, `GameViewModel`'ı ilgili layout dosyası `game_fragment.xml` ile il
 
 1. `game_fragment.xml` dosyasına `GameViewModel` türünde bir data binding değişkeni ekleyin. Android Studio'da hatalar varsa, projeyi temizleyin ve yeniden oluşturun (clean & rebuild).
 
-```kotlin
+```xml
 
 <layout ...>
 
