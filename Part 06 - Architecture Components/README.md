@@ -4,7 +4,7 @@ ViewModel, LiveData, ViewModel ve LiveData ile data binding ve LiveData dönüş
 
 ## İşte Konu başlıkları:
 
-- [ViewModel](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2006%20-%20Architecture%20components/Dok%C3%BCman%201%20-%20ViewModel)
+- [ViewModel](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2006%20-%20Architecture%20Components/Dok%C3%BCman%201%20-%20ViewModel)
   - Başlangıç uygulamasını keşfedin
   - Başlangıç uygulamasındaki problemleri bulun
   - GameViewModel'ı oluşturun
@@ -13,7 +13,7 @@ ViewModel, LiveData, ViewModel ve LiveData ile data binding ve LiveData dönüş
   - Bir ViewModelFactory kullanın
 
 
-- [LiveData & LiveData observerları](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2006%20-%20Architecture%20components/Dok%C3%BCman%202%20-%20LiveData%20%26%20LiveData%20observerlar%C4%B1)
+- [LiveData & LiveData observerları](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2006%20-%20Architecture%20Components/Dok%C3%BCman%202%20-%20LiveData%20%26%20LiveData%20observerlar%C4%B1)
   - Başlayın
   - GameViewModel'a LiveData ekleyin
   - LiveData nesnelerine observerlar bağlayın
@@ -23,13 +23,13 @@ ViewModel, LiveData, ViewModel ve LiveData ile data binding ve LiveData dönüş
   - Tekrar Oyna butonu ekleyin
 
 
-- [ViewModel & LiveData ile Data binding](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2006%20-%20Architecture%20components/Dok%C3%BCman%203%20-%20ViewModel%20%26%20LiveData%20ile%20Data%20binding)
+- [ViewModel & LiveData ile Data binding](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2006%20-%20Architecture%20Components/Dok%C3%BCman%203%20-%20ViewModel%20%26%20LiveData%20ile%20Data%20binding)
   - Başlayın
   - ViewModel data binding ekleyin
   - Data Binding'e LiveData ekleyin
 
 
-- [LiveData dönüşümleri](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2006%20-%20Architecture%20components/Dok%C3%BCman%204%20-%20LiveData%20d%C3%B6n%C3%BC%C5%9F%C3%BCmleri)
+- [LiveData dönüşümleri](https://github.com/serkanalc/Android-Kotlin-Fundamentals/tree/main/Part%2006%20-%20Architecture%20Components/Dok%C3%BCman%204%20-%20LiveData%20d%C3%B6n%C3%BC%C5%9F%C3%BCmleri)
   - Başlayın
   - Zamanlayıcı ekleyin
   - LiveData için dönüşüm ekleyin
