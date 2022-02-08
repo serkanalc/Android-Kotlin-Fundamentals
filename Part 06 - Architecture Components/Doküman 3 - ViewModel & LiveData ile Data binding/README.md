@@ -95,10 +95,162 @@ binding.gameViewModel = viewModel
 
 ### Adım 2: Event işleme için listener bindingleri kullanın
 
+[_Listener bindingleri_](https://developer.android.com/topic/libraries/data-binding/expressions#listener_bindings), `onClick()`, `onZoomIn()` veya `onZoomOut()` gibi eventler tetiklendiğinde çalışan binding ifadeleridir. Listener bindingleri lambda ifadeleri olarak yazılır.
+
+Data binding, bir listener oluşturur ve listener'ı view'a ayarlar. Dinlenen event gerçekleştiğinde, listener lambda ifadesini değerlendirir. Listener bindingleri, Android Gradle Plugin sürüm 2.0 veya üzeri ile çalışır. Daha fazla bilgi edinmek için [Layouts and binding expressions](https://developer.android.com/topic/libraries/data-binding/expressions#listener_bindings) bölümünü okuyun.
+
+Bu adımda `GameFragment`'taki click listener'ı `game_fragment.xml` dosyasındaki listener bindinglerle değiştireceksiniz.
+
+1. `game_fragment.xml`'de, `skip_button`'a `onClick` özelliğini ekleyin. Bir binding ifadesi tanımlayın ve `GameViewModel`'da `onSkip()` metodunu çağırın. Bu binding ifadesine _listener binding_ denir.
+
+```xml
+
+<Button
+   android:id="@+id/skip_button"
+   ...
+   android:onClick="@{() -> gameViewModel.onSkip()}"
+   ... />
+
+```
+
+2. Benzer şekilde, `GameViewModel`'daki `correct_button`'un tıklama event'ini `onCorrect()` metoduna bağlayın.
+
+```xml
+
+<Button
+   android:id="@+id/correct_button"
+   ...
+   android:onClick="@{() -> gameViewModel.onCorrect()}"
+   ... />
+
+```
+
+3. end_game_button tıklama event'ini GameViewModel'daki onGameFinish() metoduna bağlayın.
+
+```xml
+
+<Button
+   android:id="@+id/end_game_button"
+   ...
+   android:onClick="@{() -> gameViewModel.onGameFinish()}"
+   ... />
+
+```
+
+4. `GameFragment`'ta, click listenerları ayarlayan ifadeleri kaldırın ve click listenerların çağırdığı fonskiyonları kaldırın. Artık onlara ihtiyacınız yok.
+
+Kaldırılacak kod:
+
+```kotlin
+
+binding.correctButton.setOnClickListener { onCorrect() }
+binding.skipButton.setOnClickListener { onSkip() }
+binding.endGameButton.setOnClickListener { onEndGame() }
+
+/** Buton tıklamaları için metotlar **/
+private fun onSkip() {
+   viewModel.onSkip()
+}
+private fun onCorrect() {
+   viewModel.onCorrect()
+}
+private fun onEndGame() {
+   gameFinished()
+}
+
+```
+
+### Adım 3: ScoreViewModel için data binding ekleyin
+
+Bu adımda, `ScoreViewModel`'ı ilgili layout dosyası olan `score_fragment.xml` ile ilişkilendireceksiniz.
+
+1. `score_fragment.xml` dosyasında, `ScoreViewModel` türünde bir binding değişkeni ekleyin. Bu adım, yukarıda `GameViewModel` için yaptığınıza benzerdir.
+
+```xml
+
+<layout ...>
+   <data>
+       <variable
+           name="scoreViewModel"
+           type="com.example.android.guesstheword.screens.score.ScoreViewModel" />
+   </data>
+   <androidx.constraintlayout.widget.ConstraintLayout
+
+```
+
+2. `score_fragment.xml` dosyasında, `play_again_button`'a `onClick` özelliğini ekleyin. Bir listener binding tanımlayın ve `ScoreViewModel`'da `onPlayAgain()` metodunu çağırın.
 
 
+```xml
+
+<Button
+   android:id="@+id/play_again_button"
+   ...
+   android:onClick="@{() -> scoreViewModel.onPlayAgain()}"
+   ... />
+
+```
+
+3. `ScoreFragment`'ta, `onCreateView()` içinde, `viewModel`'ı initialize edin. Ardından `binding.scoreViewModel` binding değişkenini initialize edin.
+
+```kotlin
+
+viewModel = ...
+binding.scoreViewModel = viewModel
+
+```
+
+4. `ScoreFragment`'ta, `playAgainButton` için click listener'ı ayarlayan kodu kaldırın. Android Studio bir hata gösteriyorsa, projeyi temizleyin ve yeniden oluşturun (clean & rebuild).
+
+Kaldırılacak kod:
 
 
+```kotlin
+
+binding.playAgainButton.setOnClickListener {  viewModel.onPlayAgain()  }
+
+```
+
+5. Uygulamanızı çalıştırın. Uygulama daha önce olduğu gibi çalışmalıdır, ancak şimdi buton viewları doğrudan `ViewModel` nesneleriyle iletişim kurar. Viewlar artık `ScoreFragment`'taki buton click listenerlar aracılığıyla iletişim kurmuyor.
+
+### Data binding hata mesajlarında sorun giderme
+
+Bir uygulama data binding kullandığında, derleme işlemi data binding için kullanılan ara classları oluşturur. Bir uygulamada, siz uygulamayı derlemeye çalışana kadar Android Studio'nun algılamadığı hatalar olabilir, bu nedenle kodu yazarken uyarı veya kırmızı kod görmezsiniz. Ancak derleme zamanında, oluşturulan ara classlardan gelen değişik hatalar alırsınız.
+
+Eğer değişik bir hata mesajı alırsanız:
+
+1. Android Studio **Build** bölmesindeki mesaja dikkatlice bakın. `databinding` ile biten bir konum görürseniz, data binding ile ilgili bir hata vardır.
+2. Layout XML dosyasında, data binding kullanan `onClick` özelliklerindeki hataları kontrol edin. Lambda ifadesinin çağırdığı fonksiyonu arayın ve var olduğundan emin olun.
+3. XML'in <data> bölümünde, data binding değişkeninin yazımını kontrol edin.
+
+Örneğin, aşağıdaki özellik değerinde `onCorrect()` fonksiyon adının yanlış yazıldığına dikkat edin:
+
+`android:onClick="@{() -> gameViewModel.onCorrectx()}"`
+
+Ayrıca, XML dosyasının `<data>` bölümündeki `gameViewModel`'ın yazım hatasına dikkat edin:
+
+```xml
+
+<data>
+   <variable
+       name="gameViewModelx"
+       type="com.example.android.guesstheword.screens.game.GameViewModel" />
+</data>
+
+```
+   
+Android Studio, siz uygulamayı derleyene kadar bunun gibi hataları algılamaz ve ardından derleyici aşağıdaki gibi bir hata mesajı gösterir:   
+   
+```
+error: cannot find symbol
+import com.example.android.guesstheword.databinding.GameFragmentBindingImpl"
+
+symbol:   class GameFragmentBindingImpl
+location: package com.example.android.guesstheword.databinding
+   
+```
+
+   
 ## <a name="c"></a>Aşama 3 : Data Binding'e LiveData ekleyin
 
 
