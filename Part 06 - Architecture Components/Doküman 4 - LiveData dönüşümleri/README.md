@@ -62,18 +62,10 @@ companion object {
 
 ```kotlin
 
-companion object {
-
-   // Oyunun bittiği zaman
-   private const val DONE = 0L
-
-   // Geri sayım zaman aralığı
-   private const val ONE_SECOND = 1000L
-
-   // Oyun için toplam süre
-   private const val COUNTDOWN_TIME = 60000L
-
-}
+// Geri sayım zamanı
+private val _currentTime = MutableLiveData<Long>()
+val currentTime: LiveData<Long>
+   get() = _currentTime
 
 ```
 
