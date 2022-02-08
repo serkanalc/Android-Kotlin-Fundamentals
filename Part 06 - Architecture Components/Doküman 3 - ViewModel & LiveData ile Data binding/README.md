@@ -204,7 +204,6 @@ binding.scoreViewModel = viewModel
 
 Kaldırılacak kod:
 
-
 ```kotlin
 
 binding.playAgainButton.setOnClickListener {  viewModel.onPlayAgain()  }
@@ -221,11 +220,11 @@ Eğer değişik bir hata mesajı alırsanız:
 
 1. Android Studio **Build** bölmesindeki mesaja dikkatlice bakın. `databinding` ile biten bir konum görürseniz, data binding ile ilgili bir hata vardır.
 2. Layout XML dosyasında, data binding kullanan `onClick` özelliklerindeki hataları kontrol edin. Lambda ifadesinin çağırdığı fonksiyonu arayın ve var olduğundan emin olun.
-3. XML'in <data> bölümünde, data binding değişkeninin yazımını kontrol edin.
+3. XML'in `<data>` bölümünde, data binding değişkeninin yazımını kontrol edin.
 
-Örneğin, aşağıdaki özellik değerinde `onCorrect()` fonksiyon adının yanlış yazıldığına dikkat edin:
-
-`android:onClick="@{() -> gameViewModel.onCorrectx()}"`
+Örneğin, aşağıdaki özellik değerinde `onCorrect()` fonksiyon adının yanlış yazıldığına dikkat edin: 
+   
+   `android:onClick="@{() -> gameViewModel.onCorrectx()}"`
 
 Ayrıca, XML dosyasının `<data>` bölümündeki `gameViewModel`'ın yazım hatasına dikkat edin:
 
@@ -242,6 +241,7 @@ Ayrıca, XML dosyasının `<data>` bölümündeki `gameViewModel`'ın yazım hat
 Android Studio, siz uygulamayı derleyene kadar bunun gibi hataları algılamaz ve ardından derleyici aşağıdaki gibi bir hata mesajı gösterir:   
    
 ```
+
 error: cannot find symbol
 import com.example.android.guesstheword.databinding.GameFragmentBindingImpl"
 
@@ -250,8 +250,155 @@ location: package com.example.android.guesstheword.databinding
    
 ```
 
-   
 ## <a name="c"></a>Aşama 3 : Data Binding'e LiveData ekleyin
+   
+Data binding, `ViewModel` nesneleriyle kullanılan `LiveData` ile iyi çalışır. Artık `ViewModel` nesnelerine data binding eklediğinize göre, `LiveData`'yı dahil etmeye hazırsınız.
+
+Bu aşamada, GuessTheWord uygulamasını, `LiveData` observer metotlarını kullanmadan, verilerdeki değişiklikler hakkında UI'ı bilgilendirmek için data binding kaynağı olarak `LiveData`'yı kullanacak şekilde değiştireceksiniz.   
+   
+   
+### Adım 1: game_fragment.xml dosyasına word LiveData ekleyin
+  
+Bu adımda, geçerli word text view'u doğrudan ViewModel'daki LiveData nesnesine bağlayacaksınız.   
+  
+1. `game_fragment.xml`'de, `word_text` text view'a `android:text` özelliğimi ekleyin.
+
+`gameViewModel` binding değişkenini kullanarak `GameViewModel`'dan `word` olan `LiveData` nesnesine ayarlayın.
+
+```xml
+
+<TextView
+   android:id="@+id/word_text"
+   ...
+   android:text="@{gameViewModel.word}"
+   ... />
+   
+```
+
+`word.value` kullanmanız gerekmediğine dikkat edin. Bunun yerine gerçek `LiveData` nesnesini kullanabilirsiniz. `LiveData` nesnesi, `word`'un geçerli değerini görüntüler. `word` değeri null ise, `LiveData` nesnesi boş bir string görüntüler.
+
+2. `GameFragment`'ta, `onCreateView()`'da `gameViewModel`'ı initialize ettikten sonra, fragment view'u `binding` değişkeninin lifecycle sahibi olarak ayarlayın. Bu, yukarıdaki `LiveData` nesnesinin kapsamını tanımlayarak nesnenin `game_fragment.xml` layout'undaki viewları otomatik olarak güncellemesine olanak tanır.
+
+```kotlin
+
+binding.gameViewModel = ...
+// Fragment view'u binding'in lifecycle sahibi olarak belirtin.
+// Bu, binding'in LiveData güncellemelerini gözlemleyebilmesi için kullanılır.
+binding.lifecycleOwner = viewLifecycleOwner
+   
+```
+
+3. `GameFragment`'ta `word` `LiveData`'sı için olan obersver'ı kaldırın.
+
+Kaldırılacak kod:
+
+```kotlin
+
+/** LiveData gözlem ilişkisini kurma **/
+viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+   binding.wordText.text = newWord
+})
+   
+```
+
+4. Uygulamanızı çalıştırın ve oyunu oynayın. Şimdi mevcut kelime, UI controller'da bir observer metodu olmadan güncelleniyor.
+
+### Adım 2: score_fragment.xml dosyasına score LiveData ekleyin
+
+Bu adımda, `LiveData` `score`'u score fragment'taki score text view'a bağlarsınız.
+
+1. `score_fragment.xml` dosyasında,  score text view'a `android:text` özelliğini ekleyin. `text` özelliğine `scoreViewModel.score` atayın. `score` bir tamsayı olduğundan, onu `String.valueOf()` kullanarak bir string'e dönüştürün.
+
+```xml
+
+<TextView
+   android:id="@+id/score_text"
+   ...
+   android:text="@{String.valueOf(scoreViewModel.score)}"
+   ... />
+   
+```
+
+2. ScoreFragment'ta, scoreViewModel'ı başlattıktan sonra, geçerli activity'yi binding değişkeninin lifeycle sahibi olarak ayarlayın.
+
+```kotlin
+
+binding.scoreViewModel = ...
+// Fragment view'u binding'in lifecycle sahibi olarak belirtin.
+// Bu, binding'in LiveData güncellemelerini gözlemleyebilmesi için kullanılır.
+binding.lifecycleOwner = viewLifecycleOwner
+   
+```
+
+3. `ScoreFragment`'ta, `score` nesnesi için observer'ı kaldırın.
+
+Kaldırılacak kod:
+
+```kotlin
+
+// score için observer ekleyin
+viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+   binding.scoreText.text = newScore.toString()
+})
+   
+```
+
+4. Uygulamanızı çalıştırın ve oyunu oynayın. Score fragment'taki puanın, score fragment'ta bir observer olmadan doğru şekilde görüntülendiğine dikkat edin.
+
+### Adım 3: Data binding ile string formatlama ekleyin
+
+Layout'ta, data binding ile birlikte string formatlama ekleyebilirsiniz. Bu aşamada, çevresine tırnak işaretleri eklemek için geçerli sözcüğü formatlayacaksınız. Ayrıca, aşağıdaki resimde gösterildiği gibi, **Current Score**'un önüne eklenecek şekilde puan string'ini formatlayacaksınız.
+
+![app](https://developer.android.com/codelabs/kotlin-android-training-live-data-data-binding/img/b48f4a9fba085e11.png)
 
 
+1. `string.xml`'de, `word` ve `score` text viewlarını formatlamak için kullanacağınız aşağıdaki stringleri ekleyin. `%s` ve `%d`, geçerli kelime ve geçerli puan için yer tutuculardır.
 
+
+```xml
+
+<string name="quote_format">\"%s\"</string>
+<string name="score_format">Current Score: %d</string>
+   
+```
+
+2. `game_fragment.xml`'de, `quote_format` string kaynağını kullanmak için `word_text` text view'un `text` özelliğini güncelleyin. `gameViewModel.word`'ü aktarın. Bu, geçerli sözcüğü formatlama string'ine bir argüman olarak iletir.
+
+```xml
+
+<TextView
+   android:id="@+id/word_text"
+   ...
+   android:text="@{@string/quote_format(gameViewModel.word)}"
+   ... />
+   
+```
+
+3. `score` text view'u `word_text`'e benzer şekilde formatlayın. `game_fragment.xml`'de, `score_text` text view'a `text` özelliğini ekleyin. `%d` yer tutucusu tarafından temsil edilen bir sayısal argüman alan `score_format` kaynak string'ini kullanın. `LiveData` nesnesini, `score`, bu formatlama string'ine bir argüman olarak iletin.
+
+```xml
+
+<TextView
+   android:id="@+id/score_text"
+   ...
+   android:text="@{@string/score_format(gameViewModel.score)}"
+   ... />
+   
+```
+
+4. `GameFragment` class'ında, `onCreateView()` metodunun içinde `score` observer kodunu kaldırın.
+
+Kaldırılacak kod:
+
+
+```kotlin
+
+viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+   binding.scoreText.text = newScore.toString()
+})
+   
+```
+
+5. Uygulamanızı temizleyin, yeniden oluşturun (clean & rebuild) ve çalıştırın, ardından oyunu oynayın. Geçerli kelimenin ve puanın oyun ekranında formatlandığına dikkat edin.
+
+![app](https://developer.android.com/codelabs/kotlin-android-training-live-data-data-binding/img/aabcbeeaddf0af06.png)
