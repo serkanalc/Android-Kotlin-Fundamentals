@@ -1,6 +1,6 @@
 # 📌 Kullanışlı Linkler
 
-Bu aşamada süreç boyunca kullanılan ve işinize yarayabilecek linkleri sizlerle paylaştık.
+Bu aşamada süreç boyunca kullanılan ve işinize yarayabilecek linkleri sizlerle paylaştık. Eksik gördüğünüz linkleri sorumlu kişiye iletebilirsiniz.
 
 ## 💚 Genel
 
