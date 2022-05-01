@@ -10,7 +10,6 @@ Bu aşamada süreç boyunca kullanılan ve işinize yarayabilecek linkleri sizle
 - [Android Developers web sitesi](https://developer.android.com/)
 - [Uygulama geliştiricileri için belgeler](https://developer.android.com/docs)
 - [Android Developers Youtube Kanalı](https://www.youtube.com/user/androiddevelopers)
-- 
 
 <h2><img src="https://user-images.githubusercontent.com/70329389/165116263-6cdd1df9-94f7-48e2-85f9-de62e36bb48c.png" width="20px"> Android Studio </h2>
 
@@ -27,7 +26,6 @@ Bu aşamada süreç boyunca kullanılan ve işinize yarayabilecek linkleri sizle
 - [Design for Android](https://developer.android.com/design/)
 - [Google Play ana sayfası](https://developer.android.com/distribute)
 - [Google Play para kazanç dökümasyonu](https://play.google.com/console/about/guides/monetize/)
-- 
 
 ## 📱 Örnek Uygulamalar
 
