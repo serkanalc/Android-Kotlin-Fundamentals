@@ -367,10 +367,24 @@ for (dessert in allDesserts) {
 
 Bu metot, doğru görüntüyü seçmek için satılan tatlı sayısına dayanır. Bu nedenle, `onSaveInstanceState()` içindeki bundle'daki resme bir referansı saklamak için herhangi bir şey yapmanız gerekmez. Bu bundle'da, satılan tatlıların sayısını zaten saklıyorsunuz.
 
-10. Uygulamayı derleyin ve çalıştırın.
-11. Android Studio menüsünden **Run > Stop 'app'** öğesini seçerek uygulamayı durdurun. Artık uygulama cihazınıza/emülatörünüze yüklenmiştir ancak uygulama çalışmıyor.
-12. App launcher'ı açın ve **Dessert Clicker** uygulamasını seçin. Tatlı simgesine birkaç kez tıklayın.
-13. Uygulamayı arka plana alın. İşlemi kapatmak için `adb` kullanın.
+10. `OnCreate()` içinde, bundle'daki verileri geri yüklemek için `showCurrentDessert()` metodunu çağırın.
+
+```kotlin
+
+if (savedInstanceState != null) {
+   revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
+   dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD, 0)
+   dessertTimer.secondsCount = 
+      savedInstanceState.getInt(KEY_TIMER_SECONDS, 0)
+   showCurrentDessert()                   
+}
+
+```
+
+11. Uygulamayı derleyin ve çalıştırın.
+12. Android Studio menüsünden **Run > Stop 'app'** öğesini seçerek uygulamayı durdurun. Artık uygulama cihazınıza/emülatörünüze yüklenmiştir ancak uygulama çalışmıyor.
+13. App launcher'ı açın ve **Dessert Clicker** uygulamasını seçin. Tatlı simgesine birkaç kez tıklayın.
+14. Uygulamayı arka plana alın. İşlemi kapatmak için `adb` kullanın.
 
 ```
 
